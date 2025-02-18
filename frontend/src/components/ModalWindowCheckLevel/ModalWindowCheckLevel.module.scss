@@ -1,0 +1,77 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.modal_back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  @include center();
+
+  background-color: rgb(0, 0, 0, 0.3);
+  opacity: 0.2;
+  transition: opacity $transition;
+}
+
+.modal_block {
+  background-color: $base-color;
+  border-radius: 20px;
+  position: relative;
+
+  .cross {
+    position: absolute;
+    cursor: pointer;
+    right: 40px;
+    top: 40px;
+
+    width: 20px;
+  }
+}
+
+.conteiner {
+  padding: 50px 40px 40px 40px;
+
+  h1 {
+    font-size: $font-large;
+    margin: 0 0 40px 0;
+  }
+
+  .experience_now {
+    .experience_block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+
+      .arrow_down {
+        width: 50px;
+        position: absolute;
+        top: 42px;
+      }
+    }
+  }
+}
+
+
+.experience_soon {
+  margin: 76px 0 0 0;
+  display: flex;
+  justify-content: space-between;
+
+  .info{
+    background-color: $dark-color;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+    gap: 50px;
+
+    p{
+      margin: 10px 0;
+      width: 80%;
+    }
+  }
+}

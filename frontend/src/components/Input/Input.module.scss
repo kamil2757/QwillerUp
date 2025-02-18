@@ -1,0 +1,38 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.input {
+  all: unset;
+  height: 60px;
+  color: white;
+  background-color: $base-color;
+  border-radius: 18px;
+  padding: 0 0 0 14px;
+
+  &::placeholder {
+    color: $dark-color;
+  }
+}
+
+.textarea {
+  all: unset;
+  width: 100%;
+  height: 200px;
+  color: white;
+  background-color: $base-color;
+  border-radius: 18px;
+  padding: 18px;
+  resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  &::placeholder {
+    color: $dark-color;
+  }
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

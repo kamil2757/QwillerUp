@@ -1,0 +1,14 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.ProgressBar{
+    background-color: #fff;
+    height: 12px;
+    border-radius: 100px;
+
+    div{
+        height: 12px;
+        border-radius: 100px;
+        background-color: $accent-color;
+    }
+}

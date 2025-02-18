@@ -1,0 +1,73 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.block_settingsTasksFormat2 {
+  > a {
+    color: white;
+    text-decoration: none;
+  }
+}
+
+.days {
+  display: flex;
+  align-items: center;
+  background-color: $dark-color;
+  border-radius: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 0 52px 0;
+  align-items: flex-start;
+}
+
+.block_inputs {
+  margin: 34px 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .total_time {
+    border: 2px solid $base-color;
+    height: 60px;
+    @include center();
+
+    border-radius: 20px;
+  }
+
+  .field {
+    display: flex;
+    gap: 12px;
+
+    input {
+      width: 320px;
+    }
+
+    .inp_time {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+
+      p {
+        margin: 0;
+        width: max-content;
+      }
+      input {
+        padding: 0;
+        text-align: center;
+        width: 60px;
+      }
+    }
+
+    .hours {
+      opacity: 1;
+    }
+
+    .minutes {
+      opacity: 1;
+    }
+  }
+}

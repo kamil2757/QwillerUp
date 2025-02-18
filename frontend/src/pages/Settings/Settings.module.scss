@@ -1,0 +1,53 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.block_Settings {
+  width: 96vw;
+  margin: 20px auto;
+
+  display: flex;
+  gap: 20px;
+  .nav {
+    border-radius: 20px;
+    width: 18%;
+    display: flex;
+    flex-direction: column;
+    background-color: $dark-color;
+
+    a {
+      color: white;
+      text-decoration: none;
+      padding: 30px;
+      transition: border-bottom $transition;
+      border-bottom: 2px solid $dark-color;
+
+      &:hover {
+        border-bottom: 2px solid $accent-color;
+      }
+    }
+
+    div {
+      color: $red-color;
+      padding: 30px;
+      transition: border-bottom $transition;
+      border-bottom: 2px solid $dark-color;
+      cursor:pointer;
+    }
+
+    .active {
+      border-bottom: 2px solid $accent-color;
+    }
+  }
+
+  .mainBlock {
+    min-height: 80vh;
+    border-radius: 20px;
+    width: 82%;
+    height: max-content;
+    background-color: $dark-color;
+
+    .content {
+      margin: 60px 50px;
+    }
+  }
+}

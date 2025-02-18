@@ -1,0 +1,60 @@
+
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+
+
+.button1{
+    background-color: $accent-color;
+    display: inline-block;
+    height: 60px;
+    width: max-content;
+    border-radius: 18px;
+    transition: $transition;
+    top: 0px;
+    cursor: pointer;
+
+    position: relative;
+
+    &:hover{
+        top: -10px;
+        box-shadow: 0px 10px 0px $accentShadow-color;
+    }
+
+    @include center()
+}
+
+
+.button2{
+    border: 2px solid $accent-color;
+    display: inline-block;
+    height: 60px;
+    width: max-content;
+    padding: 0 140px;
+    border-radius: 18px;
+    transition: $transition;
+    cursor: pointer;
+
+    &:hover{
+        background-color: $accent-color;
+    }
+
+    @include center()
+}
+
+.button3{
+    border: 2px solid $perfect-color;
+    display: inline-block;
+    height: 60px;
+    width: max-content;
+    padding: 0 140px;
+    border-radius: 18px;
+    transition: $transition;
+    cursor: pointer;
+
+    &:hover{
+        background-color: $perfect-color;
+    }
+
+    @include center()
+}

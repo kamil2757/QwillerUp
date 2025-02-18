@@ -1,0 +1,38 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.block_settingsTasks {
+  > h1 {
+    font-size: $font-large;
+  }
+}
+.nav {
+  margin: 42px 0 0 0;
+  display: flex;
+  height: 56px;
+
+  a {
+    color: white;
+    text-decoration: none;
+    width: 30%;
+    @include center();
+    border-bottom: 2px solid $base-color;
+    transition: border $transition;
+
+    &:hover {
+      border-bottom: 2px solid $accent-color;
+    }
+
+    &:last-child {
+      width: 70%;
+    }
+  }
+
+  .active {
+    border-bottom: 2px solid $accent-color;
+  }
+}
+
+.content {
+  margin: 52px 0;
+}

@@ -1,0 +1,35 @@
+@import "./_variables";
+@import "./_mixins";
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection{
+  background-color: $accent-color;
+}
+
+*{
+  padding: 0;
+  margin: 0;
+  font-weight: $font-weight;
+  font-size: $font-medium;
+}
+
+body {
+  margin: 0;
+  background-color: $base-color;
+  color: white;
+  font-family: Inter;
+  font-weight: $font-weight;
+  font-size: $font-medium;
+}
+
+p {
+  line-height: 150%;
+}
+
+h1 {
+  font-weight: $font-weight;
+}

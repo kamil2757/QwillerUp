@@ -1,0 +1,145 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.block_profile {
+  width: 86vw;
+  margin: 20px auto;
+}
+
+.block1_info {
+  position: relative;
+  background-color: $dark-color;
+  border-radius: 60px;
+  display: flex;
+  align-items: center;
+
+  .settings {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+  }
+
+  .avatar {
+    width: 300px;
+    margin: 40px 100px 40px 54px;
+    border-radius: 100%;
+  }
+
+  .block1_info__info {
+    h1 {
+      font-size: $font-large;
+    }
+
+    .aboutUser {
+      width: 56vw;
+      height: 120px;
+      margin: 18px 0 20px 0;
+    }
+
+    .level {
+      margin: 0 0 12px 0;
+    }
+
+    .experience_block {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}
+
+.block2_info {
+  margin: 12px 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .fireStreak_info {
+    height: 80px;
+    border-radius: 20px;
+    background-color: $dark-color;
+    display: flex;
+    align-items: center;
+    gap: 56px;
+
+    .text {
+      width: 76%;
+    }
+
+    .items {
+      width: 10%;
+      margin: 0 0 0 4%;
+      display: flex;
+      gap: 32px;
+
+      img {
+        width: 36px;
+      }
+
+      .flames,
+      .ice {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+  }
+
+  .additional_info {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .chart {
+    border-radius: 20px;
+    width: 55%;
+    background-color: $dark-color;
+    display: flex;
+    align-items: center;
+    .chart_wrapper {
+      padding: 0 0 0 60px;
+      width: 100%;
+      height: 90%;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.maininfo {
+  display: flex;
+  gap: 1%;
+
+  .chart {
+    width: 54%;
+  }
+}
+
+.medals {
+  width: 45%;
+
+  .content {
+    background-color: $dark-color;
+    @include center();
+    gap: 40px;
+    border-radius: 20px;
+    height: 220px;
+    margin: 0 0 12px 0;
+    .medal {
+      width: 160px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      img {
+        width: 100px;
+      }
+      p {
+        font-size: $font-small;
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}

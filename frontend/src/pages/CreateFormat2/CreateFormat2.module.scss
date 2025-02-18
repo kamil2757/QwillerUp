@@ -1,0 +1,93 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.block_createFormat1 {
+  margin: 40px 0 240px 0;
+  @include center();
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $dark-color;
+    border-radius: 20px;
+    width: 1400px;
+    padding: 0 0 40px 0;
+
+    h1 {
+      font-size: $font-large;
+      margin: 30px 0 0 0;
+    }
+
+    p {
+      margin: 18px 0 42px 0;
+      width: 60%;
+      text-align: center;
+    }
+
+    .days {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .block_inputs {
+        margin: 34px 100px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        p {
+          margin: 0;
+          text-align: left;
+        }
+
+        .total_time {
+          border: 2px solid $base-color;
+          height: 60px;
+          @include center();
+
+          border-radius: 20px;
+        }
+
+        .field {
+          display: flex;
+          gap: 12px;
+
+          input {
+            width: 280px;
+          }
+
+          .inp_time {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+
+            p {
+              margin: 0;
+              width: max-content;
+            }
+            input {
+              padding: 0;
+              text-align: center;
+              width: 60px;
+            }
+          }
+
+          .hours {
+            opacity: 1;
+          }
+
+          .minutes {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      margin: 100px 0 0 0;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.registration_block {
+  margin: 40px 0 240px 0;
+  @include center();
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: $dark-color;
+    border-radius: 20px;
+    width: 600px;
+
+    h1 {
+      font-size: $font-large;
+      margin: 30px 0 26px 0;
+    }
+
+    form {
+      .error {
+        width: 100%;
+        padding: 40px 0;
+        border-radius: 20px;
+        @include center();
+        background-color: #ff4545;
+
+        display: none;
+      }
+
+      display: flex;
+      gap: 20px;
+      flex-direction: column;
+      div {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        p {
+          margin: 0;
+        }
+
+        input {
+          width: 500px;
+        }
+      }
+
+      .btn_block {
+        margin: 30px 0 40px 0;
+
+        a{
+          color: white;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

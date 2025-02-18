@@ -1,0 +1,125 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.info {
+  h1 {
+    font-size: $font-large;
+    margin: 0 0 56px 0;
+  }
+
+  p {
+    margin: 20px 0;
+    width: 68%;
+
+    span {
+      color: $perfect-color;
+    }
+  }
+}
+
+.donate_block {
+  h1 {
+    font-size: $font-large;
+    margin: 140px 0 100px 0;
+  }
+
+  .about_bonuses {
+    border: 2px solid $base-color;
+    height: 150px;
+    margin: 0 0 100px 0;
+    border-radius: 20px;
+
+    @include center();
+
+    p {
+      width: 90%;
+    }
+  }
+
+  .bonuses {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    margin: 0 0 20px 0;
+
+    .bonus1,
+    .bonus2,
+    .bonus4,
+    .bonus3 {
+      width: 16vw;
+      border-radius: 10px;
+      transition: $transition;
+
+      @include center();
+      p {
+        width: 8vw;
+        text-align: center;
+      }
+    }
+
+    .bonus1 {
+      height: 280px;
+      background-color: $base-color;
+
+      &:hover {
+        height: 380px;
+      }
+    }
+
+    .bonus2 {
+      height: 360px;
+      background-color: $accent-color;
+
+      &:hover {
+        height: 390px;
+      }
+    }
+
+    .bonus3 {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .bonus3_1,
+      .bonus3_2 {
+        transition: $transition;
+        @include center();
+        p {
+          width: 8vw;
+          text-align: center;
+        }
+        border-radius: 10px;
+      }
+
+      .bonus3_1 {
+        width: 100%;
+        height: 100px;
+        background-color: $accent-color;
+        &:hover {
+          height: 300px;
+        }
+
+        &:hover + .bonus3_2 {
+          height: 100px;
+        }
+      }
+
+      .bonus3_2 {
+        width: 100%;
+        height: 300px;
+        background-color: $base-color;
+      }
+    }
+
+    .bonus4 {
+      height: 220px;
+      border: 2px solid $accent-color;
+
+      &:hover {
+        height: 360px;
+      }
+      
+    }
+  }
+}

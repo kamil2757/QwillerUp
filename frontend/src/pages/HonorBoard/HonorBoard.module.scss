@@ -1,0 +1,38 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.honorBoard_block {
+  @include center();
+  flex-direction: column;
+  gap: 16px;
+
+  width: 86vw;
+  margin: 20px auto 400px auto;
+  .message {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    width: 93%;
+
+    .text {
+      background-color: $dark-color;
+      border-radius: 20px;
+      width: 72vw;
+
+      display: flex;
+      align-items: center;
+      padding: 38px 60px;
+    }
+    img {
+      width: 6%;
+      border-radius: 100%;
+    }
+  }
+
+  .mark {
+    .text {
+      background-color: $base-color;
+      border: 2px solid $accent-color;
+    }
+  }
+}
