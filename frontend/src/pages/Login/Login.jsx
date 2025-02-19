@@ -46,7 +46,7 @@ function Login() {
           </div>
           <div className={styles.btn_block}>
             <Link to='/choose-format'>
-              <Button width="100%">Войти</Button>
+              <Button blocked={true} width="100%">Войти</Button>
             </Link>
           </div>
         </form>

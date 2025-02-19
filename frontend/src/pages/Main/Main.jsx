@@ -5,11 +5,13 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import ProgressCircle from "../../components/ProgressCircle/ProgressCircle";
 import ModalWindowTimeRedact from "../../components/ModalWindowTimeRedact/ModalWindowTimeRedact";
+import ModalWindowNewLevel from "../../components/ModalWindowNewLevel/ModalWindowNewLevel";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modal2IsOpen, setModal2IsOpen] = useState(true);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,
@@ -56,7 +58,7 @@ function Main() {
             </div>
           </div>
         </div>
-        <Link to='/settings/tasks/format1'>
+        <Link to="/settings/tasks/format1">
           <Button width="100%" format={2}>
             Изменить занятия
           </Button>
@@ -81,6 +83,10 @@ function Main() {
         onClose={() => setModalIsOpen(false)}
         info={modalInfo}
       ></ModalWindowTimeRedact>
+      <ModalWindowNewLevel
+       isOpen={modal2IsOpen}
+       onClose={() => setModal2IsOpen(false)}
+      ></ModalWindowNewLevel>
     </div>
   );
 }

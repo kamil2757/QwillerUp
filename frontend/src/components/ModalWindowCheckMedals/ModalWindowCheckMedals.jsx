@@ -117,7 +117,11 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
         setIsVisible(false);
       }, 200);
     }
-  }, [isOpen, onClose]);
+
+    return () => {
+      document.removeEventListener('keydown',  handleKeyDown)
+    }
+  }, [isOpen]);
 
   if (!isVisible) return null;
 
