@@ -29,26 +29,28 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/choose-format" element={<ChooseFormat />} />
-        <Route path="/create-format1" element={<CreateFormat1 />} />
-        <Route path="/create-format2" element={<CreateFormat2 />} />
-        <Route path="/honor-board" element={<HonorBoard />} />
-        <Route path="/main" element={<Main />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />}>
-          <Route path="profile" element={<SettingsProfile />} />
-          <Route path="tasks" element={<SettingsTasks />}>
-            <Route path="format1" element={<SettingsTasksFormat1 />} />
-            <Route path="format2" element={<SettingsTasksFormat2 />} />
+      <div style={{ display: "flex", flexDirection: 'column', minHeight: '80vh' }}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/choose-format" element={<ChooseFormat />} />
+          <Route path="/create-format1" element={<CreateFormat1 />} />
+          <Route path="/create-format2" element={<CreateFormat2 />} />
+          <Route path="/honor-board" element={<HonorBoard />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />}>
+            <Route path="profile" element={<SettingsProfile />} />
+            <Route path="tasks" element={<SettingsTasks />}>
+              <Route path="format1" element={<SettingsTasksFormat1 />} />
+              <Route path="format2" element={<SettingsTasksFormat2 />} />
+            </Route>
+            <Route path="progress" element={<SettingsProgress />} />
+            <Route path="donate" element={<SettingsDonate />} />
           </Route>
-          <Route path="progress" element={<SettingsProgress />} />
-          <Route path="donate" element={<SettingsDonate />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </div>
       <Footer />
     </BrowserRouter>
   );
