@@ -56,3 +56,24 @@
     }
   }
 }
+
+@media (max-width: 660px) {
+  .registration_block {
+    .content {
+      width: 400px;
+
+      form {
+        div {
+          input {
+            width: 300px;
+          }
+        }
+
+        
+      .btn_block {
+        width: 300px + 14px;
+      }
+      }
+    }
+  }
+}
