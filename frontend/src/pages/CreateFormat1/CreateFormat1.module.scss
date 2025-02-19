@@ -30,7 +30,7 @@
       flex-direction: column;
       gap: 20px;
 
-      .total_time{
+      .total_time {
         border: 2px solid $base-color;
         height: 60px;
         @include center();
@@ -42,8 +42,8 @@
         display: flex;
         gap: 12px;
 
-        input{
-            width: 280px;
+        input {
+          width: 280px;
         }
 
         .inp_time {
@@ -63,11 +63,11 @@
         }
 
         // чтобы в jsx найти по классу
-        .hours{
-          opacity: 1; 
+        .hours {
+          opacity: 1;
         }
 
-        .minutes{
+        .minutes {
           opacity: 1;
         }
       }
@@ -77,5 +77,68 @@
   a {
     color: white;
     text-decoration: none;
+  }
+}
+
+@media (max-width: 756px) {
+  .block_createFormat1 {
+    .content {
+      width: 410px;
+
+      p {
+        width: 300px;
+      }
+
+      .block_inputs {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .total_time {
+          border: 2px solid $base-color;
+          height: 60px;
+          @include center();
+          width: 310px;
+          padding: 0 14px;
+          text-align: center;
+
+          border-radius: 20px;
+        }
+
+        .field {
+          display: flex;
+          gap: 8px;
+
+          input {
+            width: 130px;
+          }
+
+          .inp_time {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+
+            p {
+              margin: 0;
+              width: max-content;
+            }
+            input {
+              padding: 0;
+              text-align: center;
+              width: 60px;
+            }
+          }
+
+          // чтобы в jsx найти по классу
+          .hours {
+            opacity: 1;
+          }
+
+          .minutes {
+            opacity: 1;
+          }
+        }
+      }
+    }
   }
 }

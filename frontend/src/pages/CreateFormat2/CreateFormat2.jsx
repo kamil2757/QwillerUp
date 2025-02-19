@@ -121,9 +121,11 @@ function CreateFormat2() {
             </div>
           ))}
         </div>
-        <Link to='/main'>
-          <Button width="1200px">Готова</Button>
-        </Link>
+        <div className={styles.button_block}>
+          <Link to="/main">
+            <Button width="100%">Готова</Button>
+          </Link>
+        </div>
       </div>
     </div>
   );

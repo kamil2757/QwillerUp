@@ -37,3 +37,21 @@
     }
   }
 }
+
+@media (max-width: 689px) {
+  .block_chooseFormat {
+    .content {
+      width: 400px;
+  
+      p {
+        margin: 18px 0 42px 0;
+        width: 300px;
+        text-align: center;
+      }
+  
+      .btns {
+        width: 300px;
+      }
+    }
+  }
+}
