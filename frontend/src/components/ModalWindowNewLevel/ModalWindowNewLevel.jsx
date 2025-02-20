@@ -15,8 +15,11 @@ function ModalWindowNewLevel({ isOpen, onClose }) {
 
   useEffect(() => {
     function handleResize() {
-      setIsMini(window.innerWidth < 995);
+      console.log(window.innerWidth);
+      setIsMini(window.innerWidth <= 995);
     }
+
+    handleResize();
 
     window.addEventListener("resize", handleResize);
     return () => {
