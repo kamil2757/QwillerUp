@@ -24,15 +24,26 @@
       padding: 38px 60px;
     }
     img {
-      width: 6%;
+      width: 90px;
       border-radius: 100%;
     }
   }
 
   .mark {
     .text {
+      padding: calc(38px - 2px) calc(60px - 2px);
       background-color: $base-color;
       border: 2px solid $accent-color;
     }
+  }
+}
+
+@media (max-width: 973px) {
+  .honorBoard_block .message .text {
+    padding: 36px 22px;
+  }
+
+  .honorBoard_block .mark .text {
+    padding: 34px 20px;
   }
 }
