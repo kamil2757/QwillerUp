@@ -51,11 +51,13 @@
     width: 36%;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+    gap: 26px;
+
     .award {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin: 0 46px 0 0;
     }
   }
 
@@ -64,5 +66,28 @@
     background-color: $dark-color;
     padding: 20px;
     border-radius: 20px;
+  }
+}
+
+@media (max-width: 995px) {
+  .conteiner {
+    padding: 40px 20px;
+  }
+
+  .info {
+    .awards_block {
+      width: max-content;
+      flex-direction: column;
+      gap: 12px;
+
+      align-items: flex-start;
+    }
+
+    .about {
+      width: 200px;
+      background-color: $dark-color;
+      padding: 20px;
+      border-radius: 20px;
+    }
   }
 }

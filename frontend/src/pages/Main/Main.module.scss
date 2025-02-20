@@ -24,10 +24,9 @@
     gap: 50px;
   }
 
-  >a{
+  > a {
     color: white;
     text-decoration: none;
-
   }
 
   .motivation {
@@ -61,6 +60,9 @@
 
     .total_time {
       height: 70px;
+      padding: 0 28px;
+
+      text-align: center;
     }
 
     .aim_time {
@@ -83,9 +85,93 @@
     @include center;
     gap: 16px;
 
-    img{
+    img {
       width: 18px;
       cursor: pointer;
     }
+  }
+}
+
+@media (max-width: 1140px) {
+  .block1 {
+    .tasksContent {
+      padding: 60px 0 60px 60px;
+    }
+  }
+
+  .task {
+    gap: 8vw;
+  }
+}
+
+@media (max-width: 812px) {
+  .task {
+    gap:10vw;
+  }
+
+  .main_block {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .block1,
+  .block2 {
+    width: 90vw;
+  }
+
+  .block1 {
+    .motivation {
+      width: 90vw;
+    }
+  }
+
+  .block2 {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    .diagramm {
+      margin: 0;
+    }
+
+    .timeInfo {
+      width: 58vw;
+      display: flex;
+      gap: 12px;
+      flex-direction: column;
+    }
+  }
+}
+
+
+.motivation {
+  background-color: $dark-color;
+  border-radius: 20px;
+  height: 70px;
+  @include center();
+  width: 90vw;
+
+  p{
+    width: 90%;
+  }
+}
+
+@media (max-width: 545px) {
+  .task {
+    gap:6vw;
+  }
+}
+
+
+.motivation {
+  background-color: $dark-color;
+  border-radius: 20px;
+  height: 70px;
+  @include center();
+  width: 90vw;
+
+  p{
+    width: 90%;
   }
 }
