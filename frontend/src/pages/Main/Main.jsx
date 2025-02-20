@@ -26,6 +26,8 @@ function Main() {
       setIsMini(window.innerWidth < 813);
     }
 
+    handleResize()
+
     window.addEventListener("resize", handleResize);
 
     return () => {

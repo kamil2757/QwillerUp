@@ -9,13 +9,11 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 function ModalWindowNewLevel({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
   const [isMini, setIsMini] = useState(false);
-  const [isSuperMini, setIsSuperMini] = useState(false);
 
   const modalBack = useRef(null);
 
   useEffect(() => {
     function handleResize() {
-      console.log(window.innerWidth);
       setIsMini(window.innerWidth <= 995);
     }
 

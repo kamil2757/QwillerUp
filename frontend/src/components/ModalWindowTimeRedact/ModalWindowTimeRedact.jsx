@@ -78,10 +78,18 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                   </p>
                 </div>
                 <div className={styles.format2}>
-                  <Button padding="0 26px">+5 мин</Button>
-                  <Button padding="0 26px">+15 мин</Button>
-                  <Button padding="0 26px">+30 мин</Button>
-                  <Button padding="0 26px">+1 час</Button>
+                  <Button padding="0 26px" width="48%">
+                    +5 мин
+                  </Button>
+                  <Button padding="0 26px" width="48%">
+                    +15 мин
+                  </Button>
+                  <Button padding="0 26px" width="48%">
+                    +30 мин
+                  </Button>
+                  <Button padding="0 26px" width="48%">
+                    +1 час
+                  </Button>
                 </div>
               </div>
               <Button format={2} width="100%">
@@ -93,7 +101,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                 цель: {info.aimHours}ч {info.aimMinutes}мин
               </div>
               <div className={styles.instruction}>
-                Впиши свое время или нажми, сколько нужно добавить
+                <p>Впиши свое время или нажми, сколько нужно добавить</p>
               </div>
             </div>
           </div>
