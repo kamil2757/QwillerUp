@@ -15,8 +15,13 @@ function SettingsTasksFormat2() {
     Воскресенье: 2,
   });
   const [TotalTime, setTotalTime] = useState({
-    hours: 0,
-    minutes: 0,
+    Понедельник: { hours: 0, minutes: 0 },
+    Вторник: { hours: 0, minutes: 0 },
+    Среда: { hours: 0, minutes: 0 },
+    Четверг: { hours: 0, minutes: 0 },
+    Пятница: { hours: 0, minutes: 0 },
+    Суббота: { hours: 0, minutes: 0 },
+    Воскресенье: { hours: 0, minutes: 0 },
   });
 
   const week = [
@@ -48,29 +53,31 @@ function SettingsTasksFormat2() {
       }));
     }
   }
-  function handleChangeNumber(e) {
-    const hours_arr = document.querySelectorAll(`.${styles.hours}`);
-    const minutes_arr = document.querySelectorAll(`.${styles.minutes}`);
+
+  function handleChangeNumber(day) {
+    const hours_arr = document.querySelectorAll(`.hours${day[0]}`);
+    const minutes_arr = document.querySelectorAll(`.minutes${day[0]}`);
 
     let time_minutes = 0;
     hours_arr.forEach((item) => {
       if (item) {
         time_minutes += Number(item.firstElementChild.value) * 60;
-        console.log(time_minutes);
       }
     });
 
     minutes_arr.forEach((item) => {
       if (item) {
         time_minutes += Number(item.firstElementChild.value);
-        console.log(time_minutes);
       }
     });
 
-    setTotalTime({
-      hours: Math.floor(time_minutes / 60),
-      minutes: time_minutes % 60,
-    });
+    setTotalTime((prevTotalTime) => ({
+      ...prevTotalTime,
+      [day[1]]: {
+        hours: Math.floor(time_minutes / 60),
+        minutes: time_minutes % 60,
+      },
+    }));
   }
 
   return (
@@ -87,18 +94,18 @@ function SettingsTasksFormat2() {
                     onChange={(e) => handleChange(e, day[1])}
                   />
                 </div>
-                <div className={`${styles.inp_time} ${styles.hours}`}>
+                <div className={`${styles.inp_time} hours${day[0]}`}>
                   <Input
                     placeholder="0"
-                    onChange={handleChangeNumber}
+                    onChange={() => handleChangeNumber(day)}
                     type="number"
                   />
                   <p>ч</p>
                 </div>
-                <div className={`${styles.inp_time} ${styles.minutes}`}>
+                <div className={`${styles.inp_time} minutes${day[0]}`}>
                   <Input
                     placeholder="0"
-                    onChange={handleChangeNumber}
+                    onChange={() => handleChangeNumber(day)}
                     type="number"
                   />
                   <p>мин</p>
@@ -107,8 +114,8 @@ function SettingsTasksFormat2() {
             ))}
 
             <div className={styles.total_time}>
-              Cуммарное время цели на день: {TotalTime.hours}ч{" "}
-              {TotalTime.minutes}
+              Cуммарное время цели день: {TotalTime[day[1]].hours}ч{" "}
+              {TotalTime[day[1]].minutes}
               мин
             </div>
           </div>

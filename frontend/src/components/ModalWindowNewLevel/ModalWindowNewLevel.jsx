@@ -37,7 +37,7 @@ function ModalWindowNewLevel({ isOpen, onClose }) {
       }
       setTimeout(() => {
         setIsVisible(false);
-      }, 1000);
+      }, 200);
     }
 
     return () => {
