@@ -1,8 +1,11 @@
+import { useState } from "react";
 import styles from "./Settings.module.scss";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
+import ModalWindowLogout from "../../components/ModalWindowLogout/ModalWindowLogout";
 
 function Settings() {
   const location = useLocation().pathname;
+  const [isOpenLogout, setIsOpenLogout] = useState(false);
 
   function set_Active(path) {
     if (location == path) {
@@ -25,15 +28,17 @@ function Settings() {
         <Link to="donate" className={set_Active("/settings/donate")}>
           Поддержать автора монеткой
         </Link>
-        <div>
-          Выйти
-        </div>
+        <div onClick={() => setIsOpenLogout(true)}>Выйти</div>
       </nav>
       <div className={styles.mainBlock}>
         <div className={styles.content}>
           <Outlet></Outlet>
         </div>
       </div>
+      <ModalWindowLogout
+        isOpen={isOpenLogout}
+        onClose={() => setIsOpenLogout(false)}
+      ></ModalWindowLogout>
     </div>
   );
 }

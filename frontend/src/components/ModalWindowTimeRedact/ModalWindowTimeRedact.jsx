@@ -67,12 +67,14 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                       value={hours}
                       format={2}
                       onChange={(e) => setHours(e.target.value)}
+                      type="number"
                     ></Input>
                     час
                     <Input
                       value={minutes}
                       format={2}
                       onChange={(e) => setMinutes(e.target.value)}
+                      type="number"
                     ></Input>
                     мин
                   </p>
