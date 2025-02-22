@@ -52,6 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    flex-wrap: wrap;
     gap: 26px;
 
     .award {
@@ -62,7 +63,7 @@
   }
 
   .about {
-    width: 64%;
+    width: 56%;
     background-color: $dark-color;
     padding: 20px;
     border-radius: 20px;
@@ -81,6 +82,10 @@
       gap: 12px;
 
       align-items: flex-start;
+
+      .award img {
+        width: 24px;
+      }
     }
 
     .about {

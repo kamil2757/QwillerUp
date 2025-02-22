@@ -73,11 +73,19 @@ function ModalWindowNewLevel({ isOpen, onClose }) {
           <h1>26 уровень!</h1>
           <div className={styles.experience_block}>
             <img src={experience} alt="" />
-            <ProgressBar percent="60" width={isMini ? "280px" : "600px"} />
+            <ProgressBar percent="60" width={isMini ? "250px" : "600px"} />
             <p>60/100</p>
           </div>
           <div className={styles.info}>
             <div className={styles.awards_block}>
+              <div className={styles.award}>
+                <img src={ice} alt="" />
+                <p>Лед</p>
+              </div>
+              <div className={styles.award}>
+                <img src={ice} alt="" />
+                <p>Лед</p>
+              </div>
               <div className={styles.award}>
                 <img src={ice} alt="" />
                 <p>Лед</p>
