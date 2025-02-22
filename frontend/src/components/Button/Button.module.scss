@@ -6,7 +6,7 @@
 .button3 {
   border: 2px solid $accent-color;
   display: inline-block;
-  height: 60px;
+  height: 54px;
   width: max-content;
   padding: 0 140px;
   border-radius: 18px;
@@ -22,8 +22,17 @@
   position: relative;
 
   &:hover {
-    top: -10px;
-    box-shadow: 0px 10px 0px $accentShadow-color;
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 0px 0px $accentShadow-color;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -10px;
+      height: 10px;
+    }
   }
 }
 
@@ -34,7 +43,7 @@
 }
 
 .button3 {
-    border: 2px solid $perfect-color;
+  border: 2px solid $perfect-color;
   &:hover {
     background-color: $perfect-color;
   }
@@ -45,8 +54,8 @@
   cursor: auto;
 
   &:hover {
-    top: 0px;
-    box-shadow: 0px 0px 0px $accentShadow-color;
+    transform: translateY(0px);
+    box-shadow: 0px 0px 0px 0px $accentShadow-color;
   }
 }
 
@@ -54,13 +63,41 @@
   .button1,
   .button2,
   .button3 {
-    height: 50px;
+    height: 40px;
 
     @include center();
   }
+
+  .button1 {
+    background-color: $accent-color;
+    top: 0px;
+    position: relative;
+
+    &:hover {
+      box-shadow: 0px 6px 0px 0px $accentShadow-color;
+      transform: translateY(-6px);
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -6px;
+        height: 6px;
+      }
+    }
+  }
+
+  .blocked_button {
+    opacity: 0.6;
+    cursor: auto;
+  
+    &:hover {
+      transform: translateY(0px);
+      box-shadow: 0px 0px 0px 0px $accentShadow-color;
+    }
+  }
 }
-
-
 
 @media (max-width: 700px) {
   .button1,
