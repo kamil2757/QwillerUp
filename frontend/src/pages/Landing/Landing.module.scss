@@ -24,6 +24,8 @@
     a {
       color: white;
       text-decoration: none;
+      display: block;
+      width: max-content;
     }
   }
 
@@ -81,9 +83,9 @@
     }
   }
 
-  @media (max-width: 695px){
+  @media (max-width: 695px) {
     margin: 70px 0 0 0;
-    .image{
+    .image {
       display: none;
     }
   }
@@ -370,6 +372,8 @@
     a {
       color: white;
       text-decoration: none;
+      display: block;
+      width: max-content;
     }
   }
 
@@ -436,7 +440,6 @@
     }
   }
 
-  
   @media (max-width: 475px) {
     .video {
       iframe {
