@@ -23,7 +23,7 @@ function Main() {
 
   useEffect(() => {
     function handleResize() {
-      setIsMini(window.innerWidth < 813);
+      setIsMini(window.innerWidth < 812);
     }
 
     handleResize()

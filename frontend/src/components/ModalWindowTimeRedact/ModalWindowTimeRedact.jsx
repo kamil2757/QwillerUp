@@ -10,7 +10,21 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   const [hours, setHours] = useState(info.currentHours ?? "");
   const [minutes, setMinutes] = useState(info.currentMinutes ?? "");
   const [isVisible, setIsVisible] = useState(isOpen);
+  const [adaptive, setAdaptive] = useState(false);
   const modalBlock = useRef(null);
+
+  useEffect(() => {
+    function handleResize() {
+      setAdaptive(window.innerWidth <= 674);
+    }
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     setHours(info.currentHours ?? "");
@@ -79,17 +93,43 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                     мин
                   </p>
                 </div>
-                <div className={styles.format2}>
-                  <Button padding="0 26px" width="48%">
+                {/* <div className={styles.format2}>
+                  <Button padding="0 26px" width="47%">
                     +5 мин
                   </Button>
-                  <Button padding="0 26px" width="48%">
+                  <Button padding="0 26px" width="47%">
                     +15 мин
                   </Button>
-                  <Button padding="0 26px" width="48%">
+                  <Button padding="0 26px" width="47%">
                     +30 мин
                   </Button>
-                  <Button padding="0 26px" width="48%">
+                  <Button padding="0 26px" width="47%">
+                    +1 час
+                  </Button>
+                </div> */}
+                <div className={styles.format2}>
+                  <Button
+                    padding={adaptive ? "0 26px" : "0 18px"}
+                    width={adaptive ? "47%" : undefined}
+                  >
+                    +5 мин
+                  </Button>
+                  <Button
+                    padding={adaptive ? "0 26px" : "0 18px"}
+                    width={adaptive ? "47%" : undefined}
+                  >
+                    +15 мин
+                  </Button>
+                  <Button
+                    padding={adaptive ? "0 26px" : "0 18px"}
+                    width={adaptive ? "47%" : undefined}
+                  >
+                    +30 мин
+                  </Button>
+                  <Button
+                    padding={adaptive ? "0 26px" : "0 18px"}
+                    width={adaptive ? "47%" : undefined}
+                  >
                     +1 час
                   </Button>
                 </div>
