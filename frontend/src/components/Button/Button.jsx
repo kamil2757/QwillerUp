@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import styles from "./Button.module.scss";
 
 function Button({
@@ -8,6 +9,29 @@ function Button({
   padding,
   blocked = false,
 }) {
+  const [padd, setPadd] = useState("0 140px");
+
+  useEffect(() => {
+    function handleResize() {
+      let btn_pad = "0 140px";
+      if (window.innerWidth < 1100 && 700 <= window.innerWidth) {
+        btn_pad = "0 80px";
+      } else if (window.innerWidth < 700) {
+        console.log("700");
+        btn_pad = "0 50px";
+      }
+
+      setPadd(btn_pad);
+    }
+
+    handleResize()
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      return window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
       {!blocked && (
@@ -19,9 +43,7 @@ function Button({
               ? styles.button2
               : styles.button3
           }
-          style={
-            width ? { width, padding: 0 } : { padding: padding || "0 120px" }
-          }
+          style={width ? { width, padding: 0 } : { padding: padding || padd }}
           onClick={onClick ? () => onClick() : null}
         >
           {children}
@@ -37,9 +59,7 @@ function Button({
               ? styles.button2
               : styles.button3
           }`}
-          style={
-            width ? { width, padding: 0 } : { padding: padding || "0 120px" }
-          }
+          style={width ? { width, padding: 0 } : { padding: padding || padd }}
         >
           {children}
         </div>

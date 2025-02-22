@@ -86,7 +86,7 @@ function CreateFormat1() {
           </div>
 
           <Link to='/main'>
-            <Button width="100%">Готова</Button>
+            <Button width="100%">Готово</Button>
           </Link>
         </div>
       </div>

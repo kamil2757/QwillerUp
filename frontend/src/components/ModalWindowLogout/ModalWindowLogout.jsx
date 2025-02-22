@@ -72,7 +72,7 @@ function ModalWindowLogout({ isOpen, onClose }) {
           <h1>Вы уверены, что хотите выйти?</h1>
           <div className={styles.btns_block}>
             <Button>Выйти</Button>
-            <Button format={2}>Назад</Button>
+            <Button format={2} onClick={onClose}>Назад</Button>
           </div>
         </div>
       </div>
