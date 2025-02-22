@@ -78,7 +78,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
       equipped: true,
     },
     medal10: {
-      title: 'Золотая медаль "партнер"',
+      title: 'Золотая медаль "Партнер"',
       description: "Поддержать автора монеткой",
       img: medal_4_1,
       equipped: false,

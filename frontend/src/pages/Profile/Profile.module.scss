@@ -7,6 +7,7 @@
 }
 
 .block1_info {
+  height: 380px;
   position: relative;
   background-color: $dark-color;
   border-radius: 60px;
@@ -17,23 +18,32 @@
     position: absolute;
     top: 50px;
     right: 50px;
+
+    img {
+      width: 30px;
+    }
   }
 
   .avatar {
-    width: 300px;
-    margin: 40px 100px 40px 54px;
-    border-radius: 100%;
+    @include center();
+    margin: 0 90px;
+    img {
+      width: 280px;
+      border-radius: 100%;
+    }
   }
 
   .block1_info__info {
+    width: 100%;
     h1 {
       font-size: $font-large;
     }
 
     .aboutUser {
-      width: 56vw;
-      height: 120px;
-      margin: 18px 0 20px 0;
+      width: 90%;
+      min-height: 60px;
+
+      margin: 18px 0 26px 0;
     }
 
     .level {
@@ -44,6 +54,14 @@
       display: flex;
       align-items: center;
       gap: 10px;
+
+      .brogressBar_block {
+        width: 80%;
+      }
+
+      img {
+        width: 28px;
+      }
     }
   }
 }
@@ -54,7 +72,7 @@
   flex-direction: column;
   gap: 12px;
   .fireStreak_info {
-    height: 80px;
+    height: 90px;
     border-radius: 20px;
     background-color: $dark-color;
     display: flex;
@@ -63,16 +81,20 @@
 
     .text {
       width: 76%;
+      margin: 0 10px 0 0;
     }
 
     .items {
-      width: 10%;
-      margin: 0 0 0 4%;
+      margin: 0 0 0 60px;
       display: flex;
       gap: 32px;
 
       img {
-        width: 36px;
+        width: 38px;
+      }
+
+      h1 {
+        font-size: $font-miniLarge;
       }
 
       .flames,
@@ -122,9 +144,9 @@
   .content {
     background-color: $dark-color;
     @include center();
-    gap: 40px;
+    gap: 26px;
     border-radius: 20px;
-    height: 220px;
+    height: 260px;
     margin: 0 0 12px 0;
     .medal {
       width: 160px;
@@ -142,4 +164,274 @@
       }
     }
   }
+}
+
+@media (max-width: 1417px) {
+  .block1_info {
+    height: 340px;
+
+    .avatar {
+      margin: 0 60px;
+      img {
+        width: 260px;
+      }
+    }
+
+    .block1_info__info {
+      width: 80%;
+    }
+
+    .settings {
+      top: 30px;
+      right: 30px;
+
+      img {
+        width: 26px;
+      }
+    }
+  }
+
+  .block2_info .chart .chart_wrapper {
+    padding: 0 0 0 30px;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+  }
+}
+@media (max-width: 1180px) {
+  .block1_info {
+    height: 300px;
+
+    .avatar {
+      margin: 0 40px;
+      img {
+        width: 210px;
+      }
+    }
+
+    .block1_info__info {
+      width: 68%;
+    }
+
+    .settings img {
+      width: 20px;
+    }
+  }
+
+  .medals {
+    width: 45%;
+
+    .content {
+      height: 180px;
+    }
+
+    .content .medal img {
+      width: 80px;
+    }
+  }
+}
+
+@media (max-width: 1035px) {
+  .block1_info {
+    .avatar {
+      img {
+        width: 200px;
+      }
+    }
+
+    .block1_info__info {
+      width: 56%;
+
+      .experience_block {
+        img {
+          width: 22px;
+        }
+      }
+    }
+
+    .settings img {
+      width: 20px;
+    }
+  }
+
+  .block2_info .fireStreak_info .items img {
+    width: 32px;
+  }
+
+  .maininfo {
+    display: flex;
+    flex-direction: column;
+
+    .chart {
+      width: 100%;
+    }
+  }
+
+  .medals {
+    width: 100%;
+
+    .content .medal img {
+      width: 80px;
+    }
+  }
+
+  .block2_info .chart {
+    border-radius: 20px;
+    background-color: $dark-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .chart_wrapper {
+      padding: 20px 0 0 40px;
+      width: 70%;
+      height: 220px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+@media (max-width: 862px) {
+  .block2_info .chart .chart_wrapper {
+    padding: 20px 0 0 30px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 772px) {
+  .block1_info {
+    height: 280px;
+    border-radius: 30px;
+
+    .avatar {
+      img {
+        width: 180px;
+      }
+      margin: 0 20px;
+    }
+
+    .block1_info__info {
+      width: 56%;
+      .aboutUser {
+        width: 90%;
+      }
+    }
+
+    .settings img {
+      width: 18px;
+    }
+  }
+
+  .block2_info .fireStreak_info .items {
+    margin: 0 0 0 40px;
+  }
+
+  .block2_info .fireStreak_info .items img {
+    width: 26px;
+  }
+
+  .block2_info .fireStreak_info .text {
+    width: 100%;
+  }
+
+  .medals .content .medal img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 654px) {
+  .block2_info .chart .chart_wrapper {
+    width: 100%;
+    height: 190px;
+  }
+}
+
+@media (max-width: 600px) {
+  .block1_info {
+    height: 240px;
+    .avatar {
+      img {
+        width: 120px;
+      }
+      margin: 0 20px;
+    }
+
+    .block1_info__info {
+      width: 58%;
+      .aboutUser {
+        margin: 10px 0;
+      }
+    }
+
+    .settings {
+      top: 20px;
+      right: 20px;
+      img {
+        width: 16px;
+      }
+    }
+  }
+
+  .block2_info .fireStreak_info {
+    height: 90px;
+    .text {
+      width: 90%;
+      margin: 0 20px 0 0;
+    }
+
+    .items {
+      flex-direction: column;
+      gap: 14px;
+      .flames,
+      .ice {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+  }
+}
+
+@media (max-width: 479px) {
+  .block1_info {
+    height: 220px;
+    .avatar {
+      img {
+        width: 90px;
+      }
+      margin: 0 20px;
+    }
+
+    .block1_info__info {
+      width: 52%;
+
+      .aboutUser {
+        margin: 10px 0;
+        width: 99%;
+      }
+
+      .experience_block {
+        img {
+          width: 16px;
+        }
+      }
+    }
+
+    .settings img {
+      width: 12px;
+    }
+  }
+
+  .medals .content .medal img {
+    width: 50px;
+  }
+  
+  .block2_info .chart .chart_wrapper {
+    padding: 20px 0 0 0 ;
+  }
+
+  .medals .content {
+      height: 120px;
+    }
 }

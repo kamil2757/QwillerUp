@@ -14,23 +14,42 @@ import ModalWindowCheckLevel from "../../components/ModalWindowCheckLevel/ModalW
 import ModalWindowCheckMedals from "../../components/ModalWindowCheckMedals/ModalWindowCheckMedals";
 
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Profile() {
   const [modalLevelIsOpen, setModalLevelIsOpen] = useState(false);
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
+  const [adaptive, setAdaptive] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setAdaptive(window.innerWidth < 1035);
+    }
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <div className={styles.block_profile}>
       <div className={styles.block1_info}>
-        <Link to="/settings/profile">
-          <img src={settings} alt="" className={styles.settings} />
-        </Link>
-        <img src={no_avatar} alt="" className={styles.avatar} />
+        <div className={styles.settings}>
+          <Link to="/settings/profile">
+            <img src={settings} alt="" />
+          </Link>
+        </div>
+        <div className={styles.avatar}>
+          <img src={no_avatar} alt="" />
+        </div>
         <div className={styles.block1_info__info}>
           <h1>Kamil</h1>
           <p className={styles.aboutUser}>
-            У тебя пока нет описания, но ты можешь добавить его в настройках
+            У тебя пока нет описания, но ты можешь добавить его в настройкахУ
+            тебя пока нет описания У тебя пока нет описанияУ тебя пока нет
+            описания У тебя пока нет описанияУ тебя пока нет описания
           </p>
 
           <p className={styles.level}>25 уровень</p>
@@ -39,7 +58,9 @@ function Profile() {
             onClick={() => setModalLevelIsOpen(true)}
           >
             <img src={experience} alt="" />
-            <ProgressBar percent="60" width="46vw" />
+            <div className={styles.brogressBar_block}>
+              <ProgressBar percent="60" width="100%" />
+            </div>
             <p>60/100</p>
           </div>
         </div>
@@ -49,11 +70,11 @@ function Profile() {
           <div className={styles.items}>
             <div className={styles.flames}>
               <img src={flame} alt="" />
-              <p>4</p>
+              <h1>4</h1>
             </div>
             <div className={styles.ice}>
               <img src={ice} alt="" />
-              <p>1</p>
+              <h1>1</h1>
             </div>
           </div>
           <div className={styles.text}>
@@ -66,24 +87,34 @@ function Profile() {
             <div className={styles.content}>
               <div className={styles.medal}>
                 <img src={medal_1_1} alt="" />
-                <p>Бронзовая медаль "Начало пути"</p>
+                <p>
+                  Бронзовая медаль <br />
+                  "Начало пути"
+                </p>
               </div>
               <div className={styles.medal}>
                 <img src={medal_3_3} alt="" />
-                <p>Золотая медаль "Неутомимый"</p>
+                <p>
+                  Золотая медаль <br /> "Неутомимый"
+                </p>
               </div>
               <div className={styles.medal}>
                 <img src={medal_2_2} alt="" />
-                <p>Серебряная медаль "Пламя" </p>
+                <p>
+                  Серебряная медаль <br />
+                  "Пламя"
+                </p>
               </div>
             </div>
-            <Button
-              width="100%"
-              format={2}
-              onClick={() => setModalMedalsIsOpen(true)}
-            >
-              Медали
-            </Button>
+            {!adaptive && (
+              <Button
+                width="100%"
+                format={2}
+                onClick={() => setModalMedalsIsOpen(true)}
+              >
+                Медали
+              </Button>
+            )}
           </div>
           <div className={styles.chart}>
             <div className={styles.chart_wrapper}>
