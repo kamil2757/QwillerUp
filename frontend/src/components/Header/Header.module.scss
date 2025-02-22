@@ -89,28 +89,29 @@ header {
   display: none;
 
   .burger {
-    width: 40px;
+    width: 30px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 
     div {
       width: 100%;
       height: 2px;
       background-color: #fff;
       transition: transform $transition, opacity $transition;
+      border-radius: 20px;
     }
   }
 
   .burger_open {
     div:nth-child(1) {
-      transform: translateY(12px) rotate(45deg);
+      transform: translateY(10px) rotate(45deg);
     }
     div:nth-child(2) {
       opacity: 0;
     }
     div:nth-child(3) {
-      transform: translateY(-12px) rotate(-45deg);
+      transform: translateY(-10px) rotate(-45deg);
     }
   }
 
@@ -128,7 +129,7 @@ header {
     position: absolute;
     width: 100vw;
     top: 50px;
-    right: -20px;
+    right: -30px;
     height: 300px;
     z-index: 10;
 
@@ -149,7 +150,7 @@ header {
       justify-content: center;
 
       &:first-child {
-        margin: 26px 0 0 0;
+        margin: 0px 0 0 0;
       }
 
       p {

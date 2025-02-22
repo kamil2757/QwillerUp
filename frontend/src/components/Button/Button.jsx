@@ -17,7 +17,6 @@ function Button({
       if (window.innerWidth < 1100 && 700 <= window.innerWidth) {
         btn_pad = "0 80px";
       } else if (window.innerWidth < 700) {
-        console.log("700");
         btn_pad = "0 50px";
       }
 

@@ -42,7 +42,6 @@ function ModalWindowLogout({ isOpen, onClose }) {
         }
       }, 10);
     } else {
-      console.log("closed");
       document.body.style.overflow = "auto";
       document.body.style.paddingRight = "0";
       if (modalBack.current) {
