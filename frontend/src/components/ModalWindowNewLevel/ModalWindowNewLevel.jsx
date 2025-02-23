@@ -8,22 +8,8 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 
 function ModalWindowNewLevel({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const [isMini, setIsMini] = useState(false);
 
   const modalBack = useRef(null);
-
-  useEffect(() => {
-    function handleResize() {
-      setIsMini(window.innerWidth <= 995);
-    }
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -73,7 +59,9 @@ function ModalWindowNewLevel({ isOpen, onClose }) {
           <h1>26 уровень!</h1>
           <div className={styles.experience_block}>
             <img src={experience} alt="" />
-            <ProgressBar percent="60" width={isMini ? "250px" : "600px"} />
+            <div className={styles.progressBar_block}>
+              <ProgressBar percent="60" width='100%' />
+            </div>
             <p>60/100</p>
           </div>
           <div className={styles.info}>

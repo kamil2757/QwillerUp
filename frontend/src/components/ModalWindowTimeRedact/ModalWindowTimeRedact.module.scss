@@ -191,4 +191,13 @@
   .conteiner {
     padding: 30px 20px 20px 20px;
   }
+
+  .modal_block img {
+      position: absolute;
+      cursor: pointer;
+      right: 20px;
+      top: 20px;
+  
+      width: 16px;
+    }
 }

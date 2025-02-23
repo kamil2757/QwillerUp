@@ -88,13 +88,13 @@ function Main() {
       <div className={styles.block2}>
         <div className={styles.diagramm}>
           <ProgressCircle
-            goalTime={4}
-            spentTime={5}
+            goalTime={5}
+            spentTime={3.5}
             mini={isMini ? true : false}
           />
         </div>
         <div className={styles.timeInfo}>
-          <div className={styles.total_time}>Время всего: 3ч 25мин</div>
+          <div className={styles.total_time}>Время всего: 3ч 30мин</div>
           <div className={styles.aim_time}>Цель: 5ч</div>
         </div>
       </div>

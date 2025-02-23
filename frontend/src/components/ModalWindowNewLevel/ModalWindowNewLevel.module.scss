@@ -70,12 +70,17 @@
   }
 }
 
+.progressBar_block{
+  width: 100%;
+}
+
 @media (max-width: 995px) {
   .conteiner {
-    padding: 40px 20px;
+    padding: 40px 20px 20px 20px;
   }
 
   .info {
+    width: 340px;
     .awards_block {
       width: max-content;
       flex-direction: column;
@@ -90,6 +95,24 @@
 
     .about {
       width: 200px;
+      background-color: $dark-color;
+      padding: 20px;
+      border-radius: 20px;
+    }
+  }
+
+  .modal_block .cross {
+    right: 20px;
+    top: 20px;
+    width: 16px;
+  }
+}
+
+@media (max-width: 473px) {
+  .info {
+    width: 260px;
+    .about {
+      width: 140px;
       background-color: $dark-color;
       padding: 20px;
       border-radius: 20px;
