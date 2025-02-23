@@ -36,11 +36,13 @@ form {
 
 .avatar {
   display: flex;
-  p {
+
+  > p {
     width: 16%;
   }
+
   .changeAvatar_block {
-    width: 84%;
+    width: calc(84% + 16px);
     height: 300px;
     background-color: $base-color;
     border-radius: 20px;
@@ -51,6 +53,9 @@ form {
 
     .content {
       margin: 0 100px 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       .avatarUpload {
         display: none;
@@ -68,9 +73,124 @@ form {
   margin: 26px 0 0 0;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 26px;
 }
 
 .blocked {
   color: $dark-color;
+}
+
+@media (max-width: 1185px) {
+  .avatar .changeAvatar_block {
+    height: 220px;
+    .content img {
+      width: 160px;
+      height: 160px;
+    }
+  }
+}
+
+@media (max-width: 948px) {
+  .avatar {
+    > p {
+      width: 16%;
+    }
+
+    .changeAvatar_block {
+      height: 190px;
+      .content {
+        margin: 0 60px 0 0;
+        img {
+          width: 120px;
+          height: 120px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 676px) {
+  form {
+    .about p,
+    .nickname p {
+      width: 25%;
+    }
+  }
+
+  .avatar {
+    > p {
+      width: 25%;
+    }
+
+    .changeAvatar_block {
+      height: 170px;
+      .content {
+        margin: 0 30px 0 0;
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 542px) {
+  form {
+    .about p,
+    .nickname p {
+      width: 42%;
+    }
+  }
+
+  .avatar {
+    > p {
+      width: 42%;
+    }
+
+    .changeAvatar_block {
+      height: 140px;
+      display: flex;
+      @include center();
+      .content {
+        margin: 0;
+        img {
+          width: 70px;
+          height: 70px;
+        }
+
+        .btns_avatar {
+          gap: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 347px) {
+  form {
+    .about p,
+    .nickname p {
+      width: 24%;
+    }
+
+    .about,
+    .nickname {
+      display: flex;
+      gap: 10px;
+    }
+  }
+
+  .avatar {
+    display: flex;
+    gap: 10px;
+    > p {
+      width: 24%;
+    }
+
+    .changeAvatar_block .content img {
+      width: 50px;
+      height: 50px;
+    }
+  }
 }

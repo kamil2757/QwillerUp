@@ -46,11 +46,21 @@ input[type="number"]::-webkit-inner-spin-button {
     height: 42px;
     border-radius: 16px;
   }
+
+  .textarea {
+    height: 110px;
+    border-radius: 16px;
+  }
 }
 
 @media (max-width: 700px) {
   .input {
     height: 32px;
+    border-radius: 12px;
+  }
+
+  .textarea {
+    height: 60px;
     border-radius: 12px;
   }
 }
