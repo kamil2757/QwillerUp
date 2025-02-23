@@ -349,16 +349,18 @@
 
 @media (max-width: 600px) {
   .block1_info {
-    height: 240px;
+    flex-direction: column;
+    height: 360px;
     .avatar {
       img {
+        margin: 18px 0;
         width: 120px;
       }
       margin: 0 20px;
     }
 
     .block1_info__info {
-      width: 58%;
+      width: 90%;
       .aboutUser {
         margin: 10px 0;
       }
@@ -374,9 +376,8 @@
   }
 
   .block2_info .fireStreak_info {
-    height: 90px;
+    height: 110px;
     .text {
-      width: 90%;
       margin: 0 20px 0 0;
     }
 
@@ -395,17 +396,12 @@
 
 @media (max-width: 479px) {
   .block1_info {
-    height: 220px;
+    height: 370px;
     .avatar {
-      img {
-        width: 90px;
-      }
       margin: 0 20px;
     }
 
     .block1_info__info {
-      width: 52%;
-
       .aboutUser {
         margin: 10px 0;
         width: 99%;
@@ -419,8 +415,11 @@
     }
 
     .settings img {
-      width: 12px;
-    }
+      width: 16px;
+    } 
+  }
+  .block2_info .fireStreak_info {
+    gap: 24px;
   }
 
   .block2_info .chart .chart_wrapper {
@@ -428,13 +427,28 @@
   }
 
   .medals .content {
-    height: 120px;
+    height: 140px;
+    gap: 0px;
 
     .medal {
-      width: 80px;
+      width: 110px;
       img {
         width: 50px;
       }
+    }
+  }
+
+  .block2_info .fireStreak_info {
+    height: 150px;
+  }
+}
+
+@media (max-width: 339px){
+  .block1_info {
+    height: 400px;
+
+    .fireStreak_info {
+      height: 180px;
     }
   }
 }

@@ -89,6 +89,12 @@
       display: none;
     }
   }
+
+  @media (max-width: 338px) {
+    .text p {
+      width: 92%;
+    }
+  }
 }
 
 .pluses_block {

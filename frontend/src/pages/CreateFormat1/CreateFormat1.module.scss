@@ -97,9 +97,8 @@
         .total_time {
           border: 2px solid $base-color;
           height: 60px;
-          @include center();
-          width: 240px;
-          padding: 0 14px;
+          width: 210px;
+          padding: 0 16px;
           text-align: center;
 
           border-radius: 20px;
@@ -110,7 +109,7 @@
           gap: 8px;
 
           input {
-            width: 90px;
+            width: 110px;
           }
 
           .inp_time {
@@ -125,7 +124,7 @@
             input {
               padding: 0;
               text-align: center;
-              width: 60px;
+              width: 30px;
             }
           }
 

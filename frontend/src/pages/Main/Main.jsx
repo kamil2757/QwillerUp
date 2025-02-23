@@ -20,10 +20,12 @@ function Main() {
     aimMinutes: null,
   });
   const [isMini, setIsMini] = useState(false);
+  const [isSuperMini, setIsSuperMini] = useState(false);
 
   useEffect(() => {
     function handleResize() {
       setIsMini(window.innerWidth < 812);
+      setIsSuperMini(window.innerWidth < 396)
     }
 
     handleResize()
@@ -90,7 +92,8 @@ function Main() {
           <ProgressCircle
             goalTime={5}
             spentTime={3.5}
-            mini={isMini ? true : false}
+            mini={isMini}
+            superMini={isSuperMini}
           />
         </div>
         <div className={styles.timeInfo}>

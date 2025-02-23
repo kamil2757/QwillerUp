@@ -183,3 +183,15 @@
     cursor: pointer;
   }
 }
+
+@media (max-width: 396px) {
+  .block1 {
+    .tasksContent {
+      padding: 40px 0 40px 40px;
+    }
+  }
+
+  .block2 .timeInfo .total_time {
+    padding: 0 12px;
+  }
+}

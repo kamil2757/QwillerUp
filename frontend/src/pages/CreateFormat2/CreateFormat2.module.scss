@@ -112,7 +112,7 @@
 @media (max-width: 734px) {
   .block_createFormat1 {
     .content {
-      width: 320px;
+      width: 310px;
 
       h1 {
         width: 240px;
@@ -136,7 +136,11 @@
             gap: 8px;
 
             input {
-              width: 90px;
+              width: 110px;
+            }
+
+            .inp_time input {
+              width: 30px;
             }
           }
         }
@@ -153,8 +157,10 @@
     }
 
     .content .days .block_inputs .total_time {
-      height: 40px;
-      border-radius: 16px;
+      width: 190px;
+      height: 60px;
+      padding: 0 26px;
+      text-align: center;
     }
   }
 }

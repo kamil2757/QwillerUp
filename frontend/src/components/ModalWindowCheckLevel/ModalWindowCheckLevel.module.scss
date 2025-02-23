@@ -203,13 +203,15 @@
     margin: 46px 0 0 0;
     gap: 12px;
     justify-content: normal;
+    flex-direction: column;
 
     .info {
       border-radius: 14px;
-      width: 46%;
+      width: 260px;
+      height: 140px;
 
       p{
-        width: 100px;
+        width: 220px;
         padding: 0 10px;
       }
     }
