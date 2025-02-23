@@ -53,7 +53,9 @@ function ModalWindowCheckLevel({ isOpen, onClose }) {
             <h1>25 уровень</h1>
             <div className={styles.experience_block}>
               <img src={experience} alt="" />
-              <ProgressBar percent="60" width="40vw" />
+              <div className={styles.progressbar_block}>
+                <ProgressBar percent="60" width="100%" />
+              </div>
               <p>60/100</p>
               <img src={arrow_down} alt="" className={styles.arrow_down} />
             </div>
@@ -62,6 +64,14 @@ function ModalWindowCheckLevel({ isOpen, onClose }) {
             <div className={styles.level}>
               <h1>26 уровень</h1>
               <div className={styles.awards}>
+                <div className={styles.award}>
+                  <img src={ice} alt="" />
+                  <p>лед</p>
+                </div>
+                <div className={styles.award}>
+                  <img src={ice} alt="" />
+                  <p>лед</p>
+                </div>
                 <div className={styles.award}>
                   <img src={ice} alt="" />
                   <p>лед</p>
