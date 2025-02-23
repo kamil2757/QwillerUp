@@ -47,7 +47,7 @@ function Header() {
             className={location == "/main" ? styles.active : ""}
             onClick={() => setBMenuIsOpen(false)}
           >
-            Главная
+            Задачи
           </Link>
           <Link
             to="/honor-board"
@@ -99,17 +99,28 @@ function Header() {
           className={`${styles.burger_content} ${
             bMenuIsOpen ? styles.burger_content_open : ""
           }`}
-
           onClick={() => setBMenuIsOpen(false)}
         >
-          <Link to="/main">
-            <p>Главная</p>
+          <Link to="/main" className={location == "/main" ? styles.active : ""}>
+            <p>Задачи</p>
           </Link>
-          <Link to="/honor-board">
+          <Link
+            to="/honor-board"
+            className={location == "/honor-board" ? styles.active : ""}
+          >
             <p>Доска почёта</p>
           </Link>
-          <Link to="/profile">
+          <Link
+            to="/profile"
+            className={location == "/profile" ? styles.active : ""}
+          >
             <p>Профиль</p>
+          </Link>
+          <Link
+            to="/settings/profile"
+            className={location == "/settings/profile" ? styles.active : ""}
+          >
+            <p>Настройки</p>
           </Link>
         </div>
       </div>

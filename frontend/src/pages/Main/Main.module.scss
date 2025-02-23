@@ -106,7 +106,7 @@
 
 @media (max-width: 812px) {
   .task {
-    gap:10vw;
+    gap: 10vw;
   }
 
   .main_block {
@@ -142,8 +142,12 @@
       flex-direction: column;
     }
   }
-}
 
+  .task .bl2 img {
+    width: 14px;
+    cursor: pointer;
+  }
+}
 
 .motivation {
   background-color: $dark-color;
@@ -152,17 +156,16 @@
   @include center();
   width: 90vw;
 
-  p{
+  p {
     width: 90%;
   }
 }
 
 @media (max-width: 545px) {
   .task {
-    gap:6vw;
+    gap: 6vw;
   }
 }
-
 
 .motivation {
   background-color: $dark-color;
@@ -171,7 +174,12 @@
   @include center();
   width: 90vw;
 
-  p{
+  p {
     width: 90%;
+  }
+
+  .task .bl2 img {
+    width: 13px;
+    cursor: pointer;
   }
 }

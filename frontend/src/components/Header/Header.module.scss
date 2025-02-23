@@ -68,13 +68,6 @@ header {
       border-bottom: 2px solid $accent-color;
     }
   }
-  @media (max-width: 1062px) {
-    .content {
-      a:last-child {
-        margin: 0 0 0 14vw;
-      }
-    }
-  }
 
   @media (max-width: 529px) {
     a {
@@ -92,7 +85,7 @@ header {
     width: 30px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 7px;
 
     div {
       width: 100%;
@@ -105,13 +98,13 @@ header {
 
   .burger_open {
     div:nth-child(1) {
-      transform: translateY(10px) rotate(45deg);
+      transform: translateY(9px) rotate(45deg);
     }
     div:nth-child(2) {
       opacity: 0;
     }
     div:nth-child(3) {
-      transform: translateY(-10px) rotate(-45deg);
+      transform: translateY(-9px) rotate(-45deg);
     }
   }
 
@@ -130,7 +123,7 @@ header {
     width: 100vw;
     top: 50px;
     right: -20px;
-    height: 300px;
+    height: 270px;
     z-index: 10;
 
     opacity: 0;
@@ -141,6 +134,10 @@ header {
 
     @include center();
     flex-direction: column;
+
+    .active{
+      border-bottom: 2px solid $accent-color;
+    }
 
     a {
       padding: 0;

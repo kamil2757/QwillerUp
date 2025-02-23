@@ -60,20 +60,25 @@
 @media (max-width: 660px) {
   .registration_block {
     .content {
-      width: 400px;
+      width: 300px;
 
       form {
         div {
           input {
-            width: 300px;
+            width: 230px;
           }
         }
 
         
       .btn_block {
-        width: 300px + 14px;
+        width: 230px + 14px;
       }
       }
     }
+  }
+
+  
+  .registration_block .content form {
+    gap: 14px;
   }
 }

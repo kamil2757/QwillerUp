@@ -423,15 +423,18 @@
     }
   }
 
-  .medals .content .medal img {
-    width: 50px;
-  }
-  
   .block2_info .chart .chart_wrapper {
-    padding: 20px 0 0 0 ;
+    padding: 20px 0 0 0;
   }
 
   .medals .content {
-      height: 120px;
+    height: 120px;
+
+    .medal {
+      width: 80px;
+      img {
+        width: 50px;
+      }
     }
+  }
 }

@@ -65,20 +65,23 @@
 @media (max-width: 660px) {
   .login_block {
     .content {
-      width: 400px;
+      width: 300px;
 
       form {
         div {
           input {
-            width: 300px;
+            width: 230px;
           }
         }
 
-        
-      .btn_block {
-        width: 300px + 14px;
-      }
+        .btn_block {
+          width: 230px + 14px;
+        }
       }
     }
+  }
+
+  .login_block .content form {
+    gap: 14px;
   }
 }

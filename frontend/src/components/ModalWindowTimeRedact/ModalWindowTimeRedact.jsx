@@ -110,25 +110,25 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                 <div className={styles.format2}>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
-                    width={adaptive ? "47%" : undefined}
+                    width={adaptive ? "46%" : undefined}
                   >
                     +5 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
-                    width={adaptive ? "47%" : undefined}
+                    width={adaptive ? "46%" : undefined}
                   >
                     +15 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
-                    width={adaptive ? "47%" : undefined}
+                    width={adaptive ? "46%" : undefined}
                   >
                     +30 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
-                    width={adaptive ? "47%" : undefined}
+                    width={adaptive ? "46%" : undefined}
                   >
                     +1 час
                   </Button>

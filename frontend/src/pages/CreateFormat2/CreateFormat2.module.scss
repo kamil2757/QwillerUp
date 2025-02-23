@@ -109,49 +109,52 @@
   }
 }
 
-
 @media (max-width: 734px) {
   .block_createFormat1 {
     .content {
-      width: 400px;
+      width: 320px;
 
-      h1{
-        width: 300px;
+      h1 {
+        width: 240px;
         text-align: center;
       }
 
       .days {
-  
         .block_inputs {
-          margin: 34px 0;
+          margin: 24px 0;
           display: flex;
           flex-direction: column;
           gap: 20px;
-  
+
           p {
             margin: 0;
             text-align: left;
           }
-  
+
           .field {
             display: flex;
             gap: 8px;
-  
+
             input {
-              width: 130px;
+              width: 90px;
             }
           }
         }
       }
 
       .button_block {
-        width: calc(100% - 70px);
+        width: calc(100% - 46px);
         a {
           color: white;
           text-decoration: none;
           margin: 100px 0 0 0;
         }
       }
+    }
+
+    .content .days .block_inputs .total_time {
+      height: 40px;
+      border-radius: 16px;
     }
   }
 }

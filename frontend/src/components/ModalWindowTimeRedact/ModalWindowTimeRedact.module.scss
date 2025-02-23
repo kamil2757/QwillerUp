@@ -162,18 +162,19 @@
 
     .edit {
       padding: 18px;
-      width: 300px;
+      width: 280px - 36px;
     }
 
     .info {
       gap: 10px;
       .aim_task {
+        width: 280px;
         height: 56px;
       }
 
       .instruction {
         height: 76px;
-        width: 340px;
+        width: 280px;
         padding: 0;
       }
     }
