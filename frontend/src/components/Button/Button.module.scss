@@ -64,15 +64,12 @@
   .button2,
   .button3 {
     height: 40px;
+    border-radius: 16px;
 
     @include center();
   }
 
   .button1 {
-    background-color: $accent-color;
-    top: 0px;
-    position: relative;
-
     &:hover {
       box-shadow: 0px 6px 0px 0px $accentShadow-color;
       transform: translateY(-6px);
@@ -87,16 +84,6 @@
       }
     }
   }
-
-  .blocked_button {
-    opacity: 0.6;
-    cursor: auto;
-  
-    &:hover {
-      transform: translateY(0px);
-      box-shadow: 0px 0px 0px 0px $accentShadow-color;
-    }
-  }
 }
 
 @media (max-width: 700px) {
@@ -104,7 +91,7 @@
   .button2,
   .button3 {
     height: 30px;
-    border-radius: 16px;
+    border-radius: 12px;
 
     @include center();
   }
