@@ -76,8 +76,10 @@ function SettingsTasksFormat1() {
         ))}
 
         <div className={styles.total_time}>
-          Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
-          {TotalTime.minutes}мин
+          <p>
+            Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
+            {TotalTime.minutes}мин
+          </p>
         </div>
 
         <Link to="/main">

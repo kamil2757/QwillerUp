@@ -29,9 +29,9 @@
   justify-content: space-between;
 
   .input_task {
-    width: calc((100% - 200px) - 40px); 
+    width: 100%;
     > input {
-        width: 100%;
+      width: 100%;
     }
   }
 
@@ -45,9 +45,10 @@
 }
 
 .time_inputes {
-    display: flex;
-    width: 200px;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 0 0 20px;
   > div {
     display: flex;
     align-items: flex-end;
@@ -63,4 +64,41 @@
       width: 60px;
     }
   }
+}
+
+@media (max-width: 657px) {
+  .time_inputes {
+    gap: 6px;
+    > div input {
+      width: 40px;
+    }
+  }
+
+  .field {
+    gap: 0px;
+  }
+}
+
+@media (max-width: 439px) {
+  .time_inputes {
+    gap: 6px;
+    > div input {
+      width: 30px;
+    }
+  }
+
+  .block_inputs .total_time p{
+    width: 140px;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 346px) {
+  .time_inputes {
+    > div input {
+      width: 24px;
+    }
+  }
+
 }

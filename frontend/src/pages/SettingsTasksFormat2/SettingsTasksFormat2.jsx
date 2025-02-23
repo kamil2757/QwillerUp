@@ -114,9 +114,11 @@ function SettingsTasksFormat2() {
             ))}
 
             <div className={styles.total_time}>
-              Cуммарное время цели день: {TotalTime[day[1]].hours}ч{" "}
-              {TotalTime[day[1]].minutes}
-              мин
+              <p>
+                Cуммарное время цели день: {TotalTime[day[1]].hours}ч{" "}
+                {TotalTime[day[1]].minutes}
+                мин
+              </p>
             </div>
           </div>
         ))}
