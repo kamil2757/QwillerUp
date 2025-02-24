@@ -25,10 +25,10 @@ function Main() {
   useEffect(() => {
     function handleResize() {
       setIsMini(window.innerWidth < 812);
-      setIsSuperMini(window.innerWidth < 396)
+      setIsSuperMini(window.innerWidth < 396);
     }
 
-    handleResize()
+    handleResize();
 
     window.addEventListener("resize", handleResize);
 
@@ -86,6 +86,7 @@ function Main() {
             <p>Привет, Kamil! Ты уже потратил 30 часов на обучение!</p>
           </div>
         )}
+        {/* <Button onClick={() => setModal2IsOpen(true)} width="100%">modal window "New level"</Button> */}
       </div>
       <div className={styles.block2}>
         <div className={styles.diagramm}>

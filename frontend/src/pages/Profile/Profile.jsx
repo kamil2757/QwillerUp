@@ -23,7 +23,7 @@ function Profile() {
 
   useEffect(() => {
     function handleResize() {
-      setAdaptive(window.innerWidth < 1035);
+      setAdaptive(window.innerWidth <= 1035);
     }
 
     handleResize();
@@ -83,7 +83,8 @@ function Profile() {
           </div>
         </div>
         <div className={styles.maininfo}>
-          <div className={styles.medals}>
+          <div className={styles.medals} onClick={() => {
+            adaptive ? setModalMedalsIsOpen(true) : ''}}>
             <div className={styles.content}>
               <div className={styles.medal}>
                 <img src={medal_1_1} alt="" />

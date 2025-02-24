@@ -24,61 +24,61 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
   );
   const data = {
     medal1: {
-      title: 'Бронзовая медаль "Начало пути"',
+      title: 'Бронзовая медаль\n "Начало пути"',
       description: "100 часов общего времени",
       img: medal_1_1,
       equipped: true,
     },
     medal2: {
-      title: 'Серебряная медаль "Продвинутый"',
+      title: 'Серебряная медаль\n "Продвинутый"',
       description: "250 часов общего времени",
       img: medal_1_2,
       equipped: false,
     },
     medal3: {
-      title: 'Золотая медаль "Эксперт"',
+      title: 'Золотая медаль\n "Эксперт"',
       description: "1000 часов общего времени",
       img: medal_1_3,
       equipped: false,
     },
     medal4: {
-      title: 'Бронзовая медаль "Начало"',
+      title: 'Бронзовая медаль\n "Начало"',
       description: "Огненный стрик 10 дней подряд",
       img: medal_2_1,
       equipped: false,
     },
     medal5: {
-      title: 'Серебряная медаль "Пламя"',
+      title: 'Серебряная медаль\n "Пламя"',
       description: "Огненный стрик 100 дней подряд",
       img: medal_2_2,
       equipped: true,
     },
     medal6: {
-      title: 'Золотая медаль "Безудержный огонь"',
+      title: 'Золотая медаль\n "Безудержный огонь"',
       description: "Огненный стрик 365 дней подряд",
       img: medal_2_3,
       equipped: false,
     },
     medal7: {
-      title: 'Бронзовая медаль "Трудяга"',
+      title: 'Бронзовая медаль\n "Трудяга"',
       description: "Позаниматься 10 дней с 10+ часами",
       img: medal_3_1,
       equipped: false,
     },
     medal8: {
-      title: 'Серебряная медаль "Переработчик"',
+      title: 'Серебряная медаль\n "Переработчик"',
       description: "Позаниматься 30 дней с 10+ часами",
       img: medal_3_2,
       equipped: false,
     },
     medal9: {
-      title: 'Золотая медаль "Неутомимый"',
+      title: 'Золотая медаль\n "Неутомимый"',
       description: "Позаниматься 100 дней с 10+ часами",
       img: medal_3_3,
       equipped: true,
     },
     medal10: {
-      title: 'Золотая медаль "Партнер"',
+      title: `Золотая медаль\n "Партнер"`,
       description: "Поддержать автора монеткой",
       img: medal_4_1,
       equipped: false,
@@ -119,8 +119,8 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
     }
 
     return () => {
-      document.removeEventListener('keydown',  handleKeyDown)
-    }
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen]);
 
   if (!isVisible) return null;
@@ -133,8 +133,8 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
           <h1>Медали</h1>
           <div className={styles.info_block}>
             <p>
-              Выбери 3 достижения, которые хочешь показать в своем профиле! Пусть
-              другие увидят твои самые крутые успехи!
+              Выбери 3 достижения, которые хочешь показать в своем профиле!
+              Пусть другие увидят твои самые крутые успехи!
             </p>
           </div>
           <div className={styles.description}>
