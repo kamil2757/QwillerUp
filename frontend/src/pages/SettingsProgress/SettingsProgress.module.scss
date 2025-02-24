@@ -78,6 +78,10 @@
   }
   .select_block {
     width: 400px;
+
+    select {
+      padding: 0 0 0 36%;
+    }
   }
 
   .block_settingsProgress form .btn_block {
@@ -92,7 +96,7 @@
     flex-direction: column;
   }
   .select_block {
-    width: 300px;
+    width: 400px;
     padding: 4px 0;
   }
 
@@ -108,15 +112,26 @@
     flex-direction: column;
   }
   .select_block {
-    width: 200px;
+    width: 300px;
     padding: 3px 0;
 
-    select{
+    select {
       padding: 0 0 0 34%;
     }
   }
 
   .block_settingsProgress form .btn_block {
     margin: 0;
+  }
+}
+
+@media (max-width: 375px) {
+  .select_block {
+    width: 200px;
+    padding: 3px 0;
+
+    select {
+      padding: 0 0 0 24%;
+    }
   }
 }

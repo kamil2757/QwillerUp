@@ -109,6 +109,7 @@
   }
 }
 
+
 @media (max-width: 1051px) {
   .block_inputs .field input {
     width: 100px;
@@ -126,21 +127,44 @@
   }
 }
 
-@media (max-width: 864px) {
+@media (max-width: 921px) {
   .block_inputs .field input {
-    width: 180px;
+    width: 160px;
+  }
+
+  .block_inputs {
+    margin: 22px;
+
+    .field {
+      gap: 6px;
+      .inp_time input {
+        width: 40px;
+      }
+    }
   }
 }
 
-@media (max-width: 548px) {
+@media (max-width: 864px) {
   .block_inputs .field input {
     width: 110px;
   }
 }
 
+@media (max-width: 738px) {
+  .block_inputs .field input {
+    width: 200px;
+  }
+}
+
+@media (max-width: 548px) {
+  .block_inputs .field input {
+    width: 190px;
+  }
+}
+
 @media (max-width: 466px) {
   .block_inputs .field input {
-    width: 80px;
+    width: 160px;
   }
 
   .block_inputs {
@@ -161,7 +185,7 @@
 
 @media (max-width: 346px) {
   .block_inputs .field input {
-    width: 60px;
+    width: 110px;
   }
 
   .block_inputs {

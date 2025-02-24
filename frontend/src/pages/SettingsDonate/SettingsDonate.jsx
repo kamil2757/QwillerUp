@@ -1,7 +1,7 @@
 import styles from "./SettingsDonate.module.scss";
 import { Link, NavLink } from "react-router-dom";
 import Button from "../../components/Button/Button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function SettingsDonate() {
   const refTextAbout = useRef(null);
@@ -23,6 +23,22 @@ function SettingsDonate() {
       refTextAbout.current.innerText = `Узнай, какой день был у тебя самым продуктивным! Может, ты посвятил 6, 8, а может, целых 10 часов на достижение своих целей?`;
     }
   }
+
+  const [isMini, setIsMini] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMini(window.innerWidth < 727);
+    }
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className={styles.block_settingsDonate}>
@@ -47,14 +63,14 @@ function SettingsDonate() {
             onMouseEnter={() => changeTextAbout(1)}
             onMouseLeave={() => changeTextAbout()}
           >
-            <p>Твой самый продуктивный месяц</p>
+            <p>{!isMini ? "Твой самый продуктивный месяц" : "Лучший месяц"}</p>
           </div>
           <div
             className={styles.bonus2}
             onMouseEnter={() => changeTextAbout(2)}
             onMouseLeave={() => changeTextAbout()}
           >
-            <p>Годовая карта продуктивности</p>
+            <p>{!isMini ? " Годовая карта продуктивности" : "Твоя карта"}</p>
           </div>
           <div className={styles.bonus3}>
             <div
@@ -62,14 +78,14 @@ function SettingsDonate() {
               onMouseEnter={() => changeTextAbout(3)}
               onMouseLeave={() => changeTextAbout()}
             >
-              <p>Медаль “партнер”</p>
+              <p>{!isMini ? "Медаль “партнер”" : "Медаль"}</p>
             </div>
             <div
               className={styles.bonus3_2}
               onMouseEnter={() => changeTextAbout(4)}
               onMouseLeave={() => changeTextAbout()}
             >
-              <p>Твой самый долгий стрик</p>
+              <p>{!isMini ? "Твой самый долгий стрик" : "стрик"}</p>
             </div>
           </div>
           <div
@@ -77,7 +93,7 @@ function SettingsDonate() {
             onMouseEnter={() => changeTextAbout(5)}
             onMouseLeave={() => changeTextAbout()}
           >
-            <p>Самый продуктивный день</p>
+            <p>{!isMini ? "Самый продуктивный день" : "лучший день"}</p>
           </div>
         </div>
         <div className={styles.about_bonuses}>
