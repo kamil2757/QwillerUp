@@ -2,9 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-
 class CustomUsers(AbstractUser):
-    photo = models.URLField(blank=True)
+    photo = models.ImageField(upload_to='avatars/', null=True, blank=True)
     description = models.TextField(blank=True)
     experience = models.IntegerField(default=0)
     ice_count = models.IntegerField(default=0)
@@ -14,4 +13,3 @@ class CustomUsers(AbstractUser):
 
     def __str__(self):
         return self.username
-
