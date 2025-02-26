@@ -1,5 +1,8 @@
+from typing import Dict, Any
+
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
 
@@ -24,3 +27,32 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
 
         return user
+
+
+class LoginSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        username = attrs.get('username')
+        password = attrs.get('password')
+
+        if not username or not password:
+            raise serializers.ValidationError("Username и пароль обязательны.")
+
+        user = authenticate(username=username, password=password)
+        if not user:
+            raise serializers.ValidationError("Неверный username или пароль.")
+
+        data = super().validate(attrs)
+        data.update({
+            'username': user.username,
+            'date_joined': user.date_joined.isoformat(),
+            'photo': user.photo.url if user.photo else None,
+            'description': user.description,
+            'experience': user.experience,
+            'level': user.level,
+            'ice_count': user.ice_count,
+            'streak': user.streak,
+            'schedule_type': user.schedule_type
+        })
+
+        return data
+
