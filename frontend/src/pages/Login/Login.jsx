@@ -47,7 +47,9 @@ function Login() {
         }
         navigate("/main");
       } else {
-        setError(data.detail || data.non_field_errors?.[0] || "Ошибка авторизации");
+        setError(
+          data.detail || data.non_field_errors?.[0] || "Ошибка авторизации"
+        );
       }
     } catch (err) {
       setError("Ошибка соединения с сервером. Проверьте интернет.");

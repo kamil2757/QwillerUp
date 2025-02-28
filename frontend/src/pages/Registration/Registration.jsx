@@ -3,67 +3,91 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { Link } from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 
 function Registration() {
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    password2: "",
-  });
-  const {setUserData} = useContext(UserContext);
-  const [error, setError] = useState(null)
- 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
 
-  async function RegistrationUser() {
-    console.log("register");
+  const [blockedButton, setBlockedButton] = useState(true);
+  const { setUserData } = useContext(UserContext);
+  const [error, setError] = useState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setBlockedButton(!(username && email && password && password2));
+  }, [username, password, password2, email]);
+
+  async function RegistrationUser(e) {
+    e.preventDefault();
+
+    if (!(username || password || password2 || email)) {
+      setError("Все поля обязательны для заполнения");
+      return;
+    }
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/register/", {
-        method: "POST",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-          password2: formData.password2
-        }),
-      });
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/users/register/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+            password2: password2,
+          }),
+        }
+      );
       const data = await response.json();
-      console.log(data)
-      setUserData(data)
-      for (let key in data){
-        localStorage.setItem(key, data[key])
+      if (response.ok) {
+        console.log(data);
+        setUserData(data);
+        for (let key in data) {
+          localStorage.setItem(key, data[key]);
+        }
+        navigate("/main");
+      } else {
+        console.log(data);
+        setError(
+          data.email?.[0]
+            ? data.email?.[0]
+            : data.username?.[0]
+            ? data.username?.[0]
+            : data.password?.[0]
+            ? data.password?.[0]
+            : data.password2?.[0]
+            ? data.password2?.[0]
+            : data.detail || data.non_field_errors?.[0] || "Ошибка авторизации"
+        );
       }
     } catch (err) {
-      console.log('error: ' + err);
+      console.log(err);
+      setError("Ошибка соединения с сервером. Проверьте интернет.");
     }
   }
 
   return (
-    <div className={styles.registration_block}>
+    <section className={styles.registration_block}>
       <div className={styles.content}>
         <h1>Регистрация</h1>
-        <form action="">
+        <form action="" onSubmit={RegistrationUser}>
           <div>
-            <div className={styles.error}>Ошибка</div>
+            {error && <div className={styles.error}>{error}</div>}
             <p>Никнейм</p>
             <Input
               placeholder="Никнейм пользователя"
               name="username"
-              onChange={handleChange}
-              value={formData.username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              value={username}
             />
           </div>
           <div>
@@ -71,8 +95,10 @@ function Registration() {
             <Input
               placeholder="Электронная почта"
               name="email"
-              onChange={handleChange}
-              value={formData.email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              value={email}
             />
           </div>
           <div>
@@ -80,8 +106,10 @@ function Registration() {
             <Input
               placeholder="password"
               name="password"
-              onChange={handleChange}
-              value={formData.password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              value={password}
             />
           </div>
           <div>
@@ -89,18 +117,20 @@ function Registration() {
             <Input
               placeholder="Повторите свой пароль"
               name="password2"
-              onChange={handleChange}
-              value={formData.password2}
+              onChange={(e) => {
+                setPassword2(e.target.value);
+              }}
+              value={password2}
             />
           </div>
           <div className={styles.btn_block}>
-            <Link to='/choose-format'>
-              <Button width="100%" onClick={() => RegistrationUser()}>Зарегистрироваться</Button>
-            </Link>
+            <Button blocked={blockedButton} width="100%">
+              Войти
+            </Button>
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 }
 
