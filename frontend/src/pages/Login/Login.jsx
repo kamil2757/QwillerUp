@@ -47,15 +47,15 @@ function Login() {
         }
         navigate("/main");
       } else {
-        setError(data.non_field_errors[0]);
+        setError(data.detail || data.non_field_errors?.[0] || "Ошибка авторизации");
       }
     } catch (err) {
-      console.log(err);
+      setError("Ошибка соединения с сервером. Проверьте интернет.");
     }
   }
 
   return (
-    <div className={styles.login_block}>
+    <section className={styles.login_block}>
       <div className={styles.content}>
         <h1>Вход</h1>
         <form onSubmit={handleSubmit}>
@@ -85,13 +85,13 @@ function Login() {
             />
           </div>
           <div className={styles.btn_block}>
-            <Button blocked={blockedButton} width="100%" typr="submit">
+            <Button blocked={blockedButton} width="100%">
               Войти
             </Button>
           </div>
         </form>
       </div>
-    </div>
+    </section>
   );
 }
 
