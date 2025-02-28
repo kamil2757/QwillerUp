@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class RegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
@@ -56,3 +56,9 @@ class LoginSerializer(TokenObtainPairSerializer):
 
         return data
 
+
+class GetUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['username', 'date_joined', 'photo', 'description', 'experience', 'level', 'ice_count', 'streak',
+                  'schedule_type']

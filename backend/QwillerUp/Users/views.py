@@ -1,24 +1,25 @@
 from django.core.serializers import serialize
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from Users.serializers.serializers import UserSerializer, LoginSerializer
+from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer
 
 
 class RegisterUser(APIView):
     def post(self, request):
-        serializer = UserSerializer(data=request.data)
+        serializer = RegisterSerializer(data=request.data)
 
         if serializer.is_valid():
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
 
             return Response({
-                'data': UserSerializer(user).data,
+                'data': RegisterSerializer(user).data,
                 'refresh_token': str(refresh),
                 'access_token': str(refresh.access_token),
             }, status=status.HTTP_201_CREATED)
@@ -28,3 +29,11 @@ class RegisterUser(APIView):
 
 class LoginUser(TokenObtainPairView):
     serializer_class = LoginSerializer
+
+
+class GetUserByAccess(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        return Response(GetUserSerializer(user).data)
