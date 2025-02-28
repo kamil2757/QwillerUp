@@ -4,7 +4,8 @@ import Footer from "../../components/Footer/Footer";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 
 function Registration() {
   const [formData, setFormData] = useState({
@@ -13,7 +14,9 @@ function Registration() {
     password: "",
     password2: "",
   });
-
+  const {setUserData} = useContext(UserContext);
+  const [error, setError] = useState(null)
+ 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -21,6 +24,32 @@ function Registration() {
       [name]: value,
     });
   };
+
+  async function RegistrationUser() {
+    console.log("register");
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/register/", {
+        method: "POST",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          password2: formData.password2
+        }),
+      });
+      const data = await response.json();
+      console.log(data)
+      setUserData(data)
+      for (let key in data){
+        localStorage.setItem(key, data[key])
+      }
+    } catch (err) {
+      console.log('error: ' + err);
+    }
+  }
 
   return (
     <div className={styles.registration_block}>
@@ -66,7 +95,7 @@ function Registration() {
           </div>
           <div className={styles.btn_block}>
             <Link to='/choose-format'>
-              <Button width="100%">Зарегистрироваться</Button>
+              <Button width="100%" onClick={() => RegistrationUser()}>Зарегистрироваться</Button>
             </Link>
           </div>
         </form>

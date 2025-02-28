@@ -4,13 +4,13 @@ $darkShadow-color: #232c55;
 $accent-color: rgb(122, 211, 249);
 $accentShadow-color: rgb(41, 148, 194);
 $perfect-color: rgb(248, 188, 59);
-$red-color: #df2e2e;
+$red-color: #f14747;
 
-$font-small: clamp(10px, 0.8vw, 15px);
-$font-medium:  clamp(13px, 0.9vw, 20px);
-$font-miniLarge: clamp(16px, 1.3vw, 38px);
-$font-large: clamp(24px, 2vw, 64px);
-$font-xlarge:  clamp(29px, 3.3vw, 86px);
+$font-small: clamp(10px, 0.84vw, 15px);
+$font-medium:  clamp(13px, 0.95vw, 20px);
+$font-miniLarge: clamp(16px, 1.4vw, 38px);
+$font-large: clamp(24px, 2.2vw, 64px);
+$font-xlarge:  clamp(29px, 3.4vw, 86px);
 
 $font-weight: 300;
 $transition: 0.2s;

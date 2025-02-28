@@ -12,9 +12,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        # fields = ['username', 'email', 'password', 'password2', 'experience', 'level', 'description', 'photo',
-        #           'ice_count', 'streak', 'schedule_type']
-        fields = ['username', 'email', 'password', 'password2']
+        fields = ['username', 'email', 'password', 'password2', 'experience', 'level', 'description', 'photo',
+                  'ice_count', 'streak', 'schedule_type']
         extra_kwargs = {'password': {'write_only': True}}
 
     def validate(self, data):
@@ -35,11 +34,11 @@ class LoginSerializer(TokenObtainPairSerializer):
         password = attrs.get('password')
 
         if not username or not password:
-            raise serializers.ValidationError("Username и пароль обязательны.")
+            raise serializers.ValidationError("Никнейм и пароль обязательны.")
 
         user = authenticate(username=username, password=password)
         if not user:
-            raise serializers.ValidationError("Неверный username или пароль.")
+            raise serializers.ValidationError("Неверный никнейм или пароль.")
 
         data = super().validate(attrs)
         data.update({

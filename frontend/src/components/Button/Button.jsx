@@ -34,7 +34,7 @@ function Button({
   return (
     <>
       {!blocked && (
-        <div
+        <button
           className={
             format == 1
               ? styles.button1
@@ -46,11 +46,11 @@ function Button({
           onClick={onClick ? () => onClick() : null}
         >
           {children}
-        </div>
+        </button>
       )}
 
       {blocked && (
-        <div
+        <button
           className={`${styles.blocked_button} ${
             format == 1
               ? styles.button1
@@ -59,9 +59,11 @@ function Button({
               : styles.button3
           }`}
           style={width ? { width, padding: 0 } : { padding: padding || padd }}
+          onClick={onClick ? () => onClick() : null} 
+          disabled
         >
           {children}
-        </div>
+        </button>
       )}
     </>
   );
