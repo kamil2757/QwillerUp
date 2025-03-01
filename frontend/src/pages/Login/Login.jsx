@@ -12,7 +12,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [blockedButton, setBlockedButton] = useState(true);
-  const { setUserData } = useContext(UserContext);
+  const { setUserData, setAuthorized, authorized } = useContext(UserContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -45,6 +45,7 @@ function Login() {
         for (let key in data) {
           localStorage.setItem(key, data[key]);
         }
+        await setAuthorized(true);
         navigate("/main");
       } else {
         setError(
@@ -52,6 +53,7 @@ function Login() {
         );
       }
     } catch (err) {
+      console.log(err)
       setError("Ошибка соединения с сервером. Проверьте интернет.");
     }
   }
@@ -60,13 +62,13 @@ function Login() {
     <section className={styles.login_block}>
       <div className={styles.content}>
         <h1>Вход</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} autoComplete="off">
           {error && <div className={styles.error}>{error}</div>}
           <div>
             <p>Никнейм</p>
             <Input
               placeholder="Никнейм пользователя"
-              name="username"
+              type="username"
               onChange={(e) => {
                 setUsername(e.target.value);
                 setBlockedButton(e.target.value && password ? false : true);
@@ -78,7 +80,7 @@ function Login() {
             <p>Пароль</p>
             <Input
               placeholder="Пароль пользователя"
-              name="password"
+              type="password"
               onChange={(e) => {
                 setPassword(e.target.value);
                 setBlockedButton(username && e.target.value ? false : true);

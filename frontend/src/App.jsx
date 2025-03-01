@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing/Landing.jsx";
 import Login from "./pages/Login/Login.jsx";
@@ -17,7 +17,7 @@ import SettingsTasksFormat1 from "./pages/SettingsTasksFormat1/SettingsTasksForm
 import SettingsTasksFormat2 from "./pages/SettingsTasksFormat2/SettingsTasksFormat2.jsx";
 
 import SettingsProgress from "./pages/SettingsProgress/SettingsProgress.jsx";
-import { UserProvider } from "./contexts/UserContext.jsx";
+import UserContext, { UserProvider } from "./contexts/UserContext.jsx";
 
 import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer/Footer.jsx";
@@ -25,43 +25,42 @@ import Footer from "./components/Footer/Footer.jsx";
 import "./styles/global.scss";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { authorized } = useContext(UserContext);
 
   return (
-    <UserProvider>
-      <BrowserRouter>
-        <Header />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            minHeight: "80vh",
-          }}
-        >
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/choose-format" element={<ChooseFormat />} />
-            <Route path="/create-format1" element={<CreateFormat1 />} />
-            <Route path="/create-format2" element={<CreateFormat2 />} />
-            <Route path="/honor-board" element={<HonorBoard />} />
-            <Route path="/main" element={<Main />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />}>
-              <Route path="profile" element={<SettingsProfile />} />
-              <Route path="tasks" element={<SettingsTasks />}>
-                <Route path="format1" element={<SettingsTasksFormat1 />} />
-                <Route path="format2" element={<SettingsTasksFormat2 />} />
-              </Route>
-              <Route path="progress" element={<SettingsProgress />} />
-              <Route path="donate" element={<SettingsDonate />} />
+    <BrowserRouter>
+      <Header />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "80vh",
+        }}
+      >
+        <Routes>
+          <Route path={!authorized ? "/" : "/landing"} element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/choose-format" element={<ChooseFormat />} />
+          <Route path="/create-format1" element={<CreateFormat1 />} />
+          <Route path="/create-format2" element={<CreateFormat2 />} />
+          <Route path="/honor-board" element={<HonorBoard />} />
+          <Route path={!authorized ? "/main" : "/"} element={<Main />} />
+          <Route path="/main" element={<Main />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />}>
+            <Route path="profile" element={<SettingsProfile />} />
+            <Route path="tasks" element={<SettingsTasks />}>
+              <Route path="format1" element={<SettingsTasksFormat1 />} />
+              <Route path="format2" element={<SettingsTasksFormat2 />} />
             </Route>
-          </Routes>
-        </div>
-        <Footer />
-      </BrowserRouter>
-    </UserProvider>
+            <Route path="progress" element={<SettingsProgress />} />
+            <Route path="donate" element={<SettingsDonate />} />
+          </Route>
+        </Routes>
+      </div>
+      <Footer />
+    </BrowserRouter>
   );
 }
 

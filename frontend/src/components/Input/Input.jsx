@@ -3,6 +3,7 @@ import styles from "./Input.module.scss";
 function Input({
   placeholder,
   type = "text",
+  autoComplete,
   name,
   onChange,
   value,
@@ -29,6 +30,7 @@ function Input({
         name={name}
         onChange={onChange}
         value={value}
+        autoComplete={autoComplete}
         style={
           format == 2
             ? { width: `${60}px`, padding: "0px", textAlign: "center" }

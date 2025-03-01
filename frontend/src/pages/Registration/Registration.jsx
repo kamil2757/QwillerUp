@@ -14,9 +14,12 @@ function Registration() {
   const [password2, setPassword2] = useState("");
 
   const [blockedButton, setBlockedButton] = useState(true);
-  const { setUserData } = useContext(UserContext);
+  const { setUserData, setAuthorized, authorized } = useContext(UserContext);
   const [error, setError] = useState();
   const navigate = useNavigate();
+  useEffect(() => {
+    console.log("authorized changed:", authorized);
+  }, [authorized]);
 
   useEffect(() => {
     setBlockedButton(!(username && email && password && password2));
@@ -52,6 +55,7 @@ function Registration() {
         for (let key in data) {
           localStorage.setItem(key, data[key]);
         }
+        setAuthorized(true)
         navigate("/main");
       } else {
         console.log(data);
@@ -83,7 +87,8 @@ function Registration() {
             <p>Никнейм</p>
             <Input
               placeholder="Никнейм пользователя"
-              name="username"
+              type="username"
+              autoComplete="off"
               onChange={(e) => {
                 setUsername(e.target.value);
               }}
@@ -94,7 +99,8 @@ function Registration() {
             <p>Эл-почта</p>
             <Input
               placeholder="Электронная почта"
-              name="email"
+              type="email"
+              autoComplete="off"
               onChange={(e) => {
                 setEmail(e.target.value);
               }}
@@ -105,10 +111,10 @@ function Registration() {
             <p>Пароль</p>
             <Input
               placeholder="password"
-              name="password"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              type="password"
+              autoComplete="new-password"
+              name="new-password"
+              onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
           </div>
@@ -116,7 +122,8 @@ function Registration() {
             <p>Проверка пароля</p>
             <Input
               placeholder="Повторите свой пароль"
-              name="password2"
+              type="password"
+              autoComplete="off"
               onChange={(e) => {
                 setPassword2(e.target.value);
               }}

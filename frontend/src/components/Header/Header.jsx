@@ -1,13 +1,13 @@
 import styles from "./Header.module.scss";
 import { Link, useLocation } from "react-router-dom";
-import burger_menu from "../../assets/burger_menu.svg";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 function Header() {
-  const OpenContent = true;
   const location = useLocation().pathname;
   const [bMenuIsOpen, setBMenuIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const { authorized } = useContext(UserContext);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -40,11 +40,13 @@ function Header() {
       <h1>
         <Link to="/">QwillerUp</Link>
       </h1>
-      {OpenContent && (
+      {authorized && (
         <div className={styles.content}>
           <Link
             to="/main"
-            className={location == "/main" ? styles.active : ""}
+            className={
+              location == "/" || location == "/main" ? styles.active : ""
+            }
             onClick={() => setBMenuIsOpen(false)}
           >
             Задачи
@@ -66,7 +68,7 @@ function Header() {
         </div>
       )}
 
-      {!OpenContent && (
+      {!authorized && (
         <div className={styles.authentication}>
           <Link
             to="/login"

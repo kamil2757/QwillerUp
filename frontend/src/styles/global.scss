@@ -33,3 +33,19 @@ p {
 h1 {
   font-weight: $font-weight;
 }
+
+input:-webkit-autofill {
+  background-color: transparent !important; // Убирает жёлтый фон
+  box-shadow: 0 0 0px 1000px $base-color inset !important; // Меняет фон на белый (или другой нужный цвет)
+  color: black !important; // Убедись, что текст виден
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  background-color: transparent !important;
+  box-shadow: 0 0 0px 1000px $base-color  inset !important;
+  -webkit-text-fill-color: rgb(255, 255, 255) !important; // Меняет цвет текста
+  border: none;
+}
