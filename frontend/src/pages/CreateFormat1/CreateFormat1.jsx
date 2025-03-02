@@ -11,7 +11,7 @@ function CreateFormat1() {
     minutes: 0,
   });
   const tasksRef = useRef(null);
-  const [goal, setGoal] = useState([]);
+  const [goal, setGoal] = useState({ day_of_week: 0, tasks: [] });
 
   useEffect(() => {
     console.log(goal);
@@ -31,7 +31,10 @@ function CreateFormat1() {
             task.querySelector(`.${styles.minutes}`).firstElementChild.value
           );
 
-        setGoal((prevGoal) => [...prevGoal, { title, planned_time }]);
+        setGoal((prevGoal) => ({
+          ...prevGoal, // Оставляем другие поля без изменений
+          tasks: [...prevGoal.tasks, { title, planned_time }], // Добавляем задачу в массив tasks
+        }));
         console.log(title + " " + planned_time);
       }
     }
