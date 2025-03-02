@@ -6,7 +6,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
-  const [authorized, setAuthorized] = useState(false)
+  const [authorized, setAuthorized] = useState(Boolean(localStorage.access_token))
   async function GetUser() {
     try {
       const response = await fetch(
@@ -55,6 +55,7 @@ export const UserProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok) {
+        setAuthorized(true)
         console.log(data);
         localStorage.setItem('access_token', data['access'])
         callbackF()
