@@ -8,6 +8,7 @@ function Header() {
   const [bMenuIsOpen, setBMenuIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { authorized } = useContext(UserContext);
+  const username = localStorage.username
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -63,7 +64,7 @@ function Header() {
             className={location == "/profile" ? styles.active : ""}
             onClick={() => setBMenuIsOpen(false)}
           >
-            Профиль
+            {username}
           </Link>
         </div>
       )}

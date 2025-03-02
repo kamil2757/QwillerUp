@@ -39,8 +39,9 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   async function UpdateTokens(callbackF) {
+    console.log('Обновление токена access')
     try {
-      const refresh = localStorage.getItem("refresh");
+      const refresh = localStorage.getItem("refresh_token");
       const response = await fetch(
         "http://127.0.0.1:8000/api/users/token/refresh/",
         {

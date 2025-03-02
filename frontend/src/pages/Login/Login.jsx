@@ -44,6 +44,13 @@ function Login() {
         console.log(data);
         for (let key in data) {
           localStorage.setItem(key, data[key]);
+
+          if (key == "access") {
+            localStorage.setItem('access_token', data[key]);
+          }
+          if (key == "refresh") {
+            localStorage.setItem('refresh_token', data[key]);
+          }
         }
         await setAuthorized(true);
         navigate("/main");
@@ -53,7 +60,7 @@ function Login() {
         );
       }
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setError("Ошибка соединения с сервером. Проверьте интернет.");
     }
   }
