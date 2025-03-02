@@ -17,9 +17,6 @@ function Registration() {
   const { setUserData, setAuthorized, authorized } = useContext(UserContext);
   const [error, setError] = useState();
   const navigate = useNavigate();
-  useEffect(() => {
-    console.log("authorized changed:", authorized);
-  }, [authorized]);
 
   useEffect(() => {
     setBlockedButton(!(username && email && password && password2));
@@ -50,13 +47,13 @@ function Registration() {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
-        setUserData(data);
+        await setUserData(data);
         for (let key in data) {
           localStorage.setItem(key, data[key]);
         }
-        setAuthorized(true)
-        navigate("/main");
+        console.log(authorized)
+        navigate("/choose-format");
+        await setAuthorized(true);
       } else {
         console.log(data);
         setError(
@@ -132,7 +129,7 @@ function Registration() {
           </div>
           <div className={styles.btn_block}>
             <Button blocked={blockedButton} width="100%">
-              Войти
+              Зарегистрироваться
             </Button>
           </div>
         </form>

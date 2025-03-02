@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import UserContext from "../../contexts/UserContext";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 function PublicRoute(){
+    const location = useLocation();
     const { authorized } = useContext(UserContext);
-    return authorized ? <Navigate to='/'/> : <Outlet/>
+    
+    return (!authorized || location.pathname == '/registration') ? <Outlet/> :  <Navigate to='/'/>
 }
 
 export default PublicRoute 
