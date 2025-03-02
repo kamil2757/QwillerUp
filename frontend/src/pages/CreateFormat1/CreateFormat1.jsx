@@ -2,7 +2,7 @@ import styles from "./CreateFormat1.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function CreateFormat1() {
   const [taskVolume, setTaskVolume] = useState(2);
@@ -10,6 +10,12 @@ function CreateFormat1() {
     hours: 0,
     minutes: 0,
   });
+  const tasksRef = useRef(null)
+  const [task, setTask] = useState([]);
+
+  function sendTask(){
+    console.log(tasksRef.current)
+  }
 
   function handleChange(e) {
     if (taskVolume == e.target.parentElement.className) {
@@ -44,7 +50,7 @@ function CreateFormat1() {
 
     setTotalTime({
       hours: Math.floor(time_minutes / 60),
-      minutes: time_minutes % 60
+      minutes: time_minutes % 60,
     });
   }
 
@@ -56,7 +62,7 @@ function CreateFormat1() {
           Напиши направления, которые хочешь изучать, и укажи, сколько времени
           готов уделять каждому из них
         </p>
-        <div className={styles.block_inputs}>
+        <div className={styles.block_inputs} ref={tasksRef}>
           {Array.from({ length: taskVolume }, (_, index) => (
             <div className={styles.field} key={index}>
               <div className={index + 1}>
@@ -82,11 +88,12 @@ function CreateFormat1() {
           ))}
 
           <div className={styles.total_time}>
-            Cуммарное время цели на каждый день: {TotalTime.hours}ч {TotalTime.minutes}мин
+            Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
+            {TotalTime.minutes}мин
           </div>
 
-          <Link to='/main'>
-            <Button width="100%">Готово</Button>
+          <Link to="/main">
+            <Button width="100%" onClick={sendTask}>Готово</Button>
           </Link>
         </div>
       </div>

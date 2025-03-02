@@ -47,10 +47,14 @@ function Registration() {
       );
       const data = await response.json();
       if (response.ok) {
-        await setUserData(data);
-        for (let key in data) {
-          localStorage.setItem(key, data[key]);
+        const userData = data.data
+        console.log(data)
+        setUserData(userData);
+        for (let key in userData) {
+          localStorage.setItem(key, userData[key]);
         }
+        localStorage.setItem("access_token", data.access_token)
+        localStorage.setItem("refresh_token", data.refresh_token)
         console.log(authorized)
         navigate("/choose-format");
         await setAuthorized(true);

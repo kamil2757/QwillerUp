@@ -7,18 +7,13 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [authorized, setAuthorized] = useState(false)
-
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
-
   async function GetUser() {
     try {
       const response = await fetch(
         "http://127.0.0.1:8000/api/users/userInfo/",
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("access")}`,
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         }
       );
@@ -29,6 +24,8 @@ export const UserProvider = ({ children }) => {
         console.log('Успешный вход')
         setAuthorized(true)
       } else {
+        console.log('Неуспешный вход')
+        console.log(response)
         UpdateTokens(GetUser);
       }
     } catch (err) {
@@ -58,7 +55,7 @@ export const UserProvider = ({ children }) => {
       const data = await response.json();
       if (response.ok) {
         console.log(data);
-        localStorage.setItem('access', data['access'])
+        localStorage.setItem('access_token', data['access'])
         callbackF()
       } else {
         if (window.location.pathname != "/login"){
