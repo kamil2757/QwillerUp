@@ -2,7 +2,7 @@ import styles from "./CreateFormat1.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function CreateFormat1() {
   const [taskVolume, setTaskVolume] = useState(2);
@@ -10,11 +10,31 @@ function CreateFormat1() {
     hours: 0,
     minutes: 0,
   });
-  const tasksRef = useRef(null)
-  const [task, setTask] = useState([]);
+  const tasksRef = useRef(null);
+  const [goal, setGoal] = useState([]);
 
-  function sendTask(){
-    console.log(tasksRef.current)
+  useEffect(() => {
+    console.log(goal);
+  }, [goal]);
+
+  function sendTask() {
+    const tasks = tasksRef.current.querySelectorAll(`.${styles.field}`);
+    for (const task of tasks) {
+      const title = task.firstElementChild.firstElementChild.value;
+      if (title) {
+        const planned_time =
+          Number(
+            task.querySelector(`.${styles.hours}`).firstElementChild.value
+          ) *
+            60 +
+          Number(
+            task.querySelector(`.${styles.minutes}`).firstElementChild.value
+          );
+
+        setGoal((prevGoal) => [...prevGoal, { title, planned_time }]);
+        console.log(title + " " + planned_time);
+      }
+    }
   }
 
   function handleChange(e) {
@@ -37,14 +57,12 @@ function CreateFormat1() {
     hours_arr.forEach((item) => {
       if (item) {
         time_minutes += Number(item.firstElementChild.value) * 60;
-        console.log(time_minutes);
       }
     });
 
     minutes_arr.forEach((item) => {
       if (item) {
         time_minutes += Number(item.firstElementChild.value);
-        console.log(time_minutes);
       }
     });
 
@@ -93,7 +111,9 @@ function CreateFormat1() {
           </div>
 
           <Link to="/main">
-            <Button width="100%" onClick={sendTask}>Готово</Button>
+            <Button width="100%" onClick={sendTask}>
+              Готово
+            </Button>
           </Link>
         </div>
       </div>
