@@ -88,7 +88,7 @@ function Header() {
       <div className={styles.burder_menu_block}>
         <div
           className={`${styles.burger} ${
-            bMenuIsOpen ? styles.burger_open : ""
+            bMenuIsOpen && authorized ? styles.burger_open : ""
           }`}
           onClick={() => setBMenuIsOpen(!bMenuIsOpen)}
         >

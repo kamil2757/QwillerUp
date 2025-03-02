@@ -1,14 +1,26 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import styles from "./ModalWindowLogout.module.scss";
 import ReactDOM from "react-dom";
 import cross from "../../assets/cross.svg";
 import Button from "../Button/Button";
+import UserContext from "../../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 function ModalWindowLogout({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
   const [isMini, setIsMini] = useState(false);
+  const { setAuthorized } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const modalBack = useRef(null);
+
+  async function logoutFunc() {
+    localStorage.clear();
+    await setAuthorized(false);
+    document.body.style.overflow = "auto";
+    document.body.style.paddingRight = "0";
+    navigate("/");
+  }
 
   useEffect(() => {
     function handleResize() {
@@ -70,8 +82,10 @@ function ModalWindowLogout({ isOpen, onClose }) {
         <div className={styles.conteiner}>
           <h1>Вы уверены, что хотите выйти?</h1>
           <div className={styles.btns_block}>
-            <Button>Выйти</Button>
-            <Button format={2} onClick={onClose}>Назад</Button>
+            <Button onClick={logoutFunc}>Выйти</Button>
+            <Button format={2} onClick={onClose}>
+              Назад
+            </Button>
           </div>
         </div>
       </div>

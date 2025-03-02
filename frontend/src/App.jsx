@@ -15,6 +15,8 @@ import SettingsDonate from "./pages/SettingsDonate/SettingsDonate.jsx";
 import SettingsTasks from "./pages/SettingsTasks/SettingsTasks.jsx";
 import SettingsTasksFormat1 from "./pages/SettingsTasksFormat1/SettingsTasksFormat1.jsx";
 import SettingsTasksFormat2 from "./pages/SettingsTasksFormat2/SettingsTasksFormat2.jsx";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
+import PublicRoute from "./components/PublicRoute/PublicRoute.jsx";
 
 import SettingsProgress from "./pages/SettingsProgress/SettingsProgress.jsx";
 import UserContext, { UserProvider } from "./contexts/UserContext.jsx";
@@ -38,24 +40,32 @@ function App() {
         }}
       >
         <Routes>
-          <Route path={!authorized ? "/" : "/landing"} element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/choose-format" element={<ChooseFormat />} />
-          <Route path="/create-format1" element={<CreateFormat1 />} />
-          <Route path="/create-format2" element={<CreateFormat2 />} />
-          <Route path="/honor-board" element={<HonorBoard />} />
-          <Route path={!authorized ? "/main" : "/"} element={<Main />} />
-          <Route path="/main" element={<Main />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />}>
-            <Route path="profile" element={<SettingsProfile />} />
-            <Route path="tasks" element={<SettingsTasks />}>
-              <Route path="format1" element={<SettingsTasksFormat1 />} />
-              <Route path="format2" element={<SettingsTasksFormat2 />} />
+          <Route element={<PublicRoute />}>
+            <Route
+              path={!authorized ? "/" : "/landing"}
+              element={<Landing />}
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
+          </Route>
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/choose-format" element={<ChooseFormat />} />
+            <Route path="/create-format1" element={<CreateFormat1 />} />
+            <Route path="/create-format2" element={<CreateFormat2 />} />
+            <Route path="/honor-board" element={<HonorBoard />} />
+            <Route path={!authorized ? "/main" : "/"} element={<Main />} />
+            <Route path="/main" element={<Main />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />}>
+              <Route path="profile" element={<SettingsProfile />} />
+              <Route path="tasks" element={<SettingsTasks />}>
+                <Route path="format1" element={<SettingsTasksFormat1 />} />
+                <Route path="format2" element={<SettingsTasksFormat2 />} />
+              </Route>
+              <Route path="progress" element={<SettingsProgress />} />
+              <Route path="donate" element={<SettingsDonate />} />
             </Route>
-            <Route path="progress" element={<SettingsProgress />} />
-            <Route path="donate" element={<SettingsDonate />} />
           </Route>
         </Routes>
       </div>
