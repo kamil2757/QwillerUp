@@ -15,7 +15,7 @@ class CreateGoalTemplateView(APIView):
         day_of_week = request.data.get("day_of_week")
         tasks = request.data.get("tasks", [])
 
-        GoalsTemplate.objects.filter(user=user).delete()
+        GoalsTemplate.objects.filter(user=user, day_of_week=day_of_week).delete()
 
         goal_template = GoalsTemplate.objects.create(user=user, day_of_week=day_of_week)
 

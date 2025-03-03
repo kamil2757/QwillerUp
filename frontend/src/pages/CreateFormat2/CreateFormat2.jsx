@@ -2,7 +2,7 @@ import styles from "./CreateFormat2.module.scss";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function CreateFormat2() {
   const [taskVolume, setTaskVolume] = useState({
@@ -23,6 +23,7 @@ function CreateFormat2() {
     Суббота: { hours: 0, minutes: 0 },
     Воскресенье: { hours: 0, minutes: 0 },
   });
+  const tasksRef = useRef(null);
 
   const week = [
     [1, "Понедельник"],
@@ -33,6 +34,56 @@ function CreateFormat2() {
     [6, "Суббота"],
     [7, "Воскресенье"],
   ];
+
+  async function sendTasks(e) {
+    e.preventDefault();
+
+    for (const Goal of tasksRef.current.children) {
+      let day_of_week = week.find(
+        (day) => Goal.firstElementChild.innerText == day[1]
+      )[0];
+      let newGoal = { day_of_week: day_of_week, tasks: [] };
+
+      for (const task of Goal.querySelectorAll(`.${styles.field}`)) {
+        const title = task.firstElementChild.firstElementChild.value;
+
+        if (title) {
+          const planned_time =
+            Number(
+              task.querySelector(`.${"hours" + day_of_week}`).firstElementChild
+                .value
+            ) *
+              60 +
+            Number(
+              task.querySelector(`.${"minutes" + day_of_week}`)
+                .firstElementChild.value
+            );
+            newGoal.tasks.push({title, planned_time})
+        }
+      }
+
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/goals/create-goal-template/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+            },
+            body: JSON.stringify(newGoal),
+          }
+        );
+  
+        const data = await response.json();
+        console.log(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    // navigate("/main");
+  }
 
   function handleChange(e, day_name) {
     if (taskVolume[day_name] == e.target.parentElement.className) {
@@ -82,14 +133,14 @@ function CreateFormat2() {
 
   return (
     <div className={styles.block_createFormat1}>
-      <div className={styles.content}>
+      <form className={styles.content} onSubmit={sendTasks}>
         <h1>Гибкое расписание</h1>
         <p>
           Напиши в каждый день направления, которые хочешь изучать, и укажи,
           сколько времени готов уделять каждому из них
         </p>
 
-        <div className={styles.days}>
+        <div className={styles.days} ref={tasksRef}>
           {week.map((day) => (
             <div className={styles.block_inputs} key={day[0]}>
               <p>{day[1]}</p>
@@ -129,11 +180,9 @@ function CreateFormat2() {
           ))}
         </div>
         <div className={styles.button_block}>
-          <Link to="/main">
-            <Button width="100%">Готова</Button>
-          </Link>
+          <Button width="100%">Готова</Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
