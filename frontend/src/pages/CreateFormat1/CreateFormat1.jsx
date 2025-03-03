@@ -1,5 +1,5 @@
 import styles from "./CreateFormat1.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import { useEffect, useRef, useState } from "react";
@@ -11,14 +11,14 @@ function CreateFormat1() {
     minutes: 0,
   });
   const tasksRef = useRef(null);
-  const [goal, setGoal] = useState({ day_of_week: 0, tasks: [] });
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log(goal);
-  }, [goal]);
+  async function sendTask(e) {
+    let newGoal = { day_of_week: 0, tasks: [] };
+    e.preventDefault();
 
-  function sendTask() {
     const tasks = tasksRef.current.querySelectorAll(`.${styles.field}`);
+
     for (const task of tasks) {
       const title = task.firstElementChild.firstElementChild.value;
       if (title) {
@@ -31,12 +31,30 @@ function CreateFormat1() {
             task.querySelector(`.${styles.minutes}`).firstElementChild.value
           );
 
-        setGoal((prevGoal) => ({
-          ...prevGoal, // Оставляем другие поля без изменений
-          tasks: [...prevGoal.tasks, { title, planned_time }], // Добавляем задачу в массив tasks
-        }));
+          newGoal.tasks.push({ title, planned_time });
         console.log(title + " " + planned_time);
       }
+    }
+
+    try {
+      console.log(JSON.stringify(newGoal))
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/goals/create-goal-template/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify(newGoal),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      navigate("/main");
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -83,7 +101,11 @@ function CreateFormat1() {
           Напиши направления, которые хочешь изучать, и укажи, сколько времени
           готов уделять каждому из них
         </p>
-        <div className={styles.block_inputs} ref={tasksRef}>
+        <form
+          className={styles.block_inputs}
+          ref={tasksRef}
+          onSubmit={sendTask}
+        >
           {Array.from({ length: taskVolume }, (_, index) => (
             <div className={styles.field} key={index}>
               <div className={index + 1}>
@@ -113,12 +135,8 @@ function CreateFormat1() {
             {TotalTime.minutes}мин
           </div>
 
-          <Link to="/main">
-            <Button width="100%" onClick={sendTask}>
-              Готово
-            </Button>
-          </Link>
-        </div>
+          <Button width="100%">Готово</Button>
+        </form>
       </div>
     </div>
   );
