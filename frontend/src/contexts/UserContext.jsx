@@ -6,7 +6,10 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
-  const [authorized, setAuthorized] = useState(Boolean(localStorage.access_token))
+  const [authorized, setAuthorized] = useState(
+    Boolean(localStorage.access_token)
+  );
+  
   async function GetUser() {
     try {
       const response = await fetch(
@@ -21,11 +24,11 @@ export const UserProvider = ({ children }) => {
 
       if (response.ok) {
         setUserData(data);
-        console.log('Успешный вход')
-        setAuthorized(true)
+        console.log("Успешный вход");
+        setAuthorized(true);
       } else {
-        console.log('Неуспешный вход')
-        console.log(response)
+        console.log("Неуспешный вход");
+        console.log(response);
         UpdateTokens(GetUser);
       }
     } catch (err) {
@@ -39,7 +42,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   async function UpdateTokens(callbackF) {
-    console.log('Обновление токена access')
+    console.log("Обновление токена access");
     try {
       const refresh = localStorage.getItem("refresh_token");
       const response = await fetch(
@@ -55,17 +58,17 @@ export const UserProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok) {
-        setAuthorized(true)
+        setAuthorized(true);
         console.log(data);
-        localStorage.setItem('access_token', data['access'])
-        callbackF()
+        localStorage.setItem("access_token", data["access"]);
+        callbackF();
       } else {
-        if (window.location.pathname != "/login"){
-          setAuthorized(false)
-          localStorage.clear()
+        if (window.location.pathname != "/login") {
+          setAuthorized(false);
+          localStorage.clear();
           window.location.href = "/login";
         } else {
-          return
+          return;
         }
       }
     } catch (err) {
@@ -74,7 +77,9 @@ export const UserProvider = ({ children }) => {
   }
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, authorized, setAuthorized}}>
+    <UserContext.Provider
+      value={{ userData, setUserData, authorized, setAuthorized, UpdateTokens }}
+    >
       {children}
     </UserContext.Provider>
   );

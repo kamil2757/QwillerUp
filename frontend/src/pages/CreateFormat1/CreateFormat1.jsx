@@ -2,19 +2,24 @@ import styles from "./CreateFormat1.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 
 function CreateFormat1() {
+  const [blockedButton, setBlockedButton] = useState(false);
   const [taskVolume, setTaskVolume] = useState(2);
+  const { UpdateTokens } = useContext(UserContext);
   const [TotalTime, setTotalTime] = useState({
     hours: 0,
     minutes: 0,
   });
   const tasksRef = useRef(null);
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
   async function sendTask(e) {
     let newGoal = { day_of_week: 0, tasks: [] };
+    let tasks_count = 0;
     e.preventDefault();
 
     const tasks = tasksRef.current.querySelectorAll(`.${styles.field}`);
@@ -31,28 +36,46 @@ function CreateFormat1() {
             task.querySelector(`.${styles.minutes}`).firstElementChild.value
           );
 
-          newGoal.tasks.push({ title, planned_time });
+        if ((TotalTime.hours * 60 + TotalTime.minutes >= 20 * 60) && (TotalTime.hours * 60 + TotalTime.minutes <= 0)) {
+          setError("Суммарное время цели на каждый день слишком нереалистично");
+          return;
+        }
+
+        newGoal.tasks.push({ title, planned_time });
         console.log(title + " " + planned_time);
+        tasks_count += 1;
+      } else {
+        if (tasks_count == 1) {
+          setError("Добавьте хотя бы одно занятие, начиная с первого");
+          return;
+        }
       }
     }
 
     try {
-      console.log(JSON.stringify(newGoal))
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/goals/create-goal-template/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
-          },
-          body: JSON.stringify(newGoal),
-        }
-      );
+      console.log(JSON.stringify(newGoal));
+      async function sendTaskData() {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/goals/create-goal-template/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+            body: JSON.stringify(newGoal),
+          }
+        );
 
-      const data = await response.json();
-      console.log(data);
-      navigate("/main");
+        const data = await response.json();
+        console.log(data);
+        if (data?.code == "token_not_valid") {
+          UpdateTokens(sendTaskData);
+        }
+        navigate("/main");
+      }
+
+      sendTaskData()
     } catch (err) {
       console.log(err);
     }
@@ -106,6 +129,8 @@ function CreateFormat1() {
           ref={tasksRef}
           onSubmit={sendTask}
         >
+          {error && <div className={styles.error}>{error}</div>}
+
           {Array.from({ length: taskVolume }, (_, index) => (
             <div className={styles.field} key={index}>
               <div className={index + 1}>
@@ -135,7 +160,9 @@ function CreateFormat1() {
             {TotalTime.minutes}мин
           </div>
 
-          <Button width="100%">Готово</Button>
+          <Button width="100%" blocked={blockedButton}>
+            Готово
+          </Button>
         </form>
       </div>
     </div>

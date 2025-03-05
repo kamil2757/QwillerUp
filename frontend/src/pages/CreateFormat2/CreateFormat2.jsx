@@ -1,10 +1,13 @@
 import styles from "./CreateFormat2.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 
 function CreateFormat2() {
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const [taskVolume, setTaskVolume] = useState({
     Понедельник: 2,
     Вторник: 2,
@@ -24,6 +27,7 @@ function CreateFormat2() {
     Воскресенье: { hours: 0, minutes: 0 },
   });
   const tasksRef = useRef(null);
+  const { UpdateTokens } = useContext(UserContext);
 
   const week = [
     [1, "Понедельник"],
@@ -35,8 +39,52 @@ function CreateFormat2() {
     [7, "Воскресенье"],
   ];
 
+  function checkFields() {
+    for (const Goal of tasksRef.current.children) {
+      let day_of_week = week.find(
+        (day) => Goal.firstElementChild.innerText == day[1]
+      )[0];
+      let tasks_count = 0;
+      let Goal_time = 0;
+      for (const task of Goal.querySelectorAll(`.${styles.field}`)) {
+        if (tasks_count == 0) {
+          const title = task.firstElementChild.firstElementChild.value;
+          if (!title) {
+            console.log("Добавьте хотя бы одно занятие в день");
+            setError("Добавьте хотя бы одно занятие в день");
+            return false;
+          }
+
+          Goal_time +=
+            Number(
+              task.querySelector(`.${"hours" + day_of_week}`).firstElementChild
+                .value
+            ) *
+              60 +
+            Number(
+              task.querySelector(`.${"minutes" + day_of_week}`)
+                .firstElementChild.value
+            );
+
+          if (Goal_time >= 20 * 60 || Goal_time <= 0) {
+            console.log('не подходящее время: ' + Goal_time);
+            setError("Суммарное время цели на день слишком нереалистично");
+            return false;
+          }
+          tasks_count += 1;
+        }
+      }
+    }
+
+    console.log('Все в порядке!')
+    return true;
+  }
+
   async function sendTasks(e) {
     e.preventDefault();
+    if (!checkFields()) {
+      return;
+    }
 
     for (const Goal of tasksRef.current.children) {
       let day_of_week = week.find(
@@ -58,31 +106,39 @@ function CreateFormat2() {
               task.querySelector(`.${"minutes" + day_of_week}`)
                 .firstElementChild.value
             );
-            newGoal.tasks.push({title, planned_time})
+          newGoal.tasks.push({ title, planned_time });
         }
       }
 
       try {
-        const response = await fetch(
-          "http://127.0.0.1:8000/api/goals/create-goal-template/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("access_token")}`,
-            },
-            body: JSON.stringify(newGoal),
+        async function sendTaskData() {
+          console.log(newGoal)
+          const response = await fetch(
+            "http://127.0.0.1:8000/api/goals/create-goal-template/",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              },
+              body: JSON.stringify(newGoal),
+            }
+          );
+
+          const data = await response.json();
+          console.log(data);
+          if (data?.code == "token_not_valid") {
+            UpdateTokens(sendTaskData);
           }
-        );
-  
-        const data = await response.json();
-        console.log(data);
+        }
+
+        sendTaskData();
       } catch (err) {
         console.log(err);
       }
     }
 
-    // navigate("/main");
+    navigate("/main");
   }
 
   function handleChange(e, day_name) {
@@ -139,6 +195,7 @@ function CreateFormat2() {
           Напиши в каждый день направления, которые хочешь изучать, и укажи,
           сколько времени готов уделять каждому из них
         </p>
+        {error && <div className={styles.error}>{error}</div>}
 
         <div className={styles.days} ref={tasksRef}>
           {week.map((day) => (
@@ -172,7 +229,7 @@ function CreateFormat2() {
               ))}
 
               <div className={styles.total_time}>
-                Cуммарное время цели день: {TotalTime[day[1]].hours}ч{" "}
+                Cуммарное время цели на день: {TotalTime[day[1]].hours}ч{" "}
                 {TotalTime[day[1]].minutes}
                 мин
               </div>
