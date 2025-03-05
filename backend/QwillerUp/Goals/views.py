@@ -30,6 +30,12 @@ class CreateGoalTemplateView(APIView):
                 planned_time=task['planned_time'],
             )
 
+        if day_of_week == 0:
+            user.schedule_type = 1
+        else:
+            user.schedule_type = 2
+
+        user.save()
         return Response({'message': 'Шаблон цели успешно создан'}, status=status.HTTP_201_CREATED)
 
 
@@ -43,7 +49,10 @@ class CreateGoalActiveView(APIView):
         active_goal = GoalsTemplateActive.objects.filter(created_at=now().date(), user=user).first()
 
         if not active_goal:
-            goal_template = GoalsTemplate.objects.filter(user=user, day_of_week=day_of_week).first()
+            if user.schedule_type == 1:
+                goal_template = GoalsTemplate.objects.filter(user=user, day_of_week=0).first()
+            else:
+                goal_template = GoalsTemplate.objects.filter(user=user, day_of_week=day_of_week).first()
 
             if not goal_template:
                 return Response({'message': "Нет шаблона цели для этого дня"}, status=status.HTTP_404_NOT_FOUND)
@@ -59,4 +68,4 @@ class CreateGoalActiveView(APIView):
                 )
 
         serializer = ActiveGoalSerializer(active_goal)
-        return Response(serializer.data)
+        return Response({'data': serializer.data, 'message_for_user': 'Ты занимаешься уже n часов!'})

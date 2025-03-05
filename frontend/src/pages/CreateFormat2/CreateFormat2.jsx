@@ -90,7 +90,7 @@ function CreateFormat2() {
       let day_of_week = week.find(
         (day) => Goal.firstElementChild.innerText == day[1]
       )[0];
-      let newGoal = { day_of_week: day_of_week, tasks: [] };
+      let newGoal = { day_of_week: day_of_week, tasks: []};
 
       for (const task of Goal.querySelectorAll(`.${styles.field}`)) {
         const title = task.firstElementChild.firstElementChild.value;

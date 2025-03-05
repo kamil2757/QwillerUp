@@ -18,7 +18,7 @@ function CreateFormat1() {
   const [error, setError] = useState(null);
 
   async function sendTask(e) {
-    let newGoal = { day_of_week: 0, tasks: [] };
+    let newGoal = { day_of_week: 0, tasks: []};
     let tasks_count = 0;
     e.preventDefault();
 
