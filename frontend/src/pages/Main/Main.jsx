@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modal2IsOpen, setModal2IsOpen] = useState(true);
+  const [modal2IsOpen, setModal2IsOpen] = useState(false);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,

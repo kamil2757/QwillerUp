@@ -22,13 +22,13 @@ class TasksTemplate(models.Model):
 
 class GoalsTemplateActive(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
 
 class TasksTemplateActive(models.Model):
-    goal = models.ForeignKey(GoalsTemplate, on_delete=models.CASCADE)
+    goal = models.ForeignKey(GoalsTemplateActive, on_delete=models.CASCADE)
     title = models.CharField(max_length=20)
-    spent_time = models.IntegerField()
+    spent_time = models.IntegerField(default=0)
     planned_time = models.IntegerField()
 
     def __str__(self):
