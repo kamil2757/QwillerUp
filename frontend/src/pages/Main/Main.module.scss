@@ -61,12 +61,15 @@
     .total_time {
       height: 70px;
       padding: 0 28px;
-
+      display: flex;
+      gap: 10px;
       text-align: center;
     }
 
-    .aim_time {
+    .goal_time {
       height: 100px;
+      display: flex;
+      gap: 10px;
     }
   }
 }

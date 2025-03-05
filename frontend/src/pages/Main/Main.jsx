@@ -23,6 +23,8 @@ function Main() {
   const [isSuperMini, setIsSuperMini] = useState(false);
   const [tasks, setTasks] = useState(false);
   const [message, setMessage] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
+  const [goalTime, setGoalTime] = useState(0);
 
   useEffect(() => {
     function handleResize() {
@@ -52,9 +54,14 @@ function Main() {
         );
 
         const data = await response.json();
-        console.log(data.data.tasks);
+        console.log(data);
         setTasks(data.data.tasks);
-        setMessage(data.setMessage);
+        setMessage(data.message_for_user);
+
+        for (const task of data.data.tasks) {
+          setTotalTime((prevTotal) => prevTotal + task.spent_time);
+          setGoalTime((prevGoal) => prevGoal + task.planned_time);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -90,12 +97,10 @@ function Main() {
                   />
                 </div>
                 <div className={styles.bl2}>
-                  {task.spent_time < 60 && (
-                    <p>{Math.floor(task.spent_time / 60)}мин</p>
-                  )}
+                  {task.spent_time < 60 && <p>{task.spent_time % 60}мин</p>}
                   {task.spent_time >= 60 && (
                     <>
-                      <p>{task.spent_time % 60}час</p>
+                      <p>{Math.floor(task.spent_time / 60)}ч</p>
                       <p>{task.spent_time % 60}мин</p>
                     </>
                   )}
@@ -114,7 +119,7 @@ function Main() {
 
         {!isMini && (
           <div className={styles.motivation}>
-            <p>Привет, Kamil! Ты уже потратил 30 часов на обучение!</p>
+            <p>{message}</p>
           </div>
         )}
         {/* <Button onClick={() => setModal2IsOpen(true)} width="100%">modal window "New level"</Button> */}
@@ -122,20 +127,32 @@ function Main() {
       <div className={styles.block2}>
         <div className={styles.diagramm}>
           <ProgressCircle
-            goalTime={5}
-            spentTime={3.5}
+            goalTime={goalTime}
+            spentTime={totalTime}
             mini={isMini}
             superMini={isSuperMini}
           />
         </div>
         <div className={styles.timeInfo}>
-          <div className={styles.total_time}>Время всего: 3ч 30мин</div>
-          <div className={styles.aim_time}>Цель: 5ч</div>
+          {totalTime < 60 && <p>{totalTime % 60}мин</p>}
+          {totalTime >= 60 && (
+            <div className={styles.total_time}>
+              <p>{Math.floor(totalTime / 60)}ч</p>
+              <p>{totalTime % 60}мин</p>
+            </div>
+          )}
+          {goalTime < 60 && <p>{goalTime % 60}мин</p>}
+          {goalTime >= 60 && (
+            <div className={styles.goal_time}>
+              <p>{Math.floor(goalTime / 60)}ч</p>
+              <p>{goalTime % 60}мин</p>
+            </div>
+          )}
         </div>
       </div>
       {isMini && (
         <div className={styles.motivation}>
-          <p>Привет, Kamil! Ты уже потратил 30 часов на обучение!</p>
+          <p>{message}</p>
         </div>
       )}
 

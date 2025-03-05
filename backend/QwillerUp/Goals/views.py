@@ -68,4 +68,4 @@ class CreateGoalActiveView(APIView):
                 )
 
         serializer = ActiveGoalSerializer(active_goal)
-        return Response({'data': serializer.data, 'message_for_user': 'Ты занимаешься уже n часов!'})
+        return Response({'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'})
