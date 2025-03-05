@@ -21,6 +21,8 @@ function Main() {
   });
   const [isMini, setIsMini] = useState(false);
   const [isSuperMini, setIsSuperMini] = useState(false);
+  const [tasks, setTasks] = useState(false);
+  const [message, setMessage] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -35,6 +37,30 @@ function Main() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    async function getTasks() {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/goals/get-active-goal/",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+        console.log(data.data.tasks);
+        setTasks(data.data.tasks);
+        setMessage(data.setMessage);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getTasks();
   }, []);
 
   function setterInfo() {
@@ -53,27 +79,32 @@ function Main() {
     <div className={styles.main_block}>
       <div className={styles.block1}>
         <div className={styles.tasksContent}>
-          <div className={styles.task}>
-            <div className={styles.bl1}>
-              <p>Английский</p>
-              <ProgressBar width={isMini ? "45vw" : "24vw"} percent="80" />
-            </div>
-            <div className={styles.bl2}>
-              <p>5мин</p>
-              <img src={edit} alt="" onClick={setterInfo} />
-            </div>
-          </div>
+          {tasks &&
+            tasks.map((task) => (
+              <div className={styles.task} key={task.id}>
+                <div className={styles.bl1}>
+                  <p>{task.title}</p>
+                  <ProgressBar
+                    width={isMini ? "45vw" : "24vw"}
+                    percent={(task.spent_time / task.planned_time) * 100}
+                  />
+                </div>
+                <div className={styles.bl2}>
+                  {task.spent_time < 60 && (
+                    <p>{Math.floor(task.spent_time / 60)}мин</p>
+                  )}
+                  {task.spent_time >= 60 && (
+                    <>
+                      <p>{task.spent_time % 60}час</p>
+                      <p>{task.spent_time % 60}мин</p>
+                    </>
+                  )}
+                  <img src={edit} alt="" onClick={setterInfo} />
+                </div>
+              </div>
+            ))}
 
-          <div className={styles.task}>
-            <div className={styles.bl1}>
-              <p>Программирование</p>
-              <ProgressBar width={isMini ? "45vw" : "24vw"} percent="40" />
-            </div>
-            <div className={styles.bl2}>
-              <p>4ч</p>
-              <img src={edit} alt="" onClick={() => setModalIsOpen(true)} />
-            </div>
-          </div>
+          {!tasks && <p>Загрузка...</p>}
         </div>
         <Link to="/settings/tasks/format1">
           <Button width="100%" format={2}>
