@@ -6,12 +6,14 @@ import Input from "../../components/Input/Input";
 import ProgressCircle from "../../components/ProgressCircle/ProgressCircle";
 import ModalWindowTimeRedact from "../../components/ModalWindowTimeRedact/ModalWindowTimeRedact";
 import ModalWindowNewLevel from "../../components/ModalWindowNewLevel/ModalWindowNewLevel";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
+  const { authorized, UpdateTokens, GetUser } = useContext(UserContext);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,
@@ -43,6 +45,8 @@ function Main() {
 
   useEffect(() => {
     async function getTasks() {
+      console.log("выполняется getTasks");
+      console.log('authorized_main: ' + authorized)
       try {
         const response = await fetch(
           "http://127.0.0.1:8000/api/goals/get-active-goal/",
@@ -53,22 +57,30 @@ function Main() {
           }
         );
 
-        const data = await response.json();
-        console.log(data);
-        setTasks(data.data.tasks);
-        setMessage(data.message_for_user);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setTasks(data.data.tasks);
+          setMessage(data.message_for_user);
 
-        for (const task of data.data.tasks) {
-          setTotalTime((prevTotal) => prevTotal + task.spent_time);
-          setGoalTime((prevGoal) => prevGoal + task.planned_time);
+          for (const task of data.data.tasks) {
+            setTotalTime((prevTotal) => prevTotal + task.spent_time);
+            setGoalTime((prevGoal) => prevGoal + task.planned_time);
+          }
+        } else {
+          GetUser();
+          console.log(response);
         }
       } catch (err) {
         console.log(err);
       }
     }
 
-    getTasks();
-  }, []);
+    if (authorized == true) {
+      console.log("Запускаем шарманку, getTasks");
+      getTasks();
+    }
+  }, [authorized]);
 
   function setterInfo() {
     setModalInfo({
@@ -134,7 +146,11 @@ function Main() {
           />
         </div>
         <div className={styles.timeInfo}>
-          {totalTime < 60 && <p>{totalTime % 60}мин</p>}
+          {totalTime < 60 && (
+            <div className={styles.total_time}>
+              <p>{totalTime % 60}мин</p>
+            </div>
+          )}
           {totalTime >= 60 && (
             <div className={styles.total_time}>
               <p>{Math.floor(totalTime / 60)}ч</p>

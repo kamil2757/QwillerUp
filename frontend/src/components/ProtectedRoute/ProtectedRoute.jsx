@@ -3,9 +3,13 @@ import UserContext from "../../contexts/UserContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 function ProtectedRoute(){
-    const { authorized } = useContext(UserContext);
+    const { authorized, loading } = useContext(UserContext);
 
-    return authorized ?  <Outlet /> : <Navigate to='/login' replace/>
+    if (loading) {
+        return null; 
+    }
+
+    return authorized ?  <Outlet /> : <Navigate to='/' replace/>
 }
 
 export default ProtectedRoute

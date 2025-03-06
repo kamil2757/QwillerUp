@@ -27,7 +27,7 @@ import Footer from "./components/Footer/Footer.jsx";
 import "./styles/global.scss";
 
 function App() {
-  const { authorized } = useContext(UserContext);
+  const { authorized, loading } = useContext(UserContext);
 
   return (
     <BrowserRouter>
@@ -41,10 +41,7 @@ function App() {
       >
         <Routes>
           <Route element={<PublicRoute />}>
-            <Route
-              path={!authorized ? "/" : "/landing"}
-              element={<Landing />}
-            />
+            <Route path={"/"} element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
           </Route>
@@ -54,7 +51,6 @@ function App() {
             <Route path="/create-format1" element={<CreateFormat1 />} />
             <Route path="/create-format2" element={<CreateFormat2 />} />
             <Route path="/honor-board" element={<HonorBoard />} />
-            <Route path={!authorized ? "/main" : "/"} element={<Main />} />
             <Route path="/main" element={<Main />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />}>
