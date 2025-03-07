@@ -46,7 +46,7 @@ function Main() {
   useEffect(() => {
     async function getTasks() {
       console.log("выполняется getTasks");
-      console.log('authorized_main: ' + authorized)
+      console.log("authorized_main: " + authorized);
       try {
         const response = await fetch(
           "http://127.0.0.1:8000/api/goals/get-active-goal/",
@@ -82,18 +82,29 @@ function Main() {
     }
   }, [authorized]);
 
-  function setterInfo() {
-    setModalInfo({
-      taskName: "Программирование",
-      currentHours: 4,
-      currentMinutes: 10,
-      aimHours: 5,
-      aimMinutes: 0,
-    });
+  function hanldeClickEdit(e) {
+    const task_title = e.target.parentNode.parentNode
+      .querySelector(`.${styles.bl1}`)
+      .querySelector(`p`).innerText;
+    console.log(task_title);
+
+    let taskData = null;
+
+    for (let t of tasks) {
+      if (t.title == task_title) {
+        console.log(t);
+        setModalInfo({
+          taskName: task_title,
+          currentHours: Math.floor(t.spent_time / 60),
+          currentMinutes: t.spent_time % 60,
+          aimHours: Math.floor(t.planned_time / 60),
+          aimMinutes: t.planned_time % 60,
+        });
+      }
+    }
 
     setModalIsOpen(true);
   }
-
   return (
     <div className={styles.main_block}>
       <div className={styles.block1}>
@@ -116,7 +127,7 @@ function Main() {
                       <p>{task.spent_time % 60}мин</p>
                     </>
                   )}
-                  <img src={edit} alt="" onClick={setterInfo} />
+                  <img src={edit} alt="" onClick={hanldeClickEdit} />
                 </div>
               </div>
             ))}

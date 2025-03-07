@@ -7,11 +7,33 @@ import Input from "../Input/Input";
 import Button from "../Button/Button";
 
 function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
-  const [hours, setHours] = useState(info.currentHours ?? "");
-  const [minutes, setMinutes] = useState(info.currentMinutes ?? "");
+  const [hours, setHours] = useState(info.currentHours);
+  const [minutes, setMinutes] = useState(info.currentMinutes);
+  const aimHours = info.aimHours;
+  const aimMinutes = info.aimMinutes;
   const [isVisible, setIsVisible] = useState(isOpen);
   const [adaptive, setAdaptive] = useState(false);
   const modalBlock = useRef(null);
+  const aimRef = useRef(null)
+
+  useEffect(() => {
+    if (minutes >= 60){
+      setHours(prevHours => prevHours + Math.floor(minutes / 60))
+      setMinutes((minutes % 60))
+    }
+  }, [minutes])
+
+  useEffect(() => {
+    if (Number(hours * 60) + Number(minutes) >= Number(aimHours * 60) + Number(aimMinutes)){
+      if (aimRef.current) {
+        aimRef.current.style.backgroundColor = "rgb(248, 188, 59)";
+      }
+    } else {
+      if (aimRef.current) {
+        aimRef.current.style.backgroundColor = "rgb(122, 211, 249)";
+      }
+    }
+  }, [hours, minutes]);
 
   useEffect(() => {
     function handleResize() {
@@ -70,13 +92,25 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
         <img src={cross} alt="" onClick={onClose} />
         <div className={styles.conteiner}>
           <h1>{info.taskName}</h1>
-          <ProgressBar width="100%" percent="40" />
+          <ProgressBar
+            width="100%"
+            percent={
+              ((Number(hours) * 60 + Number(minutes)) /
+                (Number(aimHours) * 60 + Number(aimMinutes))) *
+              100
+            }
+          />
           <div className={styles.content}>
-            <div className={styles.edit}>
+            <form
+              className={styles.edit}
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <div className={styles.edit_time}>
                 <div className={styles.format1}>
                   <p>
-                    cейчас
+                    cейчас:
                     <Input
                       value={hours}
                       format={2}
@@ -93,42 +127,32 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                     мин
                   </p>
                 </div>
-                {/* <div className={styles.format2}>
-                  <Button padding="0 26px" width="47%">
-                    +5 мин
-                  </Button>
-                  <Button padding="0 26px" width="47%">
-                    +15 мин
-                  </Button>
-                  <Button padding="0 26px" width="47%">
-                    +30 мин
-                  </Button>
-                  <Button padding="0 26px" width="47%">
-                    +1 час
-                  </Button>
-                </div> */}
                 <div className={styles.format2}>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
+                    onClick={() => setMinutes(prevMinutes => Number(prevMinutes) + 5)}
                   >
                     +5 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
+                    onClick={() => setMinutes(prevMinutes => Number(prevMinutes) + 15)}
                   >
                     +15 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
+                    onClick={() => setMinutes(prevMinutes => Number(prevMinutes) + 30)}
                   >
                     +30 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
+                    onClick={() => setHours(prevHours => Number(prevHours) + 1)}
                   >
                     +1 час
                   </Button>
@@ -137,9 +161,9 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
               <Button format={2} width="100%">
                 Сохранить
               </Button>
-            </div>
+            </form>
             <div className={styles.info}>
-              <div className={styles.aim_task}>
+              <div className={styles.aim_task} ref={aimRef}> 
                 цель: {info.aimHours}ч {info.aimMinutes}мин
               </div>
               <div className={styles.instruction}>

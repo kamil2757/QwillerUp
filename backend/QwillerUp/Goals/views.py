@@ -26,7 +26,7 @@ class CreateGoalTemplateView(APIView):
         for task in tasks:
             TasksTemplate.objects.create(
                 goal=goal_template,
-                title=task['title'],
+                title=task['title'].capitalize(),
                 planned_time=task['planned_time'],
             )
 
@@ -69,3 +69,10 @@ class CreateGoalActiveView(APIView):
 
         serializer = ActiveGoalSerializer(active_goal)
         return Response({'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'})
+
+class UpdateTaskTimeView(APIView):
+    def post(self, request):
+        task_title = request.data.get('title')
+        task_timeSpent = request.data.get('time_spent')
+        user = request.user
+
