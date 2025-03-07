@@ -14,17 +14,21 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   const [isVisible, setIsVisible] = useState(isOpen);
   const [adaptive, setAdaptive] = useState(false);
   const modalBlock = useRef(null);
-  const aimRef = useRef(null)
+  const aimRef = useRef(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (minutes >= 60){
-      setHours(prevHours => prevHours + Math.floor(minutes / 60))
-      setMinutes((minutes % 60))
+    if (Number(minutes) >= 60) {
+      setHours((prevHours) => prevHours + Math.floor(Number(minutes) / 60));
+      setMinutes(Number(minutes) % 60);
     }
-  }, [minutes])
+  }, [minutes]);
 
   useEffect(() => {
-    if (Number(hours * 60) + Number(minutes) >= Number(aimHours * 60) + Number(aimMinutes)){
+    if (
+      Number(hours) * 60 + Number(minutes) >=
+      Number(aimHours) * 60 + Number(aimMinutes)
+    ) {
       if (aimRef.current) {
         aimRef.current.style.backgroundColor = "rgb(248, 188, 59)";
       }
@@ -47,6 +51,48 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  async function updateTimeTask(time_spent, title) {
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/goals/set-time-task/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify({
+            time_spent: time_spent,
+            title: title,
+          }),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      onClose();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    const time_spent = Number(hours * 60) + Number(minutes);
+    const title = info.taskName;
+
+    if (time_spent >= 20 * 60 || time_spent < 0) {
+      setError("Нереальное время");
+    } else {
+      if (e.nativeEvent.submitter.name == "save_editTime") {
+        console.log("Обновление данных");
+        console.log(title, time_spent);
+        updateTimeTask(time_spent, title);
+      }
+    }
+  }
 
   useEffect(() => {
     setHours(info.currentHours ?? "");
@@ -99,15 +145,12 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                 (Number(aimHours) * 60 + Number(aimMinutes))) *
               100
             }
+            bgc='rgb(47, 56, 100)'
           />
           <div className={styles.content}>
-            <form
-              className={styles.edit}
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-            >
+            <form className={styles.edit} onSubmit={handleSubmit}>
               <div className={styles.edit_time}>
+                {error && <div className={styles.error}>{error}</div>}
                 <div className={styles.format1}>
                   <p>
                     cейчас:
@@ -131,39 +174,51 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
-                    onClick={() => setMinutes(prevMinutes => Number(prevMinutes) + 5)}
+                    onClick={() =>
+                      setMinutes((prevMinutes) => Number(prevMinutes) + 5)
+                    }
+                    name="5minutes"
                   >
                     +5 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
-                    onClick={() => setMinutes(prevMinutes => Number(prevMinutes) + 15)}
+                    onClick={() =>
+                      setMinutes((prevMinutes) => Number(prevMinutes) + 15)
+                    }
+                    name="15minutes"
                   >
                     +15 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
-                    onClick={() => setMinutes(prevMinutes => Number(prevMinutes) + 30)}
+                    onClick={() =>
+                      setMinutes((prevMinutes) => Number(prevMinutes) + 30)
+                    }
+                    name="30minutes"
                   >
                     +30 мин
                   </Button>
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
-                    onClick={() => setHours(prevHours => Number(prevHours) + 1)}
+                    onClick={() =>
+                      setHours((prevHours) => Number(prevHours) + 1)
+                    }
+                    name="1hours"
                   >
                     +1 час
                   </Button>
                 </div>
               </div>
-              <Button format={2} width="100%">
+              <Button format={2} width="100%" name="save_editTime">
                 Сохранить
               </Button>
             </form>
             <div className={styles.info}>
-              <div className={styles.aim_task} ref={aimRef}> 
+              <div className={styles.aim_task} ref={aimRef}>
                 цель: {info.aimHours}ч {info.aimMinutes}мин
               </div>
               <div className={styles.instruction}>

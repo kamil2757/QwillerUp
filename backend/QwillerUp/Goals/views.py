@@ -47,8 +47,10 @@ class CreateGoalActiveView(APIView):
         day_of_week = datetime.today().weekday() + 1
 
         active_goal = GoalsTemplateActive.objects.filter(created_at=now().date(), user=user).first()
+        print(f"User: {user}, Active Goal: {active_goal}")
 
         if not active_goal:
+            print('create new Active Goal')
             if user.schedule_type == 1:
                 goal_template = GoalsTemplate.objects.filter(user=user, day_of_week=0).first()
             else:
@@ -70,9 +72,16 @@ class CreateGoalActiveView(APIView):
         serializer = ActiveGoalSerializer(active_goal)
         return Response({'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'})
 
+
 class UpdateTaskTimeView(APIView):
     def post(self, request):
-        task_title = request.data.get('title')
-        task_timeSpent = request.data.get('time_spent')
+        title = request.data.get('title')
+        spent_time = request.data.get('time_spent')
         user = request.user
 
+        goal = GoalsTemplateActive.objects.get(user=user)
+        task = TasksTemplateActive.objects.get(goal=goal, title=title)
+        task.spent_time = spent_time
+        task.save()
+
+        return Response({'message': 'Цель успешна обновлена'}, status=status.HTTP_200_OK)

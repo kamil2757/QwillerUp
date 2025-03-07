@@ -8,6 +8,7 @@ function Button({
   format = 1,
   padding,
   blocked = false,
+  name,
 }) {
   const [padd, setPadd] = useState("0 140px");
 
@@ -44,6 +45,7 @@ function Button({
           }
           style={width ? { width, padding: 0 } : { padding: padding || padd }}
           onClick={onClick ? () => onClick() : null}
+          name={name}
         >
           {children}
         </button>
@@ -60,6 +62,7 @@ function Button({
           }`}
           style={width ? { width, padding: 0 } : { padding: padding || padd }}
           onClick={onClick ? () => onClick() : null} 
+          name={name}
           disabled
         >
           {children}

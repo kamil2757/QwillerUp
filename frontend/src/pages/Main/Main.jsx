@@ -43,39 +43,41 @@ function Main() {
     };
   }, []);
 
-  useEffect(() => {
-    async function getTasks() {
-      console.log("выполняется getTasks");
-      console.log("authorized_main: " + authorized);
-      try {
-        const response = await fetch(
-          "http://127.0.0.1:8000/api/goals/get-active-goal/",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          setTasks(data.data.tasks);
-          setMessage(data.message_for_user);
-
-          for (const task of data.data.tasks) {
-            setTotalTime((prevTotal) => prevTotal + task.spent_time);
-            setGoalTime((prevGoal) => prevGoal + task.planned_time);
-          }
-        } else {
-          GetUser();
-          console.log(response);
+  async function getTasks() {
+    console.log("выполняется getTasks");
+    console.log("authorized_main: " + authorized);
+    setTotalTime(0)
+    setGoalTime(0)
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/goals/get-active-goal/",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      } catch (err) {
-        console.log(err);
-      }
-    }
+      );
 
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setTasks(data.data.tasks);
+        setMessage(data.message_for_user);
+
+        for (const task of data.data.tasks) {
+          setTotalTime((prevTotal) => prevTotal + task.spent_time);
+          setGoalTime((prevGoal) => prevGoal + task.planned_time);
+        }
+      } else {
+        GetUser();
+        console.log(response);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
     if (authorized == true) {
       console.log("Запускаем шарманку, getTasks");
       getTasks();
@@ -86,13 +88,13 @@ function Main() {
     const task_title = e.target.parentNode.parentNode
       .querySelector(`.${styles.bl1}`)
       .querySelector(`p`).innerText;
-    console.log(task_title);
-
-    let taskData = null;
+    console.log("task_title: " + task_title);
 
     for (let t of tasks) {
+      console.log(t)
       if (t.title == task_title) {
-        console.log(t);
+        console.log('t: ');
+        console.log(t)
         setModalInfo({
           taskName: task_title,
           currentHours: Math.floor(t.spent_time / 60),
@@ -117,6 +119,7 @@ function Main() {
                   <ProgressBar
                     width={isMini ? "45vw" : "24vw"}
                     percent={(task.spent_time / task.planned_time) * 100}
+                    bgc='rgb(79, 87, 129)'
                   />
                 </div>
                 <div className={styles.bl2}>
@@ -185,7 +188,10 @@ function Main() {
 
       <ModalWindowTimeRedact
         isOpen={modalIsOpen}
-        onClose={() => setModalIsOpen(false)}
+        onClose={() => {
+          setModalIsOpen(false);
+          getTasks()
+        }}
         info={modalInfo}
       ></ModalWindowTimeRedact>
       <ModalWindowNewLevel

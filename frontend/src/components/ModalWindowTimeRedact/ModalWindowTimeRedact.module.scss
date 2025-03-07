@@ -97,6 +97,16 @@
   }
 }
 
+.error {
+  width: 100%;
+  padding: 40px 0;
+  border-radius: 20px;
+  @include center();
+  background-color:$red-color;
+  width: 100%;
+}
+
+
 @media (max-width: 1268px) {
   .content {
     display: flex;
