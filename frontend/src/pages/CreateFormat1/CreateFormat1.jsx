@@ -25,7 +25,7 @@ function CreateFormat1() {
     const tasks = tasksRef.current.querySelectorAll(`.${styles.field}`);
 
     for (const task of tasks) {
-      const title = task.firstElementChild.firstElementChild.value;
+      const title = task.firstElementChild.firstElementChild.value.trim();
       if (title) {
         const planned_time =
           Number(

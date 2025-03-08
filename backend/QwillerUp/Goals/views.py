@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from datetime import datetime
 
-from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, TasksTemplateActive
+from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, TasksTemplateActive, UserDays
 from Goals.serializers.serializers import ActiveGoalSerializer
 from django.utils.timezone import now
 
@@ -47,10 +47,8 @@ class CreateGoalActiveView(APIView):
         day_of_week = datetime.today().weekday() + 1
 
         active_goal = GoalsTemplateActive.objects.filter(created_at=now().date(), user=user).first()
-        print(f"User: {user}, Active Goal: {active_goal}")
 
         if not active_goal:
-            print('create new Active Goal')
             if user.schedule_type == 1:
                 goal_template = GoalsTemplate.objects.filter(user=user, day_of_week=0).first()
             else:
@@ -69,8 +67,25 @@ class CreateGoalActiveView(APIView):
                     planned_time=task.planned_time
                 )
 
+        last_goal = GoalsTemplateActive.objects.filter(user=user).exclude(created_at=now().date()).first()
+        if last_goal:
+            last_tasks = TasksTemplateActive.objects.filter(goal=last_goal)
+            goal_time = 0
+            perfect_day = True
+
+            for task in last_tasks:
+                goal_time += task.spent_time
+
+                if task.spent_time < task.planned_time:
+                    perfect_day = False
+
+            UserDays.objects.create(time=goal_time, user=user, perfect_day=perfect_day)
+            last_tasks.delete()
+            last_goal.delete()
+
         serializer = ActiveGoalSerializer(active_goal)
-        return Response({'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'})
+        return Response(
+            {'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'})
 
 
 class UpdateTaskTimeView(APIView):

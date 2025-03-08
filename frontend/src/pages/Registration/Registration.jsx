@@ -38,10 +38,10 @@ function Registration() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: username,
-            email: email,
-            password: password,
-            password2: password2,
+            username: username.trim(),
+            email: email.trim(),
+            password: password.trim(),
+            password2: password2.trim(),
           }),
         }
       );

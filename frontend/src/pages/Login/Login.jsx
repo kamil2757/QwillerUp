@@ -33,8 +33,8 @@ function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
-          password: password,
+          username: username.trim(),
+          password: password.trim(),
         }),
       });
 

@@ -93,7 +93,7 @@ function CreateFormat2() {
       let newGoal = { day_of_week: day_of_week, tasks: []};
 
       for (const task of Goal.querySelectorAll(`.${styles.field}`)) {
-        const title = task.firstElementChild.firstElementChild.value;
+        const title = task.firstElementChild.firstElementChild.value.trim();
 
         if (title) {
           const planned_time =
