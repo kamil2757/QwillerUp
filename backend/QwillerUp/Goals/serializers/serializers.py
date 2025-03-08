@@ -12,6 +12,7 @@ class ActiveTaskSerializer(serializers.ModelSerializer):
         model = TasksTemplateActive
         fields = ['id', 'title', 'spent_time', 'planned_time']
 
+
 class ActiveGoalSerializer(serializers.ModelSerializer):
     tasks = ActiveTaskSerializer(many=True, read_only=True, source='taskstemplateactive_set')
 

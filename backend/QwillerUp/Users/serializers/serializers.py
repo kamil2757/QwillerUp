@@ -4,6 +4,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from Users.models import UserMedals, Medals
+
 User = get_user_model()
 
 
@@ -61,3 +63,9 @@ class GetUserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'date_joined', 'photo', 'description', 'experience', 'level', 'ice_count', 'streak',
                   'schedule_type']
+
+
+class UserMedalsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Medals
+        fields = '__all__'

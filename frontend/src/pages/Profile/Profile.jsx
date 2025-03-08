@@ -14,12 +14,18 @@ import ModalWindowCheckLevel from "../../components/ModalWindowCheckLevel/ModalW
 import ModalWindowCheckMedals from "../../components/ModalWindowCheckMedals/ModalWindowCheckMedals";
 
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../../contexts/UserContext";
 
 function Profile() {
   const [modalLevelIsOpen, setModalLevelIsOpen] = useState(false);
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
   const [adaptive, setAdaptive] = useState(false);
+  const { userData } = useContext(UserContext);
+
+  useEffect(() => {
+    console.log(userData);
+  }, []);
 
   useEffect(() => {
     function handleResize() {
@@ -45,14 +51,14 @@ function Profile() {
           <img src={no_avatar} alt="" />
         </div>
         <div className={styles.block1_info__info}>
-          <h1>Kamil</h1>
+          <h1>{userData.username}</h1>
           <p className={styles.aboutUser}>
-            У тебя пока нет описания, но ты можешь добавить его в настройкахУ
-            тебя пока нет описания У тебя пока нет описанияУ тебя пока нет
-            описания У тебя пока нет описанияУ тебя пока нет описания
+            {userData.description
+              ? userData.description
+              : "У тебя пока нет описания, но ты можешь добавить его в настройках"}
           </p>
 
-          <p className={styles.level}>25 уровень</p>
+          {/* <p className={styles.level}>{userData.level} уровень</p>
           <div
             className={styles.experience_block}
             onClick={() => setModalLevelIsOpen(true)}
@@ -62,7 +68,7 @@ function Profile() {
               <ProgressBar percent="60" width="100%" />
             </div>
             <p>60/100</p>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className={styles.block2_info}>
@@ -70,11 +76,11 @@ function Profile() {
           <div className={styles.items}>
             <div className={styles.flames}>
               <img src={flame} alt="" />
-              <h1>4</h1>
+              <p>{userData.streak}</p>
             </div>
             <div className={styles.ice}>
               <img src={ice} alt="" />
-              <h1>1</h1>
+              <p>{userData.ice_count}</p>
             </div>
           </div>
           <div className={styles.text}>
@@ -83,8 +89,12 @@ function Profile() {
           </div>
         </div>
         <div className={styles.maininfo}>
-          <div className={styles.medals} onClick={() => {
-            adaptive ? setModalMedalsIsOpen(true) : ''}}>
+          <div
+            className={styles.medals}
+            onClick={() => {
+              adaptive ? setModalMedalsIsOpen(true) : "";
+            }}
+          >
             <div className={styles.content}>
               <div className={styles.medal}>
                 <img src={medal_1_1} alt="" />

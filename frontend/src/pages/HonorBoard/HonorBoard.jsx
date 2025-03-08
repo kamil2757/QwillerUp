@@ -6,6 +6,11 @@ function HonorBoard() {
     <div className={styles.honorBoard_block}>
       <div className={styles.message}>
         <div className={styles.text}>
+          В разработке
+        </div>
+      </div>
+      {/* <div className={styles.message}>
+        <div className={styles.text}>
           Мастурбек потратил 100 часов на обучение!
         </div>
         <img src={no_avatar} alt="" />
@@ -24,7 +29,7 @@ function HonorBoard() {
           quos.
         </div>
         <img src={no_avatar} alt="" />
-      </div>
+      </div> */}
     </div>
   );
 }

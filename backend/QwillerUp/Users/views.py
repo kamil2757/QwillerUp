@@ -7,7 +7,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer
+from Users.models import UserMedals, Medals
+from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer, UserMedalsSerializer
 
 
 class RegisterUser(APIView):
@@ -37,3 +38,21 @@ class GetUserByAccess(APIView):
     def get(self, request):
         user = request.user
         return Response(GetUserSerializer(user).data)
+
+
+class GetUserDetail(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        user_medals = UserMedals.objects.filter(user=user, equipped=True)
+
+        if len(user_medals) <= 3:
+            user_medals = UserMedals.objects.filter(user=user)
+
+        medals = [user_medal.medal for user_medal in user_medals]
+
+        serializer = UserMedalsSerializer(medals, many=True)
+
+        return Response({'medals': serializer.data})
+
