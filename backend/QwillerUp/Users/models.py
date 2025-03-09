@@ -19,6 +19,7 @@ class CustomUsers(AbstractUser):
     streak = models.IntegerField(default=0)
     schedule_type = models.IntegerField(blank=True, null=True)
     level = models.IntegerField(default=0)
+    last_active_date = models.DateField(null=True)
     # level = models.ForeignKey(Level, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):

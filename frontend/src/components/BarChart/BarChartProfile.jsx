@@ -1,4 +1,4 @@
-import styles from "./BarChart.module.scss";
+import styles from "./BarChartProfile.module.scss";
 import {
   BarChart,
   Bar,
@@ -10,22 +10,23 @@ import {
   Rectangle,
 } from "recharts";
 
-const data = [
-  { day: "Пн", hours: 3, perfect: false },
-  { day: "Вт", hours: 5, perfect: false },
-  { day: "Ср", hours: 7, perfect: true },
-  { day: "Чт", hours: 2, perfect: false },
-  { day: "Пт", hours: 6, perfect: false },
-  { day: "Сб", hours: 8, perfect: false },
-  { day: "Вс", hours: 4, perfect: false },
-];
+// const data = [
+//   { day: "Пн", hours: 3, perfect: false },
+//   { day: "Вт", hours: 5, perfect: false },
+//   { day: "Ср", hours: 7, perfect: true },
+//   { day: "Чт", hours: 2, perfect: false },
+//   { day: "Пт", hours: 6, perfect: false },
+//   { day: "Сб", hours: 8, perfect: false },
+//   { day: "Вс", hours: 4, perfect: false },
+// ];
 
-function BarChartProfile() {
+
+function BarChartProfile(data) {
   return (
     <ResponsiveContainer width="90%" height="85%">
-      <BarChart data={data} barCategoryGap="67%">
+      <BarChart data={data.data} barCategoryGap="67%">
         <XAxis
-          dataKey="day"
+          dataKey="weekday"
           tick={{ fill: "white" }}
           axisLine={false}
           tickLine={false}
@@ -58,7 +59,7 @@ function BarChartProfile() {
             <Rectangle
               {...props}
               fill={
-                props.payload.perfect
+                props.payload.perfect_day
                   ? "rgb(248, 188, 59)"
                   : "rgb(122, 211, 249)"
               }

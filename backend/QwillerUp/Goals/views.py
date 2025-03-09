@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, TasksTemplateActive, UserDays
 from Goals.serializers.serializers import ActiveGoalSerializer
@@ -98,5 +98,19 @@ class UpdateTaskTimeView(APIView):
         task = TasksTemplateActive.objects.get(goal=goal, title=title)
         task.spent_time = spent_time
         task.save()
+
+        if (user.last_active_date == (date.today() - timedelta(days=1))) or (user.last_active_date == date.today()):
+            pass
+        else:
+            if user.ice_count > 0:
+                user.ice_count -= 1
+            else:
+                user.streak = 0
+
+        if user.last_active_date != date.today():
+            user.streak += 1
+
+        user.last_active_date = date.today()
+        user.save()
 
         return Response({'message': 'Цель успешна обновлена'}, status=status.HTTP_200_OK)

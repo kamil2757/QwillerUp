@@ -1,4 +1,5 @@
 from calendar import weekday
+import calendar
 
 from django.core.serializers import serialize
 from django.shortcuts import render
@@ -9,7 +10,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import timedelta, date
 
 from Goals.models import UserDays
 from Users.models import UserMedals, Medals
@@ -29,6 +30,7 @@ class RegisterUser(APIView):
                 'refresh_token': str(refresh),
                 'access_token': str(refresh.access_token),
             }, status=status.HTTP_201_CREATED)
+
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -58,23 +60,51 @@ class GetUserDetail(APIView):
         medals = [user_medal.medal for user_medal in user_medals]
         medals_data = UserMedalsSerializer(medals, many=True)
 
+        week = {
+            0: "Пн",
+            1: "Вт",
+            2: "Ср",
+            3: "Чт",
+            4: "Пт",
+            5: "Сб",
+            6: "Вс",
+        }
+
         days = []
 
-        for d in range(1, 7 + 1):
-            day = UserDays.objects.filter(user=user, date=(now() - timedelta(days=d))).first()
+        for d in range(1, 7):
+            day = UserDays.objects.filter(user=user, date=(now() - timedelta(days=d)).date()).first()
             if day:
                 days.append({
-                    'weekday': day.date.weekday(),
-                    'time': day.time,
+                    'id': d,
+                    'weekday': week.get(day.date.weekday()),
+                    'hours': day.time // 60,
                     'perfect_day': day.perfect_day,
                 })
             else:
                 days.append({
-                    'weekday': (now() - timedelta(days=d)).weekday(),
-                    'time': 0,
+                    'id': d,
+                    'weekday': week.get((now() - timedelta(days=d)).weekday()),
+                    'hours': 0,
                     'perfect_day': False,
                 })
 
-        return Response({'medals': medals_data.data, "days": days})
+        # days.append({
+        #     'id': 7,
+        #     'weekday': date.weekday() + 1,
+        #     'hours':
+        #              })
+
+        if (user.last_active_date == (date.today() - timedelta(days=1))) or (user.last_active_date == date.today()):
+            pass
+        else:
+            if user.ice_count > 0:
+                user.ice_count -= 1
+            else:
+                user.streak = 0
+            user.save()
+
+        return Response({'medals': medals_data.data, "days": days, 'streak_count': user.streak,
+                         'ice_count': user.ice_count}, status=status.HTTP_200_OK)
 
 
