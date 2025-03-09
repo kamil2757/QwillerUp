@@ -1,3 +1,4 @@
+from datetime import date, timedelta
 from tkinter.constants import CASCADE
 
 from django.db import models
@@ -37,6 +38,6 @@ class TasksTemplateActive(models.Model):
 
 class UserDays(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
     time = models.IntegerField()
     perfect_day = models.BooleanField(default=False)

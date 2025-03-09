@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, TasksTemplateActive, UserDays
 from Goals.serializers.serializers import ActiveGoalSerializer
@@ -79,7 +79,7 @@ class CreateGoalActiveView(APIView):
                 if task.spent_time < task.planned_time:
                     perfect_day = False
 
-            UserDays.objects.create(time=goal_time, user=user, perfect_day=perfect_day)
+            UserDays.objects.create(time=goal_time, user=user, perfect_day=perfect_day, date=last_goal.created_at)
             last_tasks.delete()
             last_goal.delete()
 
