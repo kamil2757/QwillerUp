@@ -40,6 +40,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
   const [dataMedals, setDataMedals] = useState(null);
   const [blockForData, setBlockForData] = useState(null);
   const [arrData, setArrData] = useState(null);
+  const [equippedMedals, setEquippedMedals] = useState(null);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -93,6 +94,10 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
         setDataMedals(data.medals);
         setBlockForData(Object.keys(data.medals).length / 5);
         setArrData(Object.entries(data.medals));
+
+        const eqMedals = data.medals.filter((m) => m.equipped);
+        setEquippedMedals(eqMedals.slice(0, 3));
+        console.log(eqMedals.slice(0, 3));
       } catch (err) {
         console.log(err);
       }
@@ -100,6 +105,34 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
 
     getMedals();
   }, []);
+
+  function handleBlockClick(e) {
+    const classes = e.currentTarget.classList;
+    if (!classes.contains(styles.hasnt) && !classes.contains(styles.equipped)) {
+      const currentMedal = e.currentTarget.querySelector("p").innerText;
+      let dataCurrentMedal = "Ничо нет";
+
+      for (const m of dataMedals) {
+        if (m.title.replace(/\s+/g, " ").trim() == currentMedal.replace(/\s+/g, " ").trim()) {
+          console.log("Найден голубчик");
+          console.log(m.title);
+          console.log(currentMedal);
+          dataCurrentMedal = m;
+          break;
+        } else {
+          console.log(m.title);
+          console.log(currentMedal);
+        }
+      }
+
+      setEquippedMedals((prev) => {
+        const arr = [...prev, dataCurrentMedal];
+        arr.shift();
+        console.log(arr);
+        return arr;
+      });
+    }
+  }
 
   if (!isVisible || !dataMedals) return null;
 
@@ -111,8 +144,8 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
           <h1>Медали</h1>
           <div className={styles.info_block}>
             <p>
-              Выбери 3 достижения, которые хочешь показать в своем профиле!
-              Пусть другие увидят твои самые крутые успехи!
+              Выбери 3 медали, которые хочешь показать в своем профиле! Пусть
+              другие увидят твои самые крутые успехи!
             </p>
           </div>
           <div className={styles.description}>
@@ -122,17 +155,21 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
             <div className={styles.block1}>
               {arrData.slice(0, 5).map((data) => (
                 <div
-                  className={
-                    data[1].has
-                      ? data[1].equipped
-                        ? `${styles.medal} ${styles.equipped}`
-                        : styles.medal
-                      : `${styles.medal} ${styles.hasnt}`
-                  }
+                  className={`
+                  ${styles.medal} 
+                  ${data[1].has ? "" : styles.hasnt} 
+                  ${
+                    equippedMedals?.some(
+                      (medal) => medal.title === data[1].title
+                    )
+                      ? styles.equipped
+                      : ""
+                  }`}
                   key={data}
                   onMouseEnter={() => {
                     setDescription(data[1].description);
                   }}
+                  onClick={handleBlockClick}
                 >
                   <img src={medals[data[1].img]} alt="" />
                   <p>{data[1].title}</p>
@@ -143,17 +180,21 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
               <div className={styles.block2}>
                 {arrData.slice(5, 10).map((data) => (
                   <div
-                    className={
-                      data[1].has
-                        ? data[1].equipped
-                          ? `${styles.medal} ${styles.equipped}`
-                          : styles.medal
-                        : `${styles.medal} ${styles.hasnt}`
-                    }
+                    className={`
+                    ${styles.medal} 
+                    ${data[1].has ? "" : styles.hasnt} 
+                    ${
+                      equippedMedals?.some(
+                        (medal) => medal.title === data[1].title
+                      )
+                        ? styles.equipped
+                        : ""
+                    }`}
                     key={data}
                     onMouseEnter={() => {
                       setDescription(data[1].description);
                     }}
+                    onClick={handleBlockClick}
                   >
                     <img src={medals[data[1].img]} alt="" />
                     <p>{data[1].title}</p>
