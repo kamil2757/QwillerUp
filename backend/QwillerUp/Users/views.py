@@ -14,7 +14,8 @@ from datetime import timedelta, date
 
 from Goals.models import UserDays
 from Users.models import UserMedals, Medals
-from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer, UserMedalsSerializer
+from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer, UserMedalsSerializer, \
+    UserMedals2Serializer
 
 
 class RegisterUser(APIView):
@@ -53,9 +54,6 @@ class GetUserDetail(APIView):
     def get(self, request):
         user = request.user
         user_medals = UserMedals.objects.filter(user=user, equipped=True)
-
-        if len(user_medals) <= 3:
-            user_medals = UserMedals.objects.filter(user=user)
 
         medals = [user_medal.medal for user_medal in user_medals]
         medals_data = UserMedalsSerializer(medals, many=True)
@@ -109,9 +107,20 @@ class GetUserDetail(APIView):
                          'ice_count': user.ice_count}, status=status.HTTP_200_OK)
 
 
-# class GetUserMedalsView(APIView):
-#     def get(self, request):
-#         user = request.user
-#         medals = UserMedalsSerializer(Medals.objects.all(), many=True)
-#
-#         return Response({'medals': medals.data, 'userMedals': }, status=status.HTTP_200_OK)
+class GetUserMedalsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        medals = UserMedals2Serializer(Medals.objects.all(), many=True, context={'user': user})
+
+        return Response({'medals': medals.data}, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+

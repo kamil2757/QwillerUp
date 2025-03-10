@@ -19,74 +19,27 @@ import medal_4_1 from "../../assets/4.1.svg";
 function ModalWindowCheckMedals({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
   const modalBlock = useRef(null);
+  const medals = {
+    "1.1.svg": medal_1_1,
+    "1.2.svg": medal_1_2,
+    "1.3.svg": medal_1_3,
+
+    "2.1.svg": medal_2_1,
+    "2.2.svg": medal_2_2,
+    "2.3.svg": medal_2_3,
+
+    "3.1.svg": medal_3_1,
+    "3.2.svg": medal_3_2,
+    "3.3.svg": medal_3_3,
+
+    "4.1.svg": medal_4_1,
+  };
   const [description, setDescription] = useState(
     "Наведи на медаль, чтобы узнать условия её получения"
   );
-  const data = {
-    medal1: {
-      title: 'Бронзовая медаль\n "Начало пути"',
-      description: "100 часов общего времени",
-      img: medal_1_1,
-      equipped: true,
-    },
-    medal2: {
-      title: 'Серебряная медаль\n "Продвинутый"',
-      description: "250 часов общего времени",
-      img: medal_1_2,
-      equipped: false,
-    },
-    medal3: {
-      title: 'Золотая медаль\n "Эксперт"',
-      description: "1000 часов общего времени",
-      img: medal_1_3,
-      equipped: false,
-    },
-    medal4: {
-      title: 'Бронзовая медаль\n "Начало"',
-      description: "Огненный стрик 10 дней подряд",
-      img: medal_2_1,
-      equipped: false,
-    },
-    medal5: {
-      title: 'Серебряная медаль\n "Пламя"',
-      description: "Огненный стрик 100 дней подряд",
-      img: medal_2_2,
-      equipped: true,
-    },
-    medal6: {
-      title: 'Золотая медаль\n "Безудержный огонь"',
-      description: "Огненный стрик 365 дней подряд",
-      img: medal_2_3,
-      equipped: false,
-    },
-    medal7: {
-      title: 'Бронзовая медаль\n "Трудяга"',
-      description: "Позаниматься 10 дней с 10+ часами",
-      img: medal_3_1,
-      equipped: false,
-    },
-    medal8: {
-      title: 'Серебряная медаль\n "Переработчик"',
-      description: "Позаниматься 30 дней с 10+ часами",
-      img: medal_3_2,
-      equipped: false,
-    },
-    medal9: {
-      title: 'Золотая медаль\n "Неутомимый"',
-      description: "Позаниматься 100 дней с 10+ часами",
-      img: medal_3_3,
-      equipped: true,
-    },
-    medal10: {
-      title: `Золотая медаль\n "Партнер"`,
-      description: "Поддержать автора монеткой",
-      img: medal_4_1,
-      equipped: false,
-    },
-  };
-
-  const block_for_data = Math.ceil(Object.keys(data).length / 5);
-  const arr_data = Object.entries(data);
+  const [dataMedals, setDataMedals] = useState(null);
+  const [blockForData, setBlockForData] = useState(null);
+  const [arrData, setArrData] = useState(null);
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -123,7 +76,32 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
     };
   }, [isOpen]);
 
-  if (!isVisible) return null;
+  useEffect(() => {
+    async function getMedals() {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/users/getUserMedals/",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data.medals);
+
+        setDataMedals(data.medals);
+        setBlockForData(Object.keys(data.medals).length / 5);
+        setArrData(Object.entries(data.medals));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getMedals();
+  }, []);
+
+  if (!isVisible || !dataMedals) return null;
 
   return ReactDOM.createPortal(
     <div className={styles.modal_back} onClick={onClose} ref={modalBlock}>
@@ -142,38 +120,42 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
           </div>
           <div className={styles.medals}>
             <div className={styles.block1}>
-              {arr_data.slice(0, 5).map((data) => (
+              {arrData.slice(0, 5).map((data) => (
                 <div
                   className={
-                    data[1].equipped
-                      ? `${styles.medal} ${styles.equipped}`
-                      : styles.medal
+                    data[1].has
+                      ? data[1].equipped
+                        ? `${styles.medal} ${styles.equipped}`
+                        : styles.medal
+                      : `${styles.medal} ${styles.hasnt}`
                   }
                   key={data}
                   onMouseEnter={() => {
                     setDescription(data[1].description);
                   }}
                 >
-                  <img src={data[1].img} alt="" />
+                  <img src={medals[data[1].img]} alt="" />
                   <p>{data[1].title}</p>
                 </div>
               ))}
             </div>
-            {block_for_data == 2 && (
+            {blockForData == 2 && (
               <div className={styles.block2}>
-                {arr_data.slice(5, 10).map((data) => (
+                {arrData.slice(5, 10).map((data) => (
                   <div
                     className={
-                      data[1].equipped
-                        ? `${styles.medal} ${styles.equipped}`
-                        : styles.medal
+                      data[1].has
+                        ? data[1].equipped
+                          ? `${styles.medal} ${styles.equipped}`
+                          : styles.medal
+                        : `${styles.medal} ${styles.hasnt}`
                     }
                     key={data}
                     onMouseEnter={() => {
                       setDescription(data[1].description);
                     }}
                   >
-                    <img src={data[1].img} alt="" />
+                    <img src={medals[data[1].img]} alt="" />
                     <p>{data[1].title}</p>
                   </div>
                 ))}

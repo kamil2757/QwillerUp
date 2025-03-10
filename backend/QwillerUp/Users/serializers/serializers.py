@@ -69,3 +69,21 @@ class UserMedalsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medals
         fields = '__all__'
+
+
+class UserMedals2Serializer(serializers.ModelSerializer):
+    has = serializers.SerializerMethodField()
+    equipped = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Medals
+        fields = '__all__'
+
+    def get_has(self, obj):
+        user = self.context.get('user')
+        return UserMedals.objects.filter(user=user, medal=obj).exists()
+
+    def get_equipped(self, obj):
+        user = self.context.get('user')
+        medal_entry = UserMedals.objects.filter(user=user, medal=obj).first()
+        return medal_entry.equipped if medal_entry else False
