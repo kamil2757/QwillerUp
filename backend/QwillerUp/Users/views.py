@@ -88,6 +88,7 @@ class GetUserDetail(APIView):
                     'hours': 0,
                     'perfect_day': False,
                 })
+        days.reverse()
 
         # days.append({
         #     'id': 7,
@@ -108,3 +109,9 @@ class GetUserDetail(APIView):
                          'ice_count': user.ice_count}, status=status.HTTP_200_OK)
 
 
+# class GetUserMedalsView(APIView):
+#     def get(self, request):
+#         user = request.user
+#         medals = UserMedalsSerializer(Medals.objects.all(), many=True)
+#
+#         return Response({'medals': medals.data, 'userMedals': }, status=status.HTTP_200_OK)

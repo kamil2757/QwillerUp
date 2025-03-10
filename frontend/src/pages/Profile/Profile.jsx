@@ -32,6 +32,7 @@ function Profile() {
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
   const [adaptive, setAdaptive] = useState(false);
   const { userData } = useContext(UserContext);
+  const { GetUser } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
   const medals = {
     "1.1.svg": medal_1_1,
@@ -65,6 +66,8 @@ function Profile() {
         console.log("data:");
         console.log(data);
         setUserDetailData(data);
+      } else {
+        GetUser()
       }
     }
 
@@ -151,10 +154,7 @@ function Profile() {
             <div className={styles.content}>
               {userDetailData.medals.map((medal) => (
                 <div className={styles.medal} key={medal.id}>
-                  <img
-                    src={medals[medal.img]}
-                    alt={medal.title}
-                  />
+                  <img src={medals[medal.img]} alt={medal.title} />
                   <p>{medal.title}</p>
                 </div>
               ))}
@@ -171,7 +171,7 @@ function Profile() {
           </div>
           <div className={styles.chart}>
             <div className={styles.chart_wrapper}>
-              <BarChartProfile data={userDetailData.days}/>
+              <BarChartProfile data={userDetailData.days} />
             </div>
           </div>
         </div>

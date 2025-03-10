@@ -85,10 +85,13 @@ class CreateGoalActiveView(APIView):
 
         serializer = ActiveGoalSerializer(active_goal)
         return Response(
-            {'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'})
+            {'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'},
+            status=status.HTTP_201_CREATED)
 
 
 class UpdateTaskTimeView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         title = request.data.get('title')
         spent_time = request.data.get('time_spent')
