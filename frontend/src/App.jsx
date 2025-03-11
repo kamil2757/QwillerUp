@@ -59,7 +59,7 @@ function App() {
                 <Route path="format1" element={<SettingsTasksFormat1 />} />
                 <Route path="format2" element={<SettingsTasksFormat2 />} />
               </Route>
-              <Route path="progress" element={<SettingsProgress />} />
+              {/* <Route path="progress" element={<SettingsProgress />} /> */}
               <Route path="donate" element={<SettingsDonate />} />
             </Route>
           </Route>

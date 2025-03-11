@@ -18,7 +18,7 @@ function CreateFormat1() {
   const [error, setError] = useState(null);
 
   async function sendTask(e) {
-    let newGoal = { day_of_week: 0, tasks: []};
+    let newGoal = { day_of_week: 0, tasks: [] };
     let tasks_count = 0;
     e.preventDefault();
 
@@ -36,16 +36,24 @@ function CreateFormat1() {
             task.querySelector(`.${styles.minutes}`).firstElementChild.value
           );
 
-        if ((TotalTime.hours * 60 + TotalTime.minutes >= 20 * 60) && (TotalTime.hours * 60 + TotalTime.minutes <= 0)) {
-          setError("Суммарное время цели на каждый день слишком нереалистично");
+        if (
+          TotalTime.hours * 60 + TotalTime.minutes >= 20 * 60 ||
+          TotalTime.hours * 60 + TotalTime.minutes <= 0
+        ) {
+          setError("Суммарное время слишком нереалистично");
           return;
+        }
+
+        if (planned_time <= 0) {
+          setError("Время для одного из дел слишком мало");
+          return
         }
 
         newGoal.tasks.push({ title, planned_time });
         console.log(title + " " + planned_time);
         tasks_count += 1;
       } else {
-        if (tasks_count == 1) {
+        if (tasks_count == 0) {
           setError("Добавьте хотя бы одно занятие, начиная с первого");
           return;
         }
@@ -75,7 +83,7 @@ function CreateFormat1() {
         navigate("/main");
       }
 
-      sendTaskData()
+      sendTaskData();
     } catch (err) {
       console.log(err);
     }

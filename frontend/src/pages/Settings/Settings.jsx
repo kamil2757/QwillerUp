@@ -23,6 +23,13 @@ function Settings() {
   }, []);
 
   function set_Active(path) {
+    if (path == "/settings/tasks") {
+      if (location.includes(path)) {
+        return styles.active;
+      }
+      return;
+    }
+
     if (location == path) {
       return styles.active;
     }
@@ -38,9 +45,9 @@ function Settings() {
           <Link to="tasks/format1" className={set_Active("/settings/tasks")}>
             Задачи
           </Link>
-          <Link to="progress" className={set_Active("/settings/progress")}>
+          {/* <Link to="progress" className={set_Active("/settings/progress")}>
             Настройки учета прогресса
-          </Link>
+          </Link> */}
           <Link to="donate" className={set_Active("/settings/donate")}>
             Поддержать автора монеткой
           </Link>
@@ -57,9 +64,9 @@ function Settings() {
             <Link to="tasks/format1" className={set_Active("/settings/tasks")}>
               Задачи
             </Link>
-            <Link to="progress" className={set_Active("/settings/progress")}>
+            {/* <Link to="progress" className={set_Active("/settings/progress")}>
               Настройки учета прогресса
-            </Link>
+            </Link> */}
           </div>
           <div className={styles.line2}>
             <Link to="donate" className={set_Active("/settings/donate")}>

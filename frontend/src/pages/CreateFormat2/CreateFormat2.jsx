@@ -41,21 +41,28 @@ function CreateFormat2() {
 
   function checkFields() {
     for (const Goal of tasksRef.current.children) {
+      console.log("Goal");
+      console.log(Goal);
       let day_of_week = week.find(
         (day) => Goal.firstElementChild.innerText == day[1]
       )[0];
+
       let tasks_count = 0;
       let Goal_time = 0;
+
       for (const task of Goal.querySelectorAll(`.${styles.field}`)) {
-        if (tasks_count == 0) {
-          const title = task.firstElementChild.firstElementChild.value;
-          if (!title) {
-            console.log("Добавьте хотя бы одно занятие в день");
-            setError("Добавьте хотя бы одно занятие в день");
-            return false;
+        const title = task.firstElementChild.firstElementChild.value;
+        if (title) {
+          if (tasks_count == 0) {
+            if (!title) {
+              console.log("Добавьте хотя бы одно занятие в день");
+              setError("Добавьте хотя бы одно занятие в день");
+              return false;
+            }
+            tasks_count += 1;
           }
 
-          Goal_time +=
+          const task_time =
             Number(
               task.querySelector(`.${"hours" + day_of_week}`).firstElementChild
                 .value
@@ -66,17 +73,25 @@ function CreateFormat2() {
                 .firstElementChild.value
             );
 
-          if (Goal_time >= 20 * 60 || Goal_time <= 0) {
-            console.log('не подходящее время: ' + Goal_time);
-            setError("Суммарное время цели на день слишком нереалистично");
+          Goal_time += task_time;
+
+          console.log(title, task_time);
+          console.log(task_time <= 0);
+          if (task_time <= 0) {
+            setError("Время для одного из дел слишком мало");
             return false;
           }
-          tasks_count += 1;
+
+          if (Goal_time >= 20 * 60 || Goal_time <= 0) {
+            console.log("не подходящее время: " + Goal_time);
+            setError("Суммарное время слишком нереалистично");
+            return false;
+          }
         }
       }
     }
 
-    console.log('Все в порядке!')
+    console.log("Все в порядке!");
     return true;
   }
 
@@ -90,7 +105,7 @@ function CreateFormat2() {
       let day_of_week = week.find(
         (day) => Goal.firstElementChild.innerText == day[1]
       )[0];
-      let newGoal = { day_of_week: day_of_week, tasks: []};
+      let newGoal = { day_of_week: day_of_week, tasks: [] };
 
       for (const task of Goal.querySelectorAll(`.${styles.field}`)) {
         const title = task.firstElementChild.firstElementChild.value.trim();
@@ -112,7 +127,7 @@ function CreateFormat2() {
 
       try {
         async function sendTaskData() {
-          console.log(newGoal)
+          console.log(newGoal);
           const response = await fetch(
             "http://127.0.0.1:8000/api/goals/create-goal-template/",
             {
