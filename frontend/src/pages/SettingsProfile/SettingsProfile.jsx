@@ -6,9 +6,9 @@ import { useState } from "react";
 import no_avatar from "../../assets/no_avatar.png";
 
 function SettingsProfile() {
-  const [nickname, setNickname] = useState("Kamil");
+  const [nickname, setNickname] = useState(localStorage.username);
   const [about, setAbout] = useState(
-    "У тебя пока нет описания, но ты можешь добавить его в настройках"
+    localStorage.description
   );
   const [image, setImage] = useState(null);
   
@@ -23,10 +23,38 @@ function SettingsProfile() {
     }
   }
 
+  async function handlerSubmit(e){
+    e.preventDefault();
+    console.log('handlerSubmit')
+    console.log(nickname)
+    console.log(about)
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/users/editUserInfo/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify({
+          username: nickname.trim(),
+          about: about.trim(),
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data)
+
+    } catch (err) {
+      console.log(err);
+    }
+    
+  }
+
   return (
     <div className={styles.block_settingsProfile}>
       <h1>Редактирование профиля</h1>
-      <form action="">
+      <form action="" onSubmit={handlerSubmit}>
         <div className={styles.nickname}>
           <p>Ваш никнейм</p>
           <Input
@@ -43,8 +71,8 @@ function SettingsProfile() {
           />
         </div>
         <div className={styles.avatar}>
-          <p>Аватарка</p>
-          <div className={styles.changeAvatar_block}>
+          {/* <p>Аватарка</p> */}
+          {/* <div className={styles.changeAvatar_block}>
             <div className={styles.content}>
               <input
                 type="file"
@@ -64,7 +92,7 @@ function SettingsProfile() {
                 {image ? <p onClick={() => setImage(null)}>Сбросить</p> : <p className={styles.blocked}>Сбросить</p>}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
         <Button>Применить</Button>
       </form>

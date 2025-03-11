@@ -3,6 +3,7 @@ import calendar
 
 from django.core.serializers import serialize
 from django.shortcuts import render
+from pyexpat.errors import messages
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -132,7 +133,19 @@ class UpdateEquippedView(APIView):
         return Response({'message': 'все путем!'}, status=status.HTTP_200_OK)
 
 
+class EditUserView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        user = request.user
+        user.username = request.data.get('username')
+
+        if len(request.data.get('about')) > 0:
+            user.description = request.data.get('about')
+
+        user.save()
+
+        return Response({'message': 'Гатова!'}, status=status.HTTP_200_OK)
 
 
 

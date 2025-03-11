@@ -13,7 +13,7 @@ class Level(models.Model):
 
 class CustomUsers(AbstractUser):
     photo = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    description = models.TextField(blank=True)
+    description = models.TextField(default="У тебя пока нет описания, но ты можешь добавить его в настройках")
     experience = models.IntegerField(default=0)
     ice_count = models.IntegerField(default=0)
     streak = models.IntegerField(default=0)
