@@ -1,7 +1,7 @@
 import styles from "./ModalWindowCheckMedals.module.scss";
 import ReactDOM from "react-dom";
 import cross from "../../assets/cross.svg";
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { useEffect, useRef, useState, useLayoutEffect, useContext } from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
@@ -15,9 +15,11 @@ import medal_3_1 from "../../assets/3.1.svg";
 import medal_3_2 from "../../assets/3.2.svg";
 import medal_3_3 from "../../assets/3.3.svg";
 import medal_4_1 from "../../assets/4.1.svg";
+import UserContext from "../../contexts/UserContext";
 
 function ModalWindowCheckMedals({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
+  const { UpdateTokens } = useContext(UserContext);
   const modalBlock = useRef(null);
   const medals = {
     "1.1.svg": medal_1_1,
@@ -91,6 +93,11 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
         const data = await response.json();
         console.log(data.medals);
 
+        if (!response.ok){
+          UpdateTokens(getMedals)
+          return
+        }
+
         setDataMedals(data.medals);
         setBlockForData(Object.keys(data.medals).length / 5);
         setArrData(Object.entries(data.medals));
@@ -156,6 +163,8 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
       console.log(data)
       if (response.ok) {
         onClose()
+      } else {
+        UpdateTokens(handlerClickButton)
       }
     } catch (err) {
       console.log(err);

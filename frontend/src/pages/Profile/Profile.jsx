@@ -31,8 +31,7 @@ function Profile() {
   const [modalLevelIsOpen, setModalLevelIsOpen] = useState(false);
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
   const [adaptive, setAdaptive] = useState(false);
-  const { userData } = useContext(UserContext);
-  const { GetUser } = useContext(UserContext);
+  const { UpdateTokens, userData } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
   const medals = {
     "1.1.svg": medal_1_1,
@@ -66,7 +65,7 @@ function Profile() {
       console.log(data);
       setUserDetailData(data);
     } else {
-      GetUser();
+      UpdateTokens(GetDetailInfoUser);
     }
   }
   useEffect(() => {

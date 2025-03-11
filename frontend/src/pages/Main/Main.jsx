@@ -13,7 +13,7 @@ import UserContext from "../../contexts/UserContext";
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
-  const { authorized, UpdateTokens, GetUser } = useContext(UserContext);
+  const { authorized, UpdateTokens } = useContext(UserContext);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,
@@ -69,7 +69,7 @@ function Main() {
           setGoalTime((prevGoal) => prevGoal + task.planned_time);
         }
       } else {
-        GetUser();
+        UpdateTokens(getTasks);
         console.log(response);
       }
     } catch (err) {
@@ -91,10 +91,7 @@ function Main() {
     console.log("task_title: " + task_title);
 
     for (let t of tasks) {
-      console.log(t)
       if (t.title == task_title) {
-        console.log('t: ');
-        console.log(t)
         setModalInfo({
           taskName: task_title,
           currentHours: Math.floor(t.spent_time / 60),

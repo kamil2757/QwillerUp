@@ -1,10 +1,17 @@
 import styles from "./ModalWindowTimeRedact.module.scss";
 import ReactDOM from "react-dom";
 import cross from "../../assets/cross.svg";
-import { useEffect, useRef, useState, useLayoutEffect } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+  useContext,
+} from "react";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import Input from "../Input/Input";
 import Button from "../Button/Button";
+import UserContext from "../../contexts/UserContext";
 
 function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   const [hours, setHours] = useState(info.currentHours);
@@ -15,6 +22,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   const [adaptive, setAdaptive] = useState(false);
   const modalBlock = useRef(null);
   const aimRef = useRef(null);
+  const { UpdateTokens } = useContext(UserContext);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -68,10 +76,15 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
           }),
         }
       );
-
       const data = await response.json();
       console.log(data);
-      onClose();
+
+      if (!response.ok) {
+        UpdateTokens(() => updateTimeTask(time_spent, title));
+        return;
+      } else {
+        onClose();
+      }
     } catch (err) {
       console.log(err);
     }
@@ -145,7 +158,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                 (Number(aimHours) * 60 + Number(aimMinutes))) *
               100
             }
-            bgc='rgb(47, 56, 100)'
+            bgc="rgb(47, 56, 100)"
           />
           <div className={styles.content}>
             <form className={styles.edit} onSubmit={handleSubmit}>
