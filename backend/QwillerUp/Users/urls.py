@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import (
 )
 
 
-from Users.views import RegisterUser, LoginUser, GetUserByAccess, GetUserDetail, GetUserMedalsView
+from Users.views import RegisterUser, LoginUser, GetUserByAccess, GetUserDetail, GetUserMedalsView, UpdateEquippedView
 
 urlpatterns = [
     path('register/', RegisterUser.as_view(), name='register'),
@@ -12,5 +12,6 @@ urlpatterns = [
     path('userInfo/', GetUserByAccess.as_view(), name='userInfo'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('detailUserInfo/', GetUserDetail.as_view(), name='detail_user_info'),
-    path('getUserMedals/', GetUserMedalsView.as_view(), name='get_user_medals')
+    path('getUserMedals/', GetUserMedalsView.as_view(), name='get_user_medals'),
+    path('updateEquippedMedals/', UpdateEquippedView.as_view(), name='updateEquippedMedals')
 ]

@@ -50,27 +50,26 @@ function Profile() {
     "4.1.svg": medal_4_1,
   };
 
-  useEffect(() => {
-    async function GetDetailInfoUser() {
-      const response = await fetch(
-        "http://127.0.0.1:8000/api/users/detailUserInfo/",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("data:");
-        console.log(data);
-        setUserDetailData(data);
-      } else {
-        GetUser()
+  async function GetDetailInfoUser() {
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/users/detailUserInfo/",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       }
-    }
+    );
 
+    if (response.ok) {
+      const data = await response.json();
+      console.log("data:");
+      console.log(data);
+      setUserDetailData(data);
+    } else {
+      GetUser();
+    }
+  }
+  useEffect(() => {
     GetDetailInfoUser();
   }, []);
 
@@ -90,6 +89,12 @@ function Profile() {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (!modalMedalsIsOpen) {
+      GetDetailInfoUser();
+    }
+  }, [modalMedalsIsOpen]);
 
   if (!userDetailData) {
     return <div>Loading...</div>;

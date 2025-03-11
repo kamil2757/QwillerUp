@@ -113,7 +113,10 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
       let dataCurrentMedal = "Ничо нет";
 
       for (const m of dataMedals) {
-        if (m.title.replace(/\s+/g, " ").trim() == currentMedal.replace(/\s+/g, " ").trim()) {
+        if (
+          m.title.replace(/\s+/g, " ").trim() ==
+          currentMedal.replace(/\s+/g, " ").trim()
+        ) {
           console.log("Найден голубчик");
           console.log(m.title);
           console.log(currentMedal);
@@ -131,6 +134,31 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
         console.log(arr);
         return arr;
       });
+    }
+  }
+
+  async function handlerClickButton() {
+    try {
+      console.log(equippedMedals)
+      const response = await fetch(
+        "http://127.0.0.1:8000/api/users/updateEquippedMedals/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+          body: JSON.stringify(equippedMedals.map(m => m.id)),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data)
+      if (response.ok) {
+        onClose()
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
@@ -203,7 +231,9 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
               </div>
             )}
           </div>
-          <Button width="100%">Применить</Button>
+          <Button width="100%" onClick={handlerClickButton}>
+            Применить
+          </Button>
         </div>
       </div>
     </div>,

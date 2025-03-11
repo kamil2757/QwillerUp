@@ -117,7 +117,19 @@ class GetUserMedalsView(APIView):
         return Response({'medals': medals.data}, status=status.HTTP_200_OK)
 
 
+class UpdateEquippedView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def post(self, request):
+        user = request.user
+        UserMedals.objects.filter(user=user).update(equipped=False)
+
+        for i in request.data:
+            medal = UserMedals.objects.filter(medal=i, user=user).first()
+            medal.equipped = True
+            medal.save()
+
+        return Response({'message': 'все путем!'}, status=status.HTTP_200_OK)
 
 
 
