@@ -104,6 +104,11 @@
   width: 90%;
 }
 
+form{
+  display: flex;
+  align-items: center;
+}
+
 
 @media (max-width: 1450px) {
   .block_createFormat1 {

@@ -87,6 +87,11 @@ function CreateFormat2() {
             setError("Суммарное время слишком нереалистично");
             return false;
           }
+        } else {
+          if (tasks_count == 0) {
+            setError("Добавьте хотя бы одно занятие, начиная с первого");
+            return false;
+          }
         }
       }
     }

@@ -17,13 +17,10 @@ function CreateFormat1() {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  async function sendTask(e) {
-    let newGoal = { day_of_week: 0, tasks: [] };
-    let tasks_count = 0;
-    e.preventDefault();
 
+ function checkFields() {
     const tasks = tasksRef.current.querySelectorAll(`.${styles.field}`);
-
+    let tasks_count = 0;
     for (const task of tasks) {
       const title = task.firstElementChild.firstElementChild.value.trim();
       if (title) {
@@ -41,24 +38,56 @@ function CreateFormat1() {
           TotalTime.hours * 60 + TotalTime.minutes <= 0
         ) {
           setError("Суммарное время слишком нереалистично");
-          return;
+          return false;
         }
 
         if (planned_time <= 0) {
           setError("Время для одного из дел слишком мало");
-          return
+          return false;
         }
 
-        newGoal.tasks.push({ title, planned_time });
         console.log(title + " " + planned_time);
         tasks_count += 1;
       } else {
         if (tasks_count == 0) {
           setError("Добавьте хотя бы одно занятие, начиная с первого");
-          return;
+          return false;
         }
       }
     }
+
+    return true;
+  }
+
+  async function sendTasks(e) {
+    e.preventDefault();
+
+    if (!checkFields()) {
+      console.log("Проверка провалена");
+      return;
+    }
+
+    let newGoal = { day_of_week: 0, tasks: [] };
+    const tasks = tasksRef.current.querySelectorAll(`.${styles.field}`);
+
+    for (const task of tasks) {
+      const title = task.firstElementChild.firstElementChild.value.trim();
+      if (title) {
+        const planned_time =
+          Number(
+            task.querySelector(`.${styles.hours}`).firstElementChild.value
+          ) *
+            60 +
+          Number(
+            task.querySelector(`.${styles.minutes}`).firstElementChild.value
+          );
+
+        newGoal.tasks.push({ title, planned_time });
+        console.log(title + " " + planned_time);
+      }
+    }
+
+    console.log(newGoal);
 
     try {
       console.log(JSON.stringify(newGoal));
@@ -77,10 +106,10 @@ function CreateFormat1() {
 
         const data = await response.json();
         console.log(data);
+        navigate("/main");
         if (data?.code == "token_not_valid") {
           UpdateTokens(sendTaskData);
         }
-        navigate("/main");
       }
 
       sendTaskData();
@@ -88,6 +117,7 @@ function CreateFormat1() {
       console.log(err);
     }
   }
+
 
   function handleChange(e) {
     if (taskVolume == e.target.parentElement.className) {
@@ -135,7 +165,7 @@ function CreateFormat1() {
         <form
           className={styles.block_inputs}
           ref={tasksRef}
-          onSubmit={sendTask}
+          onSubmit={sendTasks}
         >
           {error && <div className={styles.error}>{error}</div>}
 
