@@ -88,12 +88,6 @@ class GetUserDetail(APIView):
                 })
         days.reverse()
 
-        # days.append({
-        #     'id': 7,
-        #     'weekday': date.weekday() + 1,
-        #     'hours':
-        #              })
-
         if (user.last_active_date == (date.today() - timedelta(days=1))) or (user.last_active_date == date.today()):
             pass
         else:
@@ -103,8 +97,10 @@ class GetUserDetail(APIView):
                 user.streak = 0
             user.save()
 
+        streak_active = user.last_active_date == date.today()
+
         return Response({'medals': medals_data.data, "days": days, 'streak_count': user.streak,
-                         'ice_count': user.ice_count}, status=status.HTTP_200_OK)
+                         'streak_active': streak_active, 'ice_count': user.ice_count}, status=status.HTTP_200_OK)
 
 
 class GetUserMedalsView(APIView):

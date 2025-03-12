@@ -3,6 +3,7 @@ import no_avatar from "../../assets/no_avatar.png";
 import experience from "../../assets/experience.svg";
 import ice from "../../assets/ice.svg";
 import flame from "../../assets/flame.svg";
+import extinct_flame from "../../assets/extinct_flame.svg";
 import medal_1_1 from "../../assets/1.1.svg";
 import medal_1_2 from "../../assets/1.2.svg";
 import medal_1_3 from "../../assets/1.3.svg";
@@ -135,7 +136,8 @@ function Profile() {
         <div className={styles.fireStreak_info}>
           <div className={styles.items}>
             <div className={styles.flames}>
-              <img src={flame} alt="" />
+              {userDetailData.streak_active && <img src={flame} alt="" />}
+              {!userDetailData.streak_active && <img src={extinct_flame} alt="" />}
               <p>{userDetailData.streak_count}</p>
             </div>
             <div className={styles.ice}>
