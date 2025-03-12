@@ -114,18 +114,31 @@ class CreateGoalActiveView(APIView):
 
             return total_time
 
-        def get_message():
-            num_message = random.randint(1, 8)
+        def get_message(num_message=random.randint(1, 8)):
 
             message = ''
             match num_message:
                 case 1:
+                    if user.streak < 3:
+                        return get_message(9)
+
                     message = f"Ты молодец, {user}! Уже {user.streak} дней подряд продуктивно работаешь!"
                 case 2:
+                    if user.streak < 1:
+                        return get_message(11)
+
                     message = f"{user}, твой стрик — {user.streak} дней! Держись, и тебя ждёт ещё больше достижений."
                 case 3:
-                    message = f"Лёд не понадобится, {user}, если ты продолжишь в таком же темпе! Твой стрик — {user.streak} дней."
+                    if user.streak < 4:
+                        return get_message(10)
+
+                    message = (f"Лёд не понадобится, {user}, если ты продолжишь в таком же темпе!"
+                               f" Твой стрик — {user.streak} дней.")
                 case 4:
+                    time = getTotalTime
+                    if time < 60:
+                        return get_message(10)
+
                     message = f"{user}, ты уже провёл(а) {getTotalTime // 60} часов за занятиями! Отличный результат!"
                 case 5:
                     today_time = 0
@@ -134,10 +147,17 @@ class CreateGoalActiveView(APIView):
                     for t in tasks:
                         today_time += t.spent_time
 
+                    if today_time < 60:
+                        return get_message(10)
+
                     message = (f"{user}, твоя продуктивность впечатляет! Сегодня ты потратил(а) {today_time // 60} "
                                f"часов на полезные дела.")
                 case 6:
-                    message = f"Каждый день приближает тебя к цели, {user}! За эту неделю ты уже вложил(а) {getTotalTime('week') // 60} часов в своё развитие."
+                    time = getTotalTime('week')
+                    if time < 0:
+                        return get_message(11)
+
+                    message = f"Каждый день приближает тебя к цели, {user}! За эту неделю ты уже вложил(а) {time // 60} часов в своё развитие."
                 case 7:
                     goal = GoalsTemplateActive.objects.filter(user=user).first()
                     random_task = TasksTemplateActive.objects.filter(goal=goal).order_by('?').first()
@@ -150,8 +170,18 @@ class CreateGoalActiveView(APIView):
                     for t in tasks:
                         today_time += t.spent_time
 
+                    if today_time < 60:
+                        return get_message(10)
+
                     message = (f"Огонь, {user}! Ты уже провёл(а) {today_time // 60} часов за учёбой сегодня."
                                f" Давай добьём ещё одну задачу?")
+                case 9:
+                    message = f"Ты можешь всё, {user}! Вперёд, к новым достижениям!"
+                case 10:
+                    message = f"{user}, ты на верном пути! Дерзай, результат не заставит себя ждать!"
+                case 11:
+                    message = f"Не важно, понедельник сегодня или нет — пора начинать! Вперёд к результатам!"
+
 
             return message
 
