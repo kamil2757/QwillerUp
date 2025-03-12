@@ -27,6 +27,7 @@ function Main() {
   const [message, setMessage] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
   const [goalTime, setGoalTime] = useState(0);
+  const [perfectDay, setPerfectDay] = useState(false);
 
   useEffect(() => {
     function handleResize() {
@@ -46,8 +47,8 @@ function Main() {
   async function getTasks() {
     console.log("выполняется getTasks");
     console.log("authorized_main: " + authorized);
-    setTotalTime(0)
-    setGoalTime(0)
+    setTotalTime(0);
+    setGoalTime(0);
     try {
       const response = await fetch(
         "http://127.0.0.1:8000/api/goals/get-active-goal/",
@@ -63,11 +64,14 @@ function Main() {
         console.log(data);
         setTasks(data.data.tasks);
         setMessage(data.message_for_user);
+        setPerfectDay(data.perfect_day);
 
         for (const task of data.data.tasks) {
           setTotalTime((prevTotal) => prevTotal + task.spent_time);
           setGoalTime((prevGoal) => prevGoal + task.planned_time);
         }
+      } else if (response.status === 404) {
+        setTasks(false);
       } else {
         UpdateTokens(getTasks);
         console.log(response);
@@ -104,6 +108,15 @@ function Main() {
 
     setModalIsOpen(true);
   }
+
+  if (!tasks) {
+    return (
+      <div className={styles.message_not_tasks}>
+        У вас пока нет задач. Добавьте их в настройках, чтобы начать!
+      </div>
+    );
+  }
+
   return (
     <div className={styles.main_block}>
       <div className={styles.block1}>
@@ -116,15 +129,17 @@ function Main() {
                   <ProgressBar
                     width={isMini ? "45vw" : "24vw"}
                     percent={(task.spent_time / task.planned_time) * 100}
-                    bgc='rgb(79, 87, 129)'
+                    bgc="rgb(79, 87, 129)"
                   />
                 </div>
                 <div className={styles.bl2}>
                   {task.spent_time < 60 && <p>{task.spent_time % 60}мин</p>}
                   {task.spent_time >= 60 && (
                     <>
-                      <p>{Math.floor(task.spent_time / 60)}ч</p>
-                      <p>{task.spent_time % 60}мин</p>
+                      <p>
+                        {Math.floor(task.spent_time / 60)}ч{" "}
+                        {task.spent_time % 60}мин
+                      </p>
                     </>
                   )}
                   <img src={edit} alt="" onClick={hanldeClickEdit} />
@@ -142,7 +157,13 @@ function Main() {
 
         {!isMini && (
           <div className={styles.motivation}>
-            <p>{message}</p>
+            {perfectDay && (
+              <p>
+                Kamil! ты сделал все дела и получил <span>идеальный день</span>!
+                ты большой молодец, продолжай так же усердно заниматься!
+              </p>
+            )}
+            {!perfectDay && <p>{message}</p>}
           </div>
         )}
         {/* <Button onClick={() => setModal2IsOpen(true)} width="100%">modal window "New level"</Button> */}
@@ -154,32 +175,49 @@ function Main() {
             spentTime={totalTime}
             mini={isMini}
             superMini={isSuperMini}
+            perfect_day={perfectDay}
           />
         </div>
         <div className={styles.timeInfo}>
           {totalTime < 60 && (
-            <div className={styles.total_time}>
+            <div
+              className={`${styles.total_time} ${
+                perfectDay ? styles.total_timePerfect : ""
+              }`}
+            >
               <p>{totalTime % 60}мин</p>
             </div>
           )}
           {totalTime >= 60 && (
-            <div className={styles.total_time}>
-              <p>{Math.floor(totalTime / 60)}ч</p>
-              <p>{totalTime % 60}мин</p>
+            <div
+              className={`${styles.total_time} ${
+                perfectDay ? styles.total_timePerfect : ""
+              }`}
+            >
+              <p>
+                Время всего: {Math.floor(totalTime / 60)}ч {totalTime % 60}мин
+              </p>
             </div>
           )}
           {goalTime < 60 && <p>{goalTime % 60}мин</p>}
           {goalTime >= 60 && (
             <div className={styles.goal_time}>
-              <p>{Math.floor(goalTime / 60)}ч</p>
-              <p>{goalTime % 60}мин</p>
+              <p>
+                Цель: {Math.floor(goalTime / 60)}ч {goalTime % 60}мин
+              </p>
             </div>
           )}
         </div>
       </div>
       {isMini && (
         <div className={styles.motivation}>
-          <p>{message}</p>
+          {perfectDay && (
+            <p>
+              Kamil! ты сделал все дела и получил идеальный день! ты большой
+              молодец, продолжай так же усердно заниматься!
+            </p>
+          )}
+          {!perfectDay && <p>{message}</p>}
         </div>
       )}
 
@@ -187,7 +225,7 @@ function Main() {
         isOpen={modalIsOpen}
         onClose={() => {
           setModalIsOpen(false);
-          getTasks()
+          getTasks();
         }}
         info={modalInfo}
       ></ModalWindowTimeRedact>

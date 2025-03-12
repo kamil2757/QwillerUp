@@ -21,23 +21,25 @@ class CreateGoalTemplateView(APIView):
         tasks = request.data.get("tasks", [])
 
         GoalsTemplate.objects.filter(user=user, day_of_week=day_of_week).delete()
+        if GoalsTemplate:
+            goal_template = GoalsTemplate.objects.create(user=user, day_of_week=day_of_week)
 
-        goal_template = GoalsTemplate.objects.create(user=user, day_of_week=day_of_week)
+            for task in tasks:
+                TasksTemplate.objects.create(
+                    goal=goal_template,
+                    title=task['title'].capitalize(),
+                    planned_time=task['planned_time'],
+                )
 
-        for task in tasks:
-            TasksTemplate.objects.create(
-                goal=goal_template,
-                title=task['title'].capitalize(),
-                planned_time=task['planned_time'],
-            )
+            if day_of_week == 0:
+                user.schedule_type = 1
+            else:
+                user.schedule_type = 2
 
-        if day_of_week == 0:
-            user.schedule_type = 1
-        else:
-            user.schedule_type = 2
+            user.save()
+            return Response({'message': 'Шаблон цели успешно создан'}, status=status.HTTP_201_CREATED)
 
-        user.save()
-        return Response({'message': 'Шаблон цели успешно создан'}, status=status.HTTP_201_CREATED)
+        return Response({'message': 'У пользователя нету задач'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CreateGoalActiveView(APIView):
@@ -84,7 +86,7 @@ class CreateGoalActiveView(APIView):
             last_tasks.delete()
             last_goal.delete()
 
-        def getTotalTime(section='all'):
+        def get_total_time(section='all'):
             total_time = 0
             if section == 'all':
                 all_days = UserDays.objects.filter(user=user)
@@ -135,11 +137,11 @@ class CreateGoalActiveView(APIView):
                     message = (f"Лёд не понадобится, {user}, если ты продолжишь в таком же темпе!"
                                f" Твой стрик — {user.streak} дней.")
                 case 4:
-                    time = getTotalTime
+                    time = get_total_time
                     if time < 60:
                         return get_message(10)
 
-                    message = f"{user}, ты уже провёл(а) {getTotalTime // 60} часов за занятиями! Отличный результат!"
+                    message = f"{user}, ты уже провёл(а) {get_total_time // 60} часов за занятиями! Отличный результат!"
                 case 5:
                     today_time = 0
                     goal = GoalsTemplateActive.objects.filter(user=user).first()
@@ -153,7 +155,7 @@ class CreateGoalActiveView(APIView):
                     message = (f"{user}, твоя продуктивность впечатляет! Сегодня ты потратил(а) {today_time // 60} "
                                f"часов на полезные дела.")
                 case 6:
-                    time = getTotalTime('week')
+                    time = get_total_time('week')
                     if time < 0:
                         return get_message(11)
 
@@ -182,12 +184,19 @@ class CreateGoalActiveView(APIView):
                 case 11:
                     message = f"Не важно, понедельник сегодня или нет — пора начинать! Вперёд к результатам!"
 
-
             return message
+
+        goal = GoalsTemplateActive.objects.filter(user=user).first()
+        tasks = TasksTemplateActive.objects.filter(goal=goal)
+        perfect_day = True
+
+        for task in tasks:
+            if task.spent_time < task.planned_time:
+                perfect_day = False
 
         serializer = ActiveGoalSerializer(active_goal)
         return Response(
-            {'data': serializer.data, 'message_for_user': get_message()},
+            {'data': serializer.data, 'message_for_user': get_message(), 'perfect_day': perfect_day},
             status=status.HTTP_201_CREATED)
 
 

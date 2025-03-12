@@ -2,7 +2,7 @@ import React from "react";
 import { RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import styles from "./ProgressCircle.module.scss";
 
-function ProgressCircle({ spentTime, goalTime, mini = false, superMini = false}) {
+function ProgressCircle({ spentTime, goalTime, mini = false, superMini = false, perfect_day}) {
   const progress = (spentTime / goalTime) * 100;
   const chartSize = mini ? superMini ? 140 : 200 : 300;
   const innerRadius = mini ? superMini ? 60 : 90 : 130;
@@ -11,7 +11,7 @@ function ProgressCircle({ spentTime, goalTime, mini = false, superMini = false})
 
   const data = [
     { name: "background", value: 100, fill: "#2F3864" },
-    { name: "Progress", value: Math.min(progress, 100), fill: "#7AD3F9" },
+    { name: "Progress", value: Math.min(progress, 100), fill: perfect_day ? "rgb(248, 188, 59)" : "#7AD3F9" },
   ];
 
   return (
