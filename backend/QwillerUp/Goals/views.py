@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from datetime import datetime, timedelta, date
+import random
 
 from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, TasksTemplateActive, UserDays
 from Goals.serializers.serializers import ActiveGoalSerializer
@@ -83,9 +84,80 @@ class CreateGoalActiveView(APIView):
             last_tasks.delete()
             last_goal.delete()
 
+        def getTotalTime(section='all'):
+            total_time = 0
+            if section == 'all':
+                all_days = UserDays.objects.filter(user=user)
+                for d in all_days:
+                    total_time += d.time
+
+                goal = GoalsTemplateActive.objects.filter(user=user).first()
+                tasks = TasksTemplateActive.objects.filter(goal=goal)
+
+                for t in tasks:
+                    total_time += t.spent_time
+
+            elif section == 'week':
+                today = now().date()
+                start_week = today - timedelta(days=today.weekday())
+                end_week = start_week + timedelta(days=6)
+
+                week_days = UserDays.objects.filter(date__range=(start_week, end_week), user=user)
+                for d in week_days:
+                    total_time += d.time
+
+                goal = GoalsTemplateActive.objects.filter(user=user).first()
+                tasks = TasksTemplateActive.objects.filter(goal=goal)
+
+                for t in tasks:
+                    total_time += t.spent_time
+
+            return total_time
+
+        def get_message():
+            num_message = random.randint(1, 8)
+
+            message = ''
+            match num_message:
+                case 1:
+                    message = f"Ты молодец, {user}! Уже {user.streak} дней подряд продуктивно работаешь!"
+                case 2:
+                    message = f"{user}, твой стрик — {user.streak} дней! Держись, и тебя ждёт ещё больше достижений."
+                case 3:
+                    message = f"Лёд не понадобится, {user}, если ты продолжишь в таком же темпе! Твой стрик — {user.streak} дней."
+                case 4:
+                    message = f"{user}, ты уже провёл(а) {getTotalTime // 60} часов за занятиями! Отличный результат!"
+                case 5:
+                    today_time = 0
+                    goal = GoalsTemplateActive.objects.filter(user=user).first()
+                    tasks = TasksTemplateActive.objects.filter(goal=goal)
+                    for t in tasks:
+                        today_time += t.spent_time
+
+                    message = (f"{user}, твоя продуктивность впечатляет! Сегодня ты потратил(а) {today_time // 60} "
+                               f"часов на полезные дела.")
+                case 6:
+                    message = f"Каждый день приближает тебя к цели, {user}! За эту неделю ты уже вложил(а) {getTotalTime('week') // 60} часов в своё развитие."
+                case 7:
+                    goal = GoalsTemplateActive.objects.filter(user=user).first()
+                    random_task = TasksTemplateActive.objects.filter(goal=goal).order_by('?').first()
+
+                    message = f"Продолжаем в том же духе, {user}! {random_task.title} — твой следующий шаг к успеху."
+                case 8:
+                    today_time = 0
+                    goal = GoalsTemplateActive.objects.filter(user=user).first()
+                    tasks = TasksTemplateActive.objects.filter(goal=goal)
+                    for t in tasks:
+                        today_time += t.spent_time
+
+                    message = (f"Огонь, {user}! Ты уже провёл(а) {today_time // 60} часов за учёбой сегодня."
+                               f" Давай добьём ещё одну задачу?")
+
+            return message
+
         serializer = ActiveGoalSerializer(active_goal)
         return Response(
-            {'data': serializer.data, 'message_for_user': f'{user.username}, ты занимаешься уже n часов, молодец!'},
+            {'data': serializer.data, 'message_for_user': get_message()},
             status=status.HTTP_201_CREATED)
 
 
