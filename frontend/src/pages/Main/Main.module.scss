@@ -8,9 +8,9 @@
   justify-content: center;
 }
 
-.message_not_tasks{
+.message_not_tasks {
   @include center();
-  background-color: $dark_color ;
+  background-color: $dark_color;
   height: 100px;
   border-radius: 20px;
   margin: 20px 9%;
@@ -44,7 +44,7 @@
     padding: 20px 0;
     @include center();
 
-    span{
+    span {
       color: $perfect-color;
     }
   }
@@ -78,7 +78,7 @@
       text-align: center;
     }
 
-    .total_timePerfect{
+    .total_timePerfect {
       background-color: $perfect-color;
     }
 
@@ -169,14 +169,9 @@
 }
 
 .motivation {
-  background-color: $dark-color;
-  border-radius: 20px;
-  height: 70px;
-  @include center();
-  width: 90vw;
-
-  p {
-    width: 90%;
+  padding: 14px 0;
+  span {
+    color: $perfect-color;
   }
 }
 
