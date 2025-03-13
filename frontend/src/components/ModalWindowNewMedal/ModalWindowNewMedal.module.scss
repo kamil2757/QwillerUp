@@ -33,6 +33,7 @@
   padding: 70px 40px 70px 40px;
   display: flex;
   width: 46vw;
+  gap: 16px;
 
   h1 {
     font-size: $font-large;
@@ -82,6 +83,25 @@
   }
 }
 
+@media (max-width: 1341px) {
+  .new_medal img {
+    width: 140px;
+  }
+}
+
+@media (max-width: 1141px) {
+  .conteiner {
+    width: 500px;
+  }
+  .new_medal {
+    width: 50%;
+  }
+
+  .info_medal {
+    width: 50%;
+  }
+}
+
 @media (max-width: 995px) {
   .conteiner {
     padding: 40px 20px 20px 20px;
@@ -91,6 +111,46 @@
     right: 20px;
     top: 20px;
     width: 16px;
+  }
+}
+
+@media (max-width: 571px) {
+  .conteiner {
+    width: max-content;
+    flex-direction: column;
+    @include center();
+  }
+
+  .new_medal {
+    img {
+      width: 200px;
+    }
+    .description{
+      width: max-content;
+      font-size: $font-medium;
+    }
+    .title {
+      width: 200px;
+      text-align: center;
+      font-size: $font-large;
+    }
+  }
+
+  .info_medal {
+    width: 180px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    .info {
+      width: 96%;
+      text-align: center;
+    }
+
+    .congratulations{
+      h1{
+        text-align: center;
+      }
+    }
   }
 }
 
