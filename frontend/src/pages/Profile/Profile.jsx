@@ -23,6 +23,7 @@ import BarChartProfile from "../../components/BarChart/BarChartProfile";
 import { Link } from "react-router-dom";
 import ModalWindowCheckLevel from "../../components/ModalWindowCheckLevel/ModalWindowCheckLevel";
 import ModalWindowCheckMedals from "../../components/ModalWindowCheckMedals/ModalWindowCheckMedals";
+import ModalWindowNewMedal from "../../components/ModalWindowNewMedal/ModalWindowNewMedal";
 
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { useContext, useEffect, useState } from "react";
@@ -31,9 +32,11 @@ import UserContext from "../../contexts/UserContext";
 function Profile() {
   const [modalLevelIsOpen, setModalLevelIsOpen] = useState(false);
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
+  const [modalNewMedalIsOpen, setModalNewMedalIsOpen] = useState(false);
   const [adaptive, setAdaptive] = useState(false);
   const { UpdateTokens, userData } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
+  const [newMedal, setNewMedal] = useState()
   const medals = {
     "1.1.svg": medal_1_1,
     "1.2.svg": medal_1_2,
@@ -65,6 +68,8 @@ function Profile() {
       console.log("data:");
       console.log(data);
       setUserDetailData(data);
+      setModalNewMedalIsOpen(Boolean(data.new_medal));
+      setNewMedal(data.new_medal)
     } else {
       UpdateTokens(GetDetailInfoUser);
     }
@@ -72,11 +77,6 @@ function Profile() {
   useEffect(() => {
     GetDetailInfoUser();
   }, []);
-
-  useEffect(() => {
-    console.log("userDetailData:");
-    console.log(userDetailData);
-  }, [userDetailData]);
 
   useEffect(() => {
     function handleResize() {
@@ -89,12 +89,6 @@ function Profile() {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    if (!modalMedalsIsOpen) {
-      GetDetailInfoUser();
-    }
-  }, [modalMedalsIsOpen]);
 
   if (!userDetailData) {
     return <div>Loading...</div>;
@@ -137,7 +131,9 @@ function Profile() {
           <div className={styles.items}>
             <div className={styles.flames}>
               {userDetailData.streak_active && <img src={flame} alt="" />}
-              {!userDetailData.streak_active && <img src={extinct_flame} alt="" />}
+              {!userDetailData.streak_active && (
+                <img src={extinct_flame} alt="" />
+              )}
               <p>{userDetailData.streak_count}</p>
             </div>
             <div className={styles.ice}>
@@ -165,6 +161,7 @@ function Profile() {
                 </div>
               ))}
             </div>
+
             {!adaptive && (
               <Button
                 width="100%"
@@ -192,6 +189,11 @@ function Profile() {
         isOpen={modalMedalsIsOpen}
         onClose={() => setModalMedalsIsOpen(false)}
       ></ModalWindowCheckMedals>
+      <ModalWindowNewMedal
+        isOpen={modalNewMedalIsOpen}
+        onClose={() => setModalNewMedalIsOpen(false)}
+        medal_data={newMedal}
+      ></ModalWindowNewMedal>
     </div>
   );
 }

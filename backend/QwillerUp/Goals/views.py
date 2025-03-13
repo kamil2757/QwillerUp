@@ -11,6 +11,8 @@ from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, Task
 from Goals.serializers.serializers import ActiveGoalSerializer
 from django.utils.timezone import now
 
+from Users.models import Medals, UserMedals
+
 
 class CreateGoalTemplateView(APIView):
     permission_classes = [IsAuthenticated]

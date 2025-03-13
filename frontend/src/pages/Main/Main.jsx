@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input";
 import ProgressCircle from "../../components/ProgressCircle/ProgressCircle";
 import ModalWindowTimeRedact from "../../components/ModalWindowTimeRedact/ModalWindowTimeRedact";
 import ModalWindowNewLevel from "../../components/ModalWindowNewLevel/ModalWindowNewLevel";
+import ModalWindowNewMedal from "../../components/ModalWindowNewMedal/ModalWindowNewMedal";
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
