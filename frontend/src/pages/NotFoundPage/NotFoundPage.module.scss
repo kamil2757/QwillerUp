@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+
+.block_notFoundPage{
+    margin: 100px auto;
+    background-color: $dark-color;
+    border-radius: 20px;
+
+    width: 800px;
+    padding: 60px;
+
+    h1{
+        font-size: $font-large;
+        margin: 0 0 50px 0;
+    }
+
+    a{
+        color: $accent_color;
+        text-decoration: none;
+
+        font-weight: 500;
+    }
+}

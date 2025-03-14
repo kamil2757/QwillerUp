@@ -15,6 +15,7 @@ import SettingsDonate from "./pages/SettingsDonate/SettingsDonate.jsx";
 import SettingsTasks from "./pages/SettingsTasks/SettingsTasks.jsx";
 import SettingsTasksFormat1 from "./pages/SettingsTasksFormat1/SettingsTasksFormat1.jsx";
 import SettingsTasksFormat2 from "./pages/SettingsTasksFormat2/SettingsTasksFormat2.jsx";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoute/PublicRoute.jsx";
 
@@ -63,6 +64,7 @@ function App() {
               <Route path="donate" element={<SettingsDonate />} />
             </Route>
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
       <Footer />
