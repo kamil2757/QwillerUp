@@ -181,7 +181,7 @@ function SettingsTasksFormat2() {
         async function sendTaskData() {
           console.log(newGoal);
           const response = await fetch(
-            `http://${domain}/api/goals/create-goal-template/`,
+            `https://${domain}/api/goals/create-goal-template/`,
             {
               method: "POST",
               headers: {
