@@ -50,7 +50,7 @@ function Main() {
     setGoalTime(0);
     try {
       const response = await fetch(
-        `http://${domain}/api/goals/get-active-goal/`,
+        `https://${domain}/api/goals/get-active-goal/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

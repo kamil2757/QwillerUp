@@ -31,7 +31,7 @@ function Registration() {
     }
     try {
       const response = await fetch(
-        `http://${domain}/api/users/register/`,
+        `https://${domain}/api/users/register/`,
         {
           method: "POST",
           headers: {

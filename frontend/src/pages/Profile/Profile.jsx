@@ -55,7 +55,7 @@ function Profile() {
 
   async function GetDetailInfoUser() {
     const response = await fetch(
-      `http://${domain}/api/users/detailUserInfo/`,
+      `https://${domain}/api/users/detailUserInfo/`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

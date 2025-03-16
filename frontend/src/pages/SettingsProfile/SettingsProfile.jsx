@@ -31,7 +31,7 @@ function SettingsProfile() {
     async function editUserInfo() {
       try {
         const response = await fetch(
-          `http://${domain}/api/users/editUserInfo/`,
+          `https://${domain}/api/users/editUserInfo/`,
           {
             method: "POST",
             headers: {

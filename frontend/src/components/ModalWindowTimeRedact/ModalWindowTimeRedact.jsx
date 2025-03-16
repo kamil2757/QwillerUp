@@ -63,7 +63,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   async function updateTimeTask(time_spent, title) {
     try {
       const response = await fetch(
-        `http://${domain}/api/goals/set-time-task/`,
+        `https://${domain}/api/goals/set-time-task/`,
         {
           method: "POST",
           headers: {

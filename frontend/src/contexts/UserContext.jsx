@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
     setAuthorized(false);
     try {
       const response = await fetch(
-        `http://${domain}/api/users/userInfo/`,
+        `https://${domain}/api/users/userInfo/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -47,7 +47,7 @@ export const UserProvider = ({ children }) => {
     try {
       const refresh = localStorage.getItem("refresh_token");
       const response = await fetch(
-        `http://${domain}/api/users/token/refresh/`,
+        `https://${domain}/api/users/token/refresh/`,
         {
           method: "POST",
           headers: {

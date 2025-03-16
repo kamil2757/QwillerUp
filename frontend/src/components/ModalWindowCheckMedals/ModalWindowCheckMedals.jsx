@@ -83,7 +83,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
     async function getMedals() {
       try {
         const response = await fetch(
-          `http://${domain}/api/users/getUserMedals/`,
+          `https://${domain}/api/users/getUserMedals/`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -140,7 +140,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
     try {
       console.log(equippedMedals)
       const response = await fetch(
-        `http://${domain}/api/users/updateEquippedMedals/`,
+        `https://${domain}/api/users/updateEquippedMedals/`,
         {
           method: "POST",
           headers: {
