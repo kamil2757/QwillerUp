@@ -21,20 +21,17 @@ export const UserProvider = ({ children }) => {
           },
         }
       );
+      
       const data = await response.json();
 
       if (response.ok) {
-        setUserData(data);
-        console.log("Успешный вход");
+        setUserData(data)
         setAuthorized(true);
         setLoading(false)
       } else {
-        console.log("Неуспешный вход");
-        console.log(response);
         UpdateTokens(GetUser);
       }
     } catch (err) {
-      console.log("Ошибка");
       setLoading(false)
       console.log(err);
     }
@@ -46,7 +43,6 @@ export const UserProvider = ({ children }) => {
 
   async function UpdateTokens(callbackF = null) {
     setLoading(true)
-    console.log("Обновление токена access");
     try {
       const refresh = localStorage.getItem("refresh_token");
       const response = await fetch(
@@ -62,7 +58,7 @@ export const UserProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
+
         localStorage.setItem("access_token", data["access"]);
         if (!(callbackF == null)) {
           await callbackF();
@@ -82,6 +78,7 @@ export const UserProvider = ({ children }) => {
         }
       }
     } catch (err) {
+      console.log(localStorage.getItem("refresh_token"))
       console.log(err);
     } finally {
       setLoading(false);

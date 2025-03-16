@@ -5,6 +5,11 @@
   > h1 {
     font-size: $font-large;
   }
+
+  > p {
+    margin: 20px 0 0px 0;
+    width: 32vw;
+  }
 }
 .nav {
   margin: 42px 0 0 0;
@@ -35,4 +40,16 @@
 
 .content {
   margin: 52px 0;
+}
+
+@media (max-width: 921px) {
+  .block_settingsTasks > p {
+    width: 52vw;
+  }
+}
+
+@media (max-width: 552px) {
+  .block_settingsTasks > p {
+    width: 72vw;
+  }
 }

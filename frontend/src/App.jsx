@@ -61,7 +61,7 @@ function App() {
                 <Route path="format2" element={<SettingsTasksFormat2 />} />
               </Route>
               {/* <Route path="progress" element={<SettingsProgress />} /> */}
-              <Route path="donate" element={<SettingsDonate />} />
+              {/* <Route path="donate" element={<SettingsDonate />} /> */}
             </Route>
           </Route>
           <Route path="*" element={<NotFoundPage />} />

@@ -76,12 +76,13 @@ function Landing() {
         </div>
       </div>
       <div className={styles.video_block}>
-        <h1>Видео про QwillerUp</h1>
+        {/* <h1>Видео про QwillerUp</h1> */}
+        <h1>Подход QwillerUp</h1>
         <div className={styles.video}>
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/FXukyvhsDRg?si=7Ws6UgvORu9RQfBB?rel=0"
+            src="https://www.youtube.com/embed/goFZz45p2Ck"
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

@@ -76,8 +76,6 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
           }),
         }
       );
-      const data = await response.json();
-      console.log(data);
 
       if (!response.ok) {
         UpdateTokens(() => updateTimeTask(time_spent, title));
@@ -100,8 +98,6 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
       setError("Нереальное время");
     } else {
       if (e.nativeEvent.submitter.name == "save_editTime") {
-        console.log("Обновление данных");
-        console.log(title, time_spent);
         updateTimeTask(time_spent, title);
       }
     }

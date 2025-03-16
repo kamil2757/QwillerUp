@@ -46,8 +46,6 @@ function Main() {
   }, []);
 
   async function getTasks() {
-    console.log("выполняется getTasks");
-    console.log("authorized_main: " + authorized);
     setTotalTime(0);
     setGoalTime(0);
     try {
@@ -62,7 +60,6 @@ function Main() {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         setTasks(data.data.tasks);
         setMessage(data.message_for_user);
         setPerfectDay(data.perfect_day);
@@ -74,8 +71,7 @@ function Main() {
       } else if (response.status === 404) {
         setTasks(false);
       } else {
-        UpdateTokens(getTasks);
-        console.log(response);
+        UpdateTokens();
       }
     } catch (err) {
       console.log(err);
@@ -84,16 +80,15 @@ function Main() {
 
   useEffect(() => {
     if (authorized == true) {
-      console.log("Запускаем шарманку, getTasks");
       getTasks();
     }
-  }, [authorized]);
+  }, []);
+
 
   function hanldeClickEdit(e) {
     const task_title = e.target.parentNode.parentNode
       .querySelector(`.${styles.bl1}`)
       .querySelector(`p`).innerText;
-    console.log("task_title: " + task_title);
 
     for (let t of tasks) {
       if (t.title == task_title) {

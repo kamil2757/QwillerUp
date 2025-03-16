@@ -8,7 +8,7 @@ function Header() {
   const [bMenuIsOpen, setBMenuIsOpen] = useState(false);
   const menuRef = useRef(null);
   const { authorized } = useContext(UserContext);
-  const username = localStorage.username
+  const { userData } = useContext(UserContext);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -64,7 +64,7 @@ function Header() {
             className={location == "/profile" ? styles.active : ""}
             onClick={() => setBMenuIsOpen(false)}
           >
-            {username}
+            {userData.username}
           </Link>
         </div>
       )}
@@ -86,47 +86,52 @@ function Header() {
         </div>
       )}
 
-      <div className={styles.burder_menu_block}>
-        <div
-          className={`${styles.burger} ${
-            bMenuIsOpen && authorized ? styles.burger_open : ""
-          }`}
-          onClick={() => setBMenuIsOpen(!bMenuIsOpen)}
-        >
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+      {authorized && (
+        <div className={styles.burder_menu_block}>
+          <div
+            className={`${styles.burger} ${
+              bMenuIsOpen && authorized ? styles.burger_open : ""
+            }`}
+            onClick={() => setBMenuIsOpen(!bMenuIsOpen)}
+          >
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
 
-        <div
-          className={`${styles.burger_content} ${
-            bMenuIsOpen ? styles.burger_content_open : ""
-          }`}
-          onClick={() => setBMenuIsOpen(false)}
-        >
-          <Link to="/main" className={location == "/main" ? styles.active : ""}>
-            <p>Задачи</p>
-          </Link>
-          <Link
-            to="/honor-board"
-            className={location == "/honor-board" ? styles.active : ""}
+          <div
+            className={`${styles.burger_content} ${
+              bMenuIsOpen ? styles.burger_content_open : ""
+            }`}
+            onClick={() => setBMenuIsOpen(false)}
           >
-            <p>Доска почёта</p>
-          </Link>
-          <Link
-            to="/profile"
-            className={location == "/profile" ? styles.active : ""}
-          >
-            <p>Профиль</p>
-          </Link>
-          <Link
-            to="/settings/profile"
-            className={location == "/settings/profile" ? styles.active : ""}
-          >
-            <p>Настройки</p>
-          </Link>
+            <Link
+              to="/main"
+              className={location == "/main" ? styles.active : ""}
+            >
+              <p>Задачи</p>
+            </Link>
+            <Link
+              to="/honor-board"
+              className={location == "/honor-board" ? styles.active : ""}
+            >
+              <p>Доска почёта</p>
+            </Link>
+            <Link
+              to="/profile"
+              className={location == "/profile" ? styles.active : ""}
+            >
+              <p>Профиль</p>
+            </Link>
+            <Link
+              to="/settings/profile"
+              className={location == "/settings/profile" ? styles.active : ""}
+            >
+              <p>Настройки</p>
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 }

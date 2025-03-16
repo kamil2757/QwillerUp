@@ -25,7 +25,6 @@ function Login() {
       return;
     }
 
-    console.log("login");
     try {
       const response = await fetch("http://127.0.0.1:8000/api/users/login/", {
         method: "POST",
@@ -41,7 +40,6 @@ function Login() {
       const data = await response.json();
       if (response.ok) {
         setUserData(data);
-        console.log(data);
         for (let key in data) {
           localStorage.setItem(key, data[key]);
 
@@ -60,7 +58,6 @@ function Login() {
         );
       }
     } catch (err) {
-      console.log(err);
       setError("Ошибка соединения с сервером. Попробуйте еще раз.");
     }
   }

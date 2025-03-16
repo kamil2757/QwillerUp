@@ -2,58 +2,73 @@ import styles from "./SettingsProfile.module.scss";
 import { Link, NavLink } from "react-router-dom";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import no_avatar from "../../assets/no_avatar.png";
+import UserContext from "../../contexts/UserContext";
 
 function SettingsProfile() {
-  const [nickname, setNickname] = useState(localStorage.username);
-  const [about, setAbout] = useState(
-    localStorage.description
-  );
+  const { UpdateTokens, userData } = useContext(UserContext);
+  const [nickname, setNickname] = useState(userData.username);
+  const [about, setAbout] = useState(userData.description);
   const [image, setImage] = useState(null);
-  
-  function handleFileChange(event){
-    const file = event.target.files[0]
-    if (file){
-      const reader = new FileReader()
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
       reader.onload = () => {
-        setImage(reader.result)
+        setImage(reader.result);
       };
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file);
     }
   }
 
-  async function handlerSubmit(e){
+  async function handlerSubmit(e) {
     e.preventDefault();
-    console.log('handlerSubmit')
-    console.log(nickname)
-    console.log(about)
 
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/editUserInfo/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-        body: JSON.stringify({
-          username: nickname.trim(),
-          about: about.trim(),
-        }),
-      });
+    async function editUserInfo() {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/api/users/editUserInfo/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+            body: JSON.stringify({
+              username: nickname.trim(),
+              about: about.trim(),
+            }),
+          }
+        );
 
-      const data = await response.json();
-      console.log(data)
+        const data = await response.json();
 
-    } catch (err) {
-      console.log(err);
+        console.log(data);
+
+        if (data["message"] && !response.ok) {
+          setError(data["message"]);
+        } else if (!response.ok) {
+          UpdateTokens();
+        } else {
+          setSuccess(data["message"]);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
-    
+
+    editUserInfo();
   }
 
   return (
     <div className={styles.block_settingsProfile}>
       <h1>Редактирование профиля</h1>
+      {error && <div className={styles.error}>{error}</div>}
+      {success && <div className={styles.success}>{success}</div>}
       <form action="" onSubmit={handlerSubmit}>
         <div className={styles.nickname}>
           <p>Ваш никнейм</p>

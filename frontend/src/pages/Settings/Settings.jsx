@@ -48,9 +48,9 @@ function Settings() {
           {/* <Link to="progress" className={set_Active("/settings/progress")}>
             Настройки учета прогресса
           </Link> */}
-          <Link to="donate" className={set_Active("/settings/donate")}>
+          {/* <Link to="donate" className={set_Active("/settings/donate")}>
             Поддержать автора монеткой
-          </Link>
+          </Link> */}
           <div onClick={() => setIsOpenLogout(true)}>Выйти</div>
         </nav>
       )}
@@ -69,9 +69,9 @@ function Settings() {
             </Link> */}
           </div>
           <div className={styles.line2}>
-            <Link to="donate" className={set_Active("/settings/donate")}>
+            {/* <Link to="donate" className={set_Active("/settings/donate")}>
               Поддержать автора монеткой
-            </Link>
+            </Link> */}
             <div onClick={() => setIsOpenLogout(true)}>Выйти</div>
           </div>
         </nav>

@@ -91,7 +91,6 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
           }
         );
         const data = await response.json();
-        console.log(data.medals);
 
         if (!response.ok){
           UpdateTokens(getMedals)
@@ -104,7 +103,6 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
 
         const eqMedals = data.medals.filter((m) => m.equipped);
         setEquippedMedals(eqMedals.slice(0, 3));
-        console.log(eqMedals.slice(0, 3));
       } catch (err) {
         console.log(err);
       }
@@ -124,21 +122,15 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
           m.title.replace(/\s+/g, " ").trim() ==
           currentMedal.replace(/\s+/g, " ").trim()
         ) {
-          console.log("Найден голубчик");
-          console.log(m.title);
-          console.log(currentMedal);
           dataCurrentMedal = m;
           break;
         } else {
-          console.log(m.title);
-          console.log(currentMedal);
         }
       }
 
       setEquippedMedals((prev) => {
         const arr = [...prev, dataCurrentMedal];
         arr.shift();
-        console.log(arr);
         return arr;
       });
     }
@@ -160,7 +152,6 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
       );
 
       const data = await response.json();
-      console.log(data)
       if (response.ok) {
         onClose()
       } else {

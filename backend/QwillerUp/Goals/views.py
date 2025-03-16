@@ -71,6 +71,31 @@ class CreateGoalActiveView(APIView):
                     title=task.title,
                     planned_time=task.planned_time
                 )
+        else:
+            if user.schedule_type == 1:
+                template = GoalsTemplate.objects.filter(user=user, day_of_week=0).first()
+            else:
+                template = GoalsTemplate.objects.filter(user=user, day_of_week=day_of_week).first()
+
+            tasks_t = [{t.title, t.planned_time} for t in TasksTemplate.objects.filter(goal=template)]
+
+            active = GoalsTemplateActive.objects.filter(user=user).first()
+            ta_t = TasksTemplateActive.objects.filter(goal=active)
+            tasks_a = [{t.title, t.planned_time} for t in ta_t]
+
+            if not (tasks_t == tasks_a):
+                ta_t.delete()
+                active.delete()
+
+                active_goal = GoalsTemplateActive.objects.create(user=user, created_at=now().date())
+                task_templates = TasksTemplate.objects.filter(goal=template)
+
+                for task in task_templates:
+                    TasksTemplateActive.objects.create(
+                        goal=active_goal,
+                        title=task.title,
+                        planned_time=task.planned_time
+                    )
 
         last_goal = GoalsTemplateActive.objects.filter(user=user).exclude(created_at=now().date()).first()
         if last_goal:
@@ -123,27 +148,27 @@ class CreateGoalActiveView(APIView):
             message = ''
             match num_message:
                 case 1:
-                    if user.streak < 3:
+                    if user.streak <= 3:
                         return get_message(9)
 
                     message = f"Ты молодец, {user}! Уже {user.streak} дней подряд продуктивно работаешь!"
                 case 2:
-                    if user.streak < 1:
+                    if user.streak <= 1:
                         return get_message(11)
 
                     message = f"{user}, твой стрик — {user.streak} дней! Держись, и тебя ждёт ещё больше достижений."
                 case 3:
-                    if user.streak < 4:
+                    if user.streak <= 4:
                         return get_message(10)
 
                     message = (f"Лёд не понадобится, {user}, если ты продолжишь в таком же темпе!"
                                f" Твой стрик — {user.streak} дней.")
                 case 4:
-                    time = get_total_time
+                    time = get_total_time()
                     if time < 60:
                         return get_message(10)
 
-                    message = f"{user}, ты уже провёл(а) {get_total_time // 60} часов за занятиями! Отличный результат!"
+                    message = f"{user}, ты уже провёл(а) {time // 60} часов за занятиями! Отличный результат!"
                 case 5:
                     today_time = 0
                     goal = GoalsTemplateActive.objects.filter(user=user).first()

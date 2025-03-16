@@ -65,8 +65,6 @@ function Profile() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("data:");
-      console.log(data);
       setUserDetailData(data);
       setModalNewMedalIsOpen(Boolean(data.new_medal));
       setNewMedal(data.new_medal)

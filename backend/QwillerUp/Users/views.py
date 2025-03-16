@@ -14,7 +14,7 @@ from django.utils.timezone import now
 from datetime import timedelta, date
 
 from Goals.models import UserDays, TasksTemplateActive, GoalsTemplateActive
-from Users.models import UserMedals, Medals
+from Users.models import UserMedals, Medals, CustomUsers
 from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer, UserMedalsSerializer, \
     UserMedals2Serializer
 
@@ -136,11 +136,10 @@ class GetUserDetail(APIView):
                         else:
                             UserMedals.objects.create(user=user, medal=medal_obj)
 
-                        new_medal =  UserMedalsSerializer(medal_obj).data
+                        new_medal = UserMedalsSerializer(medal_obj).data
                         break
 
                 return new_medal
-
 
             ch1 = check_medal(hours, total_times_medal)
             if ch1:
@@ -157,7 +156,6 @@ class GetUserDetail(APIView):
                 print('ch3')
                 return ch3
 
-
         if (user.last_active_date == (date.today() - timedelta(days=1))) or (user.last_active_date == date.today()):
             pass
         else:
@@ -166,7 +164,6 @@ class GetUserDetail(APIView):
             else:
                 user.streak = 0
             user.save()
-
 
         streak_active = user.last_active_date == date.today()
 
@@ -205,14 +202,18 @@ class EditUserView(APIView):
 
     def post(self, request):
         user = request.user
-        user.username = request.data.get('username')
+        has_user = CustomUsers.objects.filter(username=request.data.get('username')).exclude(id=user.id).exists()
 
-        if len(request.data.get('about')) > 0:
-            user.description = request.data.get('about')
+        if not (len(request.data.get('about')) > 0 and len(request.data.get('username')) > 0):
+            return Response({'message': 'Некорректные поля'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if has_user:
+            return Response({'message': 'Пользователь с таким именем уже существует.'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        user.username = request.data.get('username')
+        user.description = request.data.get('about')
 
         user.save()
 
-        return Response({'message': 'Гатова!'}, status=status.HTTP_200_OK)
-
-
-
+        return Response({'message': 'Ваши данные успешно обновлены!'}, status=status.HTTP_200_OK)
