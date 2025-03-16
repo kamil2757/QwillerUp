@@ -1,5 +1,4 @@
 from datetime import date, timedelta
-from tkinter.constants import CASCADE
 
 from django.db import models
 from django.contrib.auth import get_user_model
