@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 from django.conf.global_settings import AUTH_USER_MODEL, MEDIA_URL
 
@@ -22,12 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fz29$99o)9kx#6q^i$$a+los!yy^mtami#_ek5)n=*)aw5gk=k'
+SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = os.getenv("DEBUG") == "True"
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
 AUTH_USER_MODEL = 'Users.CustomUsers'
 
@@ -47,13 +51,22 @@ INSTALLED_APPS = [
     'Analytics',
 ]
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+CSRF_COOKIE_SECURE = False  # Включить для HTTPS
+SESSION_COOKIE_SECURE = False  # Включить для HTTPS
+SECURE_SSL_REDIRECT = False  # Перенаправлять на HTTPS
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173", 'http://localhost:3000', 'http://172.25.112.1:3000',
+                        'https://qwiller-up.vercel.app']
 CORS_ALLOW_CREDENTIALS = True
 
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,18 +100,13 @@ WSGI_APPLICATION = 'QwillerUp.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'QwillerUp_db',
-        'USER': 'kamil',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': 5432,
+        'NAME': os.getenv('DATABASE_NAME'),
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('DATABASE_HOST'),
+        'PORT': os.getenv('DATABASE_PORT'),
         'OPTIONS': {'client_encoding': 'UTF8'},
     }
 }
@@ -141,9 +149,13 @@ LANGUAGES = [
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = '/static/'
+
+MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
