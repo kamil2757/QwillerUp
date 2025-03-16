@@ -14,7 +14,7 @@ import UserContext from "../../contexts/UserContext";
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
-  const { authorized, UpdateTokens } = useContext(UserContext);
+  const { authorized, UpdateTokens, domain } = useContext(UserContext);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,
@@ -50,7 +50,7 @@ function Main() {
     setGoalTime(0);
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/goals/get-active-goal/",
+        `http://${domain}/api/goals/get-active-goal/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

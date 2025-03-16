@@ -12,7 +12,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [blockedButton, setBlockedButton] = useState(true);
-  const { setUserData, setAuthorized, authorized } = useContext(UserContext);
+  const { setUserData, setAuthorized, authorized, domain } = useContext(UserContext);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/users/login/", {
+      const response = await fetch(`http://${domain}/api/users/login/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -10,7 +10,7 @@ function SettingsTasksFormat1() {
   const tasksRef = useRef(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const { UpdateTokens } = useContext(UserContext);
+  const { UpdateTokens, domain } = useContext(UserContext);
   const [TotalTime, setTotalTime] = useState({
     hours: 0,
     minutes: 0,
@@ -123,7 +123,7 @@ function SettingsTasksFormat1() {
       console.log(JSON.stringify(newGoal));
       async function sendTaskData() {
         const response = await fetch(
-          "http://127.0.0.1:8000/api/goals/create-goal-template/",
+          `http://${domain}/api/goals/create-goal-template/`,
           {
             method: "POST",
             headers: {

@@ -22,7 +22,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   const [adaptive, setAdaptive] = useState(false);
   const modalBlock = useRef(null);
   const aimRef = useRef(null);
-  const { UpdateTokens } = useContext(UserContext);
+  const { UpdateTokens, domain } = useContext(UserContext);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -63,7 +63,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   async function updateTimeTask(time_spent, title) {
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/goals/set-time-task/",
+        `http://${domain}/api/goals/set-time-task/`,
         {
           method: "POST",
           headers: {
