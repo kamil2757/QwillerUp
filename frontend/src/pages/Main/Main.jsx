@@ -14,7 +14,7 @@ import UserContext from "../../contexts/UserContext";
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
-  const { authorized, UpdateTokens, domain } = useContext(UserContext);
+  const { authorized, UpdateTokens, domain, userData } = useContext(UserContext);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,
@@ -155,7 +155,7 @@ function Main() {
           <div className={styles.motivation}>
             {perfectDay && (
               <p>
-                Kamil! ты сделал все дела и получил <span>идеальный день</span>!
+                {userData.username}! ты сделал все дела и получил <span>идеальный день</span>!
                 ты большой молодец, продолжай так же усердно заниматься!
               </p>
             )}
