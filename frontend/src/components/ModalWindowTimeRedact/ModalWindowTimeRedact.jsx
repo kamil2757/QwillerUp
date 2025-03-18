@@ -112,7 +112,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key == "Escape") {
-        setError(true);
+        setError(false);
         onClose();
       }
     }
@@ -147,7 +147,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
     <div
       className={styles.modal_back}
       onClick={() => {
-        setError(true);
+        setError(false);
         onClose();
       }}
       ref={modalBlock}
@@ -157,7 +157,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
           src={cross}
           alt=""
           onClick={() => {
-            setError(true);
+            setError(false);
             onClose();
           }}
         />
@@ -229,9 +229,9 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
                   <Button
                     padding={adaptive ? "0 26px" : "0 18px"}
                     width={adaptive ? "46%" : undefined}
-                    onClick={() =>
-                      setHours((prevHours) => Number(prevHours) + 1)
-                    }
+                    onClick={() => {
+                      setHours((prevHours) => Number(prevHours) + 1);
+                    }}
                     name="1hours"
                   >
                     +1 час
