@@ -14,7 +14,7 @@ class ActiveTaskSerializer(serializers.ModelSerializer):
 
 
 class ActiveGoalSerializer(serializers.ModelSerializer):
-    tasks = ActiveTaskSerializer(many=True, read_only=True, source='taskstemplateactive_set').order_by('id')
+    tasks = ActiveTaskSerializer(many=True, read_only=True, source='taskstemplateactive_set')
 
     class Meta:
         model = GoalsTemplateActive
