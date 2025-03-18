@@ -82,6 +82,7 @@ class CreateGoalActiveView(APIView):
             active = GoalsTemplateActive.objects.filter(user=user).first()
             ta_t = TasksTemplateActive.objects.filter(goal=active)
             tasks_a = [(t.title, t.planned_time) for t in ta_t]
+            print(tasks_t, tasks_a)
 
             if not (tasks_t == tasks_a):
                 ta_t.delete()

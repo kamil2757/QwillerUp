@@ -19,7 +19,7 @@ import UserContext from "../../contexts/UserContext";
 
 function ModalWindowCheckMedals({ isOpen, onClose }) {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const { UpdateTokens, domain } = useContext(UserContext);
+  const { UpdateTokens, domain, protocol } = useContext(UserContext);
   const modalBlock = useRef(null);
   const medals = {
     "1.1.svg": medal_1_1,
@@ -83,7 +83,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
     async function getMedals() {
       try {
         const response = await fetch(
-          `https://${domain}/api/users/getUserMedals/`,
+          `${protocol}://${domain}/api/users/getUserMedals/`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -140,7 +140,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
     try {
       console.log(equippedMedals)
       const response = await fetch(
-        `https://${domain}/api/users/updateEquippedMedals/`,
+        `${protocol}://${domain}/api/users/updateEquippedMedals/`,
         {
           method: "POST",
           headers: {

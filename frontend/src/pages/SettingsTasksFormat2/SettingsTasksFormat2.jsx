@@ -27,7 +27,7 @@ function SettingsTasksFormat2() {
     Воскресенье: { hours: 0, minutes: 0 },
   });
   const tasksRef = useRef(null);
-  const { UpdateTokens, domain } = useContext(UserContext);
+  const { UpdateTokens, domain, protocol } = useContext(UserContext);
 
   const week = [
     [1, "Понедельник"],
@@ -181,7 +181,7 @@ function SettingsTasksFormat2() {
         async function sendTaskData() {
           console.log(newGoal);
           const response = await fetch(
-            `https://${domain}/api/goals/create-goal-template/`,
+            `${protocol}://${domain}/api/goals/create-goal-template/`,
             {
               method: "POST",
               headers: {

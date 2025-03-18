@@ -14,7 +14,7 @@ function Registration() {
   const [password2, setPassword2] = useState("");
 
   const [blockedButton, setBlockedButton] = useState(true);
-  const { setUserData, setAuthorized, authorized, domain } = useContext(UserContext);
+  const { setUserData, setAuthorized, authorized, domain, protocol } = useContext(UserContext);
   const [error, setError] = useState();
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ function Registration() {
     }
     try {
       const response = await fetch(
-        `https://${domain}/api/users/register/`,
+        `${protocol}://${domain}/api/users/register/`,
         {
           method: "POST",
           headers: {

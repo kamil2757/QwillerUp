@@ -7,7 +7,7 @@ import no_avatar from "../../assets/no_avatar.png";
 import UserContext from "../../contexts/UserContext";
 
 function SettingsProfile() {
-  const { UpdateTokens, userData, domain } = useContext(UserContext);
+  const { UpdateTokens, userData, domain, protocol } = useContext(UserContext);
   const [nickname, setNickname] = useState(userData.username);
   const [about, setAbout] = useState(userData.description);
   const [image, setImage] = useState(null);
@@ -31,7 +31,7 @@ function SettingsProfile() {
     async function editUserInfo() {
       try {
         const response = await fetch(
-          `https://${domain}/api/users/editUserInfo/`,
+          `${protocol}://${domain}/api/users/editUserInfo/`,
           {
             method: "POST",
             headers: {

@@ -8,7 +8,7 @@ import UserContext from "../../contexts/UserContext";
 function CreateFormat1() {
   const [blockedButton, setBlockedButton] = useState(false);
   const [taskVolume, setTaskVolume] = useState(2);
-  const { UpdateTokens, domain } = useContext(UserContext);
+  const { UpdateTokens, domain, protocol } = useContext(UserContext);
   const [TotalTime, setTotalTime] = useState({
     hours: 0,
     minutes: 0,
@@ -93,7 +93,7 @@ function CreateFormat1() {
       console.log(JSON.stringify(newGoal));
       async function sendTaskData() {
         const response = await fetch(
-          `https://${domain}/api/goals/create-goal-template/`,
+          `${protocol}://${domain}/api/goals/create-goal-template/`,
           {
             method: "POST",
             headers: {

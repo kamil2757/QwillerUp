@@ -34,7 +34,7 @@ function Profile() {
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
   const [modalNewMedalIsOpen, setModalNewMedalIsOpen] = useState(false);
   const [adaptive, setAdaptive] = useState(false);
-  const { UpdateTokens, userData, domain } = useContext(UserContext);
+  const { UpdateTokens, userData, domain, protocol } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
   const [newMedal, setNewMedal] = useState()
   const medals = {
@@ -55,7 +55,7 @@ function Profile() {
 
   async function GetDetailInfoUser() {
     const response = await fetch(
-      `https://${domain}/api/users/detailUserInfo/`,
+      `${protocol}://${domain}/api/users/detailUserInfo/`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

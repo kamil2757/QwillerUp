@@ -9,13 +9,17 @@ export const UserProvider = ({ children }) => {
   const [authorized, setAuthorized] = useState(null);
   const [loading, setLoading] = useState(true)
   const domain = 'qwillerup-production.up.railway.app'
+  const protocol = 'https'
+
+  // const domain = '127.0.0.1:8000'
+  // const protocol = 'http'
 
   async function GetUser() {
     setLoading(true)
     setAuthorized(false);
     try {
       const response = await fetch(
-        `https://${domain}/api/users/userInfo/`,
+        `${protocol}://${domain}/api/users/userInfo/`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -47,7 +51,7 @@ export const UserProvider = ({ children }) => {
     try {
       const refresh = localStorage.getItem("refresh_token");
       const response = await fetch(
-        `https://${domain}/api/users/token/refresh/`,
+        `${protocol}://${domain}/api/users/token/refresh/`,
         {
           method: "POST",
           headers: {
@@ -96,7 +100,8 @@ export const UserProvider = ({ children }) => {
         UpdateTokens,
         GetUser,
         loading,
-        domain
+        domain,
+        protocol
       }}
     >
       {children}
