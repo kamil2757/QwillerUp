@@ -81,6 +81,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
         UpdateTokens(() => updateTimeTask(time_spent, title));
         return;
       } else {
+        setError(false);
         onClose();
       }
     } catch (err) {
@@ -111,6 +112,7 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key == "Escape") {
+        setError(true);
         onClose();
       }
     }
@@ -142,9 +144,23 @@ function ModalWindowTimeRedact({ children, isOpen, onClose, info }) {
   if (!isVisible) return null;
 
   return ReactDOM.createPortal(
-    <div className={styles.modal_back} onClick={onClose} ref={modalBlock}>
+    <div
+      className={styles.modal_back}
+      onClick={() => {
+        setError(true);
+        onClose();
+      }}
+      ref={modalBlock}
+    >
       <div className={styles.modal_block} onClick={(e) => e.stopPropagation()}>
-        <img src={cross} alt="" onClick={onClose} />
+        <img
+          src={cross}
+          alt=""
+          onClick={() => {
+            setError(true);
+            onClose();
+          }}
+        />
         <div className={styles.conteiner}>
           <h1>{info.taskName}</h1>
           <ProgressBar
