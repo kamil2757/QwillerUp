@@ -63,7 +63,7 @@ class CreateGoalActiveView(APIView):
                 return Response({'message': "Нет шаблона цели для этого дня"}, status=status.HTTP_404_NOT_FOUND)
 
             active_goal = GoalsTemplateActive.objects.create(user=user, created_at=now().date())
-            task_templates = TasksTemplate.objects.filter(goal=goal_template)
+            task_templates = TasksTemplate.objects.filter(goal=goal_template).order_by('id')
 
             for task in task_templates:
                 TasksTemplateActive.objects.create(
