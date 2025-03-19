@@ -23,7 +23,7 @@ import {
 
 function BarChartProfile(data) {
   return (
-    <ResponsiveContainer width="90%" height="85%">
+    <ResponsiveContainer width="100%" height="85%">
       <BarChart data={data.data} barCategoryGap="67%">
         <XAxis
           dataKey="weekday"
@@ -36,7 +36,7 @@ function BarChartProfile(data) {
           tick={{ fill: "white" }}
           axisLine={false}
           tickLine={false}
-          tickMargin={30}
+          tickMargin={22}
         />
         <Tooltip
           cursor={{ fill: "rgba(122, 211, 249, 0.1)" }}

@@ -114,6 +114,10 @@
   }
 
   @media (max-width: 1254px) {
+    margin: 140px 0 60px 0;
+    padding: 100px 90px 120px 90px;
+  
+    clip-path: polygon(0 0, 100% 0, 100% 80%, 0% 100%);
     p {
       width: 70vw;
     }
@@ -121,10 +125,12 @@
 
   @media (max-width: 1120px) {
     margin: 140px 0 0px 0;
+    padding: 80px 50px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
   }
 
   @media (max-width: 864px) {
-    padding: 100px 50px 200px 50px;
+    padding: 50px 80px 70px 80px;
     p {
       width: 100%;
     }
@@ -132,8 +138,8 @@
 
   @media (max-width: 664px) {
     margin: 60px 0 0px 0;
-    padding: 100px 50px 90px 50px;
-    clip-path: polygon(0 0, 100% 0, 100% 87%, 0% 100%);
+    padding: 50px 30px 90px 30px;
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 0% 100%);
   }
 
   @media (max-width: 408px) {
@@ -290,16 +296,13 @@
   }
 
   @media (max-width: 1120px) {
-    padding: 100px 80px 200px 80px;
+    padding: 60px 80px 200px 80px;
     margin: 0;
 
-    h1 {
-      font-size: $font-large;
-    }
     .cards {
       .awards {
         width: 450px;
-        top: 380px;
+        top: 140px;
         right: -80px;
       }
 
@@ -317,25 +320,31 @@
       flex-wrap: wrap;
 
       .card {
+        .content h1 {
+          margin: 50px 0 20px 0;
+        }
+
+        height: 200px;
         width: 48%;
       }
     }
   }
 
   @media (max-width: 793px) {
-    padding: 100px 50px 100px 50px;
+    padding: 60px 40px 100px 40px;
     margin: 0;
     .cards {
-      gap: 26px;
+      gap: 8px;
       .awards {
         width: 350px;
-        top: 690px;
+        top: 410px;
         right: -50px;
       }
 
       .card:last-child {
         background-color: $accent-color;
         width: 100%;
+        margin-top: 12px;
       }
 
       display: flex;
@@ -362,7 +371,7 @@
 .video_block {
   h1 {
     margin: 200px 90px 100px 140px;
-    font-size: $font-large;
+    font-size: $font-xlarge;
   }
 
   .video {
@@ -395,7 +404,6 @@
   @media (max-width: 1362px) {
     h1 {
       margin: 100px 90px 100px 140px;
-      font-size: $font-large;
     }
     .video {
       iframe {
@@ -407,7 +415,6 @@
   @media (max-width: 1145px) {
     h1 {
       margin: 0px 90px 100px 140px;
-      font-size: $font-large;
     }
     .video {
       iframe {

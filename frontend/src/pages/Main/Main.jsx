@@ -33,7 +33,7 @@ function Main() {
   useEffect(() => {
     function handleResize() {
       setIsMini(window.innerWidth < 812);
-      setIsSuperMini(window.innerWidth < 396);
+      setIsSuperMini(window.innerWidth < 385);
     }
 
     handleResize();
@@ -123,7 +123,7 @@ function Main() {
                 <div className={styles.bl1}>
                   <p>{task.title}</p>
                   <ProgressBar
-                    width={isMini ? "45vw" : "24vw"}
+                    width={isSuperMini ? "38vw" : isMini ? "45vw" : "24vw"}
                     percent={(task.spent_time / task.planned_time) * 100}
                     bgc="rgb(79, 87, 129)"
                   />

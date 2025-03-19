@@ -202,10 +202,19 @@
   .block1 {
     .tasksContent {
       padding: 40px 0 40px 40px;
+      gap: 30px;
     }
   }
 
   .block2 .timeInfo .total_time {
     padding: 0 12px;
   }
+
+  .task {
+    gap: 10vw;
+  }
+}
+
+@media (max-width: 340px) {
+
 }

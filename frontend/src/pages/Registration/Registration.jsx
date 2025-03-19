@@ -111,7 +111,7 @@ function Registration() {
           <div>
             <p>Пароль</p>
             <Input
-              placeholder="password"
+              placeholder="Пароль пользователя"
               type="password"
               autoComplete="new-password"
               name="new-password"

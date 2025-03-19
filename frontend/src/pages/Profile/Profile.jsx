@@ -36,7 +36,7 @@ function Profile() {
   const [adaptive, setAdaptive] = useState(false);
   const { UpdateTokens, userData, domain, protocol } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
-  const [newMedal, setNewMedal] = useState()
+  const [newMedal, setNewMedal] = useState();
   const medals = {
     "1.1.svg": medal_1_1,
     "1.2.svg": medal_1_2,
@@ -67,7 +67,7 @@ function Profile() {
       const data = await response.json();
       setUserDetailData(data);
       setModalNewMedalIsOpen(Boolean(data.new_medal));
-      setNewMedal(data.new_medal)
+      setNewMedal(data.new_medal);
     } else {
       UpdateTokens(GetDetailInfoUser);
     }
@@ -140,8 +140,7 @@ function Profile() {
             </div>
           </div>
           <div className={styles.text}>
-            Лед поможет тебе сохранить огненную серию, если ты будешь отдыхать.
-            Ты можешь получать его за достижение нового уровня!
+            Лед поможет тебе сохранить огненную серию
           </div>
         </div>
         <div className={styles.maininfo}>
@@ -152,12 +151,20 @@ function Profile() {
             }}
           >
             <div className={styles.content}>
-              {userDetailData.medals.map((medal) => (
-                <div className={styles.medal} key={medal.id}>
-                  <img src={medals[medal.img]} alt={medal.title} />
-                  <p>{medal.title}</p>
+              {userDetailData.medals.length > 0 ? (
+                userDetailData.medals.map((medal) => (
+                  <div className={styles.medal} key={medal.id}>
+                    <img src={medals[medal.img]} alt={medal.title} />
+                    <p>{medal.title}</p>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.text_withoutMedals}>
+                  У тебя ещё нет медалей, но всё впереди! Будь активным
+                  пользователем QwillerUp, достигай своих целей и зарабатывай
+                  заслуженные награды!
                 </div>
-              ))}
+              )}
             </div>
 
             {!adaptive && (
