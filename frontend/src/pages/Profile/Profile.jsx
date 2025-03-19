@@ -166,8 +166,7 @@ function Profile() {
                 </div>
               )}
             </div>
-
-            {!adaptive && (
+            <div className={styles.btn_block}>
               <Button
                 width="100%"
                 format={2}
@@ -175,7 +174,7 @@ function Profile() {
               >
                 Медали
               </Button>
-            )}
+            </div>
           </div>
           <div className={styles.chart}>
             <div className={styles.chart_wrapper}>
