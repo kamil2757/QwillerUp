@@ -68,9 +68,11 @@
   flex-direction: column;
   gap: 16px;
   margin: 0 0 24px 0;
+  height: 240px;
+  overflow-y: auto;
   .block1,
   .block2 {
-    padding: 0 16px;
+    padding: 20px 16px;
     height: 180px;
     background-color: $dark-color;
     border-radius: 20px;
