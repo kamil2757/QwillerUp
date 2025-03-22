@@ -31,7 +31,7 @@ function ProgressCircle({ spentTime, goalTime, mini = false, superMini = false, 
         <RadialBar dataKey="value" cornerRadius={50}></RadialBar>
       </RadialBarChart>
 
-      <h1>{Math.round(progress)}%</h1>
+      <h1>{progress ? `${Math.round(progress)}%` : 'Загрузка'}</h1>
     </div>
   );
 }

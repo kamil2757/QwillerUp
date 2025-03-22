@@ -10,11 +10,13 @@ import ModalWindowNewMedal from "../../components/ModalWindowNewMedal/ModalWindo
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import UserContext from "../../contexts/UserContext";
+import ContentLoader from "react-content-loader";
 
 function Main() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
-  const { authorized, UpdateTokens, domain, userData, protocol} = useContext(UserContext);
+  const { authorized, UpdateTokens, domain, userData, protocol } =
+    useContext(UserContext);
   const [modalInfo, setModalInfo] = useState({
     taskName: null,
     currentHours: null,
@@ -24,7 +26,7 @@ function Main() {
   });
   const [isMini, setIsMini] = useState(false);
   const [isSuperMini, setIsSuperMini] = useState(false);
-  const [tasks, setTasks] = useState(false);
+  const [tasks, setTasks] = useState(null);
   const [message, setMessage] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
   const [goalTime, setGoalTime] = useState(0);
@@ -84,7 +86,6 @@ function Main() {
     }
   }, []);
 
-
   function hanldeClickEdit(e) {
     const task_title = e.target.parentNode.parentNode
       .querySelector(`.${styles.bl1}`)
@@ -105,12 +106,56 @@ function Main() {
     setModalIsOpen(true);
   }
 
-  if (!tasks) {
+  if (tasks == []) {
     return (
       <div className={styles.message_not_tasks}>
         У вас пока нет задач. Добавьте их в настройках, чтобы начать!
       </div>
     );
+  }
+
+  if (tasks == null) {
+    if (isMini) {
+      return (
+        <ContentLoader
+          speed={1.5}
+          width="100%"
+          height="100vh"
+          viewBox="0 0 100% 100%"
+          backgroundColor="#2f3864"
+          foregroundColor="#6876bb"
+          style={{ width: "100%", height: "100vh" }}
+        >
+          {/* <rect x="87" y="73" rx="40" ry="40" width="90%" height="0" /> */}
+          <circle cx="22%" cy="58%" r="12%" />
+          <rect x="2%" y="2%" rx="40" ry="40" width="96%" height="40%" />
+          <rect x="2%" y="43%" rx="12" ry="12" width="96%" height="4%" />
+          <rect x="45%" y="48%" rx="20" ry="20" width="53%" height="8%" />
+          <rect x="45%" y="57%" rx="20" ry="20" width="53%" height="10%" />
+          <rect x="2%" y="69%" rx="20" ry="20" width="96%" height="8%" />
+        </ContentLoader>
+      );
+    } else {
+      return (
+        <div>
+          <ContentLoader
+            speed={1.5}
+            width="100%"
+            height="100vh"
+            viewBox="0 0 100% 100%"
+            backgroundColor="#2f3864"
+            foregroundColor="#6876bb"
+          >
+            <rect x="5%" y="2%" rx="40" ry="40" width="55%" height="28%" />
+            <circle cx="80%" cy="17%" r="9%" />
+            <rect x="5%" y="31%" rx="18" ry="18" width="55%" height="6%" />
+            <rect x="5%" y="38%" rx="20" ry="20" width="55%" height="10%" />
+            <rect x="62%" y="37%" rx="20" ry="20" width="36%" height="8%" />
+            <rect x="62%" y="46%" rx="20" ry="20" width="36%" height="10%" />
+          </ContentLoader>
+        </div>
+      );
+    }
   }
 
   return (
@@ -155,8 +200,9 @@ function Main() {
           <div className={styles.motivation}>
             {perfectDay && (
               <p>
-                {userData.username}! ты сделал все дела и получил <span>идеальный день</span>!
-                ты большой молодец, продолжай так же усердно заниматься!
+                {userData.username}! ты сделал все дела и получил{" "}
+                <span>идеальный день</span>! ты большой молодец, продолжай так
+                же усердно заниматься!
               </p>
             )}
             {!perfectDay && <p>{message}</p>}

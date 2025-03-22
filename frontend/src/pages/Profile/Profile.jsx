@@ -28,6 +28,7 @@ import ModalWindowNewMedal from "../../components/ModalWindowNewMedal/ModalWindo
 import ProgressBar from "../../components/ProgressBar/ProgressBar";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../contexts/UserContext";
+import ContentLoader from "react-content-loader";
 
 function Profile() {
   const [modalLevelIsOpen, setModalLevelIsOpen] = useState(false);
@@ -89,7 +90,49 @@ function Profile() {
   }, []);
 
   if (!userDetailData) {
-    return <div>Loading...</div>;
+    if (adaptive) {
+      return (
+        <div className={styles.ContentLoaderBlock}>
+          <ContentLoader
+            speed={1.5}
+            width="100%"
+            height="100vh"
+            viewBox="0 0 100% 100%"
+            backgroundColor="#2f3864"
+            foregroundColor="#6876bb"
+            style={{ width: "100%", height: "100vh" }}
+          >
+            {/* <rect x="18%" y="60%" rx="0" ry="0" width="1%" height="0" /> */}
+            <rect x="0%" y="2%" rx="30" ry="30" width="100%" height="23%" />
+            <rect x="0%" y="26%" rx="20" ry="20" width="100%" height="8%" />
+            <rect x="0%" y="35%" rx="20" ry="20" width="100%" height="15%" />
+            <rect x="0%" y="51%" rx="16" ry="16" width="100%" height="4%" />
+            <rect x="0%" y="56%" rx="20" ry="20" width="100%" height="20%" />
+          </ContentLoader>
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.ContentLoaderBlock}>
+          <ContentLoader
+            speed={1.5}
+            width="100%"
+            height="100vh"
+            viewBox="0 0 100% 100%"
+            backgroundColor="#2f3864"
+            foregroundColor="#6876bb"
+            style={{ width: "100%", height: "100vh" }}
+          >
+            {/* <rect x="18%" y="5%" rx="0" ry="0" width="1%" height="0" /> */}
+            <rect x="0%" y="2%" rx="60" ry="60" width="100%" height="38%" />
+            <rect x="0%" y="42%" rx="20" ry="20" width="100%" height="10%" />
+            <rect x="0%" y="54%" rx="20" ry="20" width="44%" height="26%" />
+            <rect x="45%" y="54%" rx="20" ry="20" width="55%" height="34%" />
+            <rect x="0%" y="82%" rx="20" ry="20" width="44%" height="6%" />
+          </ContentLoader>
+        </div>
+      );
+    }
   }
 
   return (
@@ -128,8 +171,8 @@ function Profile() {
         <div className={styles.fireStreak_info}>
           <div className={styles.items}>
             <div className={styles.flames}>
-              {userDetailData.streak_active && <img src={flame} alt="" />}
-              {!userDetailData.streak_active && (
+              {userDetailData?.streak_active && <img src={flame} alt="" />}
+              {!userDetailData?.streak_active && (
                 <img src={extinct_flame} alt="" />
               )}
               <p>{userDetailData.streak_count}</p>

@@ -1,12 +1,11 @@
 import styles from "./SettingsTasksFormat1.module.scss";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useOutletContext } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import UserContext from "../../contexts/UserContext";
 
 function SettingsTasksFormat1() {
-  const [taskVolume, setTaskVolume] = useState(2);
   const tasksRef = useRef(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -15,36 +14,59 @@ function SettingsTasksFormat1() {
     hours: 0,
     minutes: 0,
   });
+  const { tasks } = useOutletContext();
+  const [taskVolume, setTaskVolume] = useState(2);
+  const [inpValues, setInpValues] = useState(tasks);
 
-  function handleChange(e) {
-    if (taskVolume == e.target.parentElement.id) {
+  useEffect(() => {
+    if (tasks) {
+      setTaskVolume(tasks.length + 1);
+    }
+  }, [tasks]);
+
+  function handleChange(e, index) {
+    console.log(e);
+    if (taskVolume === Number(e.target.parentElement.id)) {
       setTaskVolume(taskVolume + 1);
     }
 
-    if (taskVolume - 1 == e.target.parentElement.id && e.target.value == "") {
+    if (
+      taskVolume - 1 === Number(e.target.parentElement.id) &&
+      e.target.value === ""
+    ) {
       setTaskVolume(taskVolume - 1);
     }
+
+    setInpValues((prevItems) => {
+      const updatedItems = [...prevItems];
+      updatedItems[index] = {
+        ...updatedItems[index],
+        title: e.target.value,
+      };
+      return updatedItems;
+    });
   }
-  function handleChangeNumber(e) {
-    const hours_arr = document.querySelectorAll(`.${styles.hours}`);
-    const minutes_arr = document.querySelectorAll(`.${styles.minutes}`);
 
-    let time_minutes = 0;
-    hours_arr.forEach((item) => {
-      if (item) {
-        time_minutes += Number(item.firstElementChild.value) * 60;
-      }
+  function handleChangeNumber(e, index, format) {
+    let value = Number(e.target.value); // Преобразуем в число
+    if (isNaN(value)) value = 0; // Если NaN, то ставим 0
+
+    setInpValues((prevItems) => {
+      const updatedItems = [...prevItems];
+      if (!updatedItems[index])
+        updatedItems[index] = { title: "", planned_time: 0 };
+
+      updatedItems[index].planned_time = format === 2 ? value : value * 60;
+      return updatedItems;
     });
-
-    minutes_arr.forEach((item) => {
-      if (item) {
-        time_minutes += Number(item.firstElementChild.value);
-      }
-    });
-
+    
+    let totalMinutes = updatedItems.reduce(
+      (sum, task) => sum + task.planned_time,
+      0
+    );
     setTotalTime({
-      hours: Math.floor(time_minutes / 60),
-      minutes: time_minutes % 60,
+      hours: Math.floor(totalMinutes / 60),
+      minutes: totalMinutes % 60,
     });
   }
 
@@ -89,11 +111,22 @@ function SettingsTasksFormat1() {
     return true;
   }
 
+  useEffect(() => {
+    let totalMinutes = inpValues.reduce(
+      (sum, task) => sum + (task.planned_time || 0),
+      0
+    );
+    setTotalTime({
+      hours: Math.floor(totalMinutes / 60),
+      minutes: totalMinutes % 60,
+    });
+  }, [inpValues]);
+
   async function sendTasks(e) {
     e.preventDefault();
 
     if (!checkFields()) {
-      setSuccess(false)
+      setSuccess(false);
       return;
     }
 
@@ -150,49 +183,70 @@ function SettingsTasksFormat1() {
     }
   }
 
-  return (
-    <div className={styles.block_settingsTasksFormat1}>
-      <form className={styles.block_inputs} onSubmit={sendTasks} ref={tasksRef}>
-        {error && <div className={styles.error}>{error}</div>}
-        {success && <div className={styles.success}>{success}</div>}
-        {Array.from({ length: taskVolume }, (_, index) => (
-          <div className={styles.field} key={index}>
-            <div className={styles.input_task} id={index + 1}>
-              <Input placeholder="Введите занятие" onChange={handleChange} />
-            </div>
+  if (inpValues) {
+    return (
+      <div className={styles.block_settingsTasksFormat1}>
+        <form
+          className={styles.block_inputs}
+          onSubmit={sendTasks}
+          ref={tasksRef}
+        >
+          {error && <div className={styles.error}>{error}</div>}
+          {success && <div className={styles.success}>{success}</div>}
 
-            <div className={styles.time_inputes}>
-              <div className={styles.hours}>
+          {Array.from({ length: taskVolume }, (_, index) => (
+            <div className={styles.field} key={index}>
+              <div className={styles.input_task} id={index + 1}>
                 <Input
-                  placeholder="0"
-                  onChange={handleChangeNumber}
-                  type="number"
+                  placeholder="Введите занятие"
+                  onChange={(e) => handleChange(e, index)}
+                  value={inpValues[index] ? inpValues[index].title : ""}
                 />
-                <p>ч</p>
               </div>
-              <div className={styles.minutes}>
-                <Input
-                  placeholder="0"
-                  onChange={handleChangeNumber}
-                  type="number"
-                />
-                <p>мин</p>
+
+              <div className={styles.time_inputes}>
+                <div className={styles.hours}>
+                  <Input
+                    placeholder="0"
+                    onChange={(e) => handleChangeNumber(e, index, 1)}
+                    type="number"
+                    value={
+                      inpValues[index]
+                        ? Math.floor(inpValues[index].planned_time / 60)
+                        : ""
+                    }
+                  />
+                  <p>ч</p>
+                </div>
+                <div className={styles.minutes}>
+                  <Input
+                    placeholder="0"
+                    onChange={(e) => handleChangeNumber(e, index, 2)}
+                    type="number"
+                    value={
+                      inpValues[index]
+                        ? Math.floor(inpValues[index].planned_time % 60)
+                        : ""
+                    }
+                  />
+                  <p>мин</p>
+                </div>
               </div>
             </div>
+          ))}
+
+          <div className={styles.total_time}>
+            <p>
+              Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
+              {TotalTime.minutes}мин
+            </p>
           </div>
-        ))}
 
-        <div className={styles.total_time}>
-          <p>
-            Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
-            {TotalTime.minutes}мин
-          </p>
-        </div>
-
-        <Button width="100%">Создать новый план</Button>
-      </form>
-    </div>
-  );
+          <Button width="100%">Создать новый план</Button>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default SettingsTasksFormat1;

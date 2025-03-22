@@ -172,8 +172,7 @@ function ModalWindowCheckMedals({ isOpen, onClose }) {
           <h1>Медали</h1>
           <div className={styles.info_block}>
             <p>
-              Выбери 3 медали, которые хочешь показать в своем профиле! Пусть
-              другие увидят твои самые крутые успехи!
+              Выбери 3 медали, которые хочешь показать в своем профиле!
             </p>
           </div>
           <div className={styles.description}>
