@@ -4,7 +4,7 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from Goals.models import GoalsTemplateActive, TasksTemplateActive
+from Goals.models import GoalsTemplateActive, TasksTemplateActive, TasksTemplate
 
 
 class ActiveTaskSerializer(serializers.ModelSerializer):
@@ -19,3 +19,9 @@ class ActiveGoalSerializer(serializers.ModelSerializer):
     class Meta:
         model = GoalsTemplateActive
         fields = ['id', 'tasks', 'created_at']
+
+
+class TasksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TasksTemplate
+        fields = ['id', 'planned_time', 'title']

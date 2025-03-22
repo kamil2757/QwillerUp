@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, date
 import random
 
 from Goals.models import GoalsTemplate, TasksTemplate, GoalsTemplateActive, TasksTemplateActive, UserDays
-from Goals.serializers.serializers import ActiveGoalSerializer
+from Goals.serializers.serializers import ActiveGoalSerializer, TasksSerializer
 from django.utils.timezone import now
 
 from Users.models import Medals, UserMedals
@@ -255,3 +255,21 @@ class UpdateTaskTimeView(APIView):
         user.save()
 
         return Response({'message': 'Цель успешна обновлена'}, status=status.HTTP_200_OK)
+
+
+class GetTasksView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        if user.schedule_type == 1:
+            goal = GoalsTemplate.objects.filter(user=user, day_of_week=0).first()
+        elif user.schedule_type == 2:
+            day_week = now().date().weekday() + 1
+            goal = GoalsTemplate.objects.filter(user=user, day_of_week=day_week).first()
+
+        tasks = TasksTemplate.objects.filter(goal=goal)
+        serializer = TasksSerializer(tasks, many=True)
+
+        return Response({'tasks': serializer.data})
