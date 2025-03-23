@@ -28,13 +28,13 @@ function Main() {
   const [isSuperMini, setIsSuperMini] = useState(false);
   const [tasks, setTasks] = useState(null);
   const [message, setMessage] = useState(false);
-  const [totalTime, setTotalTime] = useState(0);
+  const [totalTime, setTotalTime] = useState(null);
   const [goalTime, setGoalTime] = useState(0);
   const [perfectDay, setPerfectDay] = useState(false);
 
   useEffect(() => {
-    console.log(tasks)
-  }, [tasks])
+    console.log(totalTime);
+  }, [totalTime]);
 
   useEffect(() => {
     function handleResize() {
@@ -110,7 +110,7 @@ function Main() {
     setModalIsOpen(true);
   }
 
-  if ((tasks && tasks.length === 0) || (tasks == false)) {
+  if ((tasks && tasks.length === 0) || tasks == false) {
     return (
       <div className={styles.message_not_tasks}>
         У вас пока нет задач. Добавьте их в настройках, чтобы начать!
@@ -225,13 +225,18 @@ function Main() {
           />
         </div>
         <div className={styles.timeInfo}>
+          {totalTime == null && (
+            <div className={styles.total_time}>
+              <p>Подсчет</p>
+            </div>
+          )}
           {totalTime < 60 && (
             <div
               className={`${styles.total_time} ${
                 perfectDay ? styles.total_timePerfect : ""
               }`}
             >
-              <p>{totalTime % 60}мин</p>
+              <p>Время всего: {totalTime % 60}мин</p>
             </div>
           )}
           {totalTime >= 60 && (
@@ -245,7 +250,11 @@ function Main() {
               </p>
             </div>
           )}
-          {goalTime < 60 && <p>{goalTime % 60}мин</p>}
+          {goalTime < 60 && (
+            <div className={styles.goal_time}>
+              <p>Цель: {goalTime % 60}мин</p>
+            </div>
+          )}
           {goalTime >= 60 && (
             <div className={styles.goal_time}>
               <p>
