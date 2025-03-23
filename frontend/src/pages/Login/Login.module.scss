@@ -25,9 +25,10 @@
       flex-direction: column;
 
       .error {
-        width: 86%;
-        padding: 40px 0;
+        width:500px;
+        padding: 40px 7px;
         border-radius: 20px;
+        text-align: center;
         @include center();
         background-color:$red-color;
       }
@@ -81,5 +82,9 @@
 
   .login_block .content form {
     gap: 14px;
+
+    .error {
+      width: 230px;
+    }
   }
 }

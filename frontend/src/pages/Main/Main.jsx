@@ -33,6 +33,10 @@ function Main() {
   const [perfectDay, setPerfectDay] = useState(false);
 
   useEffect(() => {
+    console.log(tasks)
+  }, [tasks])
+
+  useEffect(() => {
     function handleResize() {
       setIsMini(window.innerWidth < 812);
       setIsSuperMini(window.innerWidth < 385);
@@ -106,7 +110,7 @@ function Main() {
     setModalIsOpen(true);
   }
 
-  if (tasks == []) {
+  if ((tasks && tasks.length === 0) || (tasks == false)) {
     return (
       <div className={styles.message_not_tasks}>
         У вас пока нет задач. Добавьте их в настройках, чтобы начать!

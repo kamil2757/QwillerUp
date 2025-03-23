@@ -263,11 +263,16 @@ class GetTasksView(APIView):
     def get(self, request):
         user = request.user
 
+        goal = False
+
         if user.schedule_type == 1:
             goal = GoalsTemplate.objects.filter(user=user, day_of_week=0).first()
         elif user.schedule_type == 2:
             day_week = now().date().weekday() + 1
             goal = GoalsTemplate.objects.filter(user=user, day_of_week=day_week).first()
+
+        if not goal:
+            return Response({'tasks': []})
 
         tasks = TasksTemplate.objects.filter(goal=goal)
         serializer = TasksSerializer(tasks, many=True)
