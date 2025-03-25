@@ -47,8 +47,8 @@ function SettingsTasksFormat1() {
       updatedItems[index] = {
         ...updatedItems[index],
         title: e.target.value,
-        hours: updatedItems[index].hours ? updatedItems[index].hours : 0,
-        minutes: updatedItems[index].minutes ? updatedItems[index].minutes : 0,
+        hours: updatedItems[index]?.hours ? updatedItems[index].hours : 0,
+        minutes: updatedItems[index]?.minutes ? updatedItems[index].minutes : 0,
       };
       return updatedItems;
     });
