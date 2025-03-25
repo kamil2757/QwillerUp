@@ -28,7 +28,7 @@ function Main() {
   const [isSuperMini, setIsSuperMini] = useState(false);
   const [tasks, setTasks] = useState(null);
   const [message, setMessage] = useState(false);
-  const [totalTime, setTotalTime] = useState(null);
+  const [totalTime, setTotalTime] = useState(1000);
   const [goalTime, setGoalTime] = useState(0);
   const [perfectDay, setPerfectDay] = useState(false);
 
@@ -52,8 +52,8 @@ function Main() {
   }, []);
 
   async function getTasks() {
-    setTotalTime(0);
-    setGoalTime(0);
+    setTotalTime(null);
+    setGoalTime(null);
     try {
       const response = await fetch(
         `${protocol}://${domain}/api/goals/get-active-goal/`,
@@ -225,12 +225,11 @@ function Main() {
           />
         </div>
         <div className={styles.timeInfo}>
-          {totalTime == null && (
+          {totalTime === null ? (
             <div className={styles.total_time}>
               <p>Подсчет</p>
             </div>
-          )}
-          {totalTime < 60 && (
+          ) : totalTime < 60 ? (
             <div
               className={`${styles.total_time} ${
                 perfectDay ? styles.total_timePerfect : ""
@@ -238,8 +237,7 @@ function Main() {
             >
               <p>Время всего: {totalTime % 60}мин</p>
             </div>
-          )}
-          {totalTime >= 60 && (
+          ) : (
             <div
               className={`${styles.total_time} ${
                 perfectDay ? styles.total_timePerfect : ""
@@ -250,12 +248,15 @@ function Main() {
               </p>
             </div>
           )}
-          {goalTime < 60 && (
+          {goalTime === null ? (
+            <div className={styles.goal_time}>
+              <p>Загрузка</p>
+            </div>
+          ) : goalTime < 60 ? (
             <div className={styles.goal_time}>
               <p>Цель: {goalTime % 60}мин</p>
             </div>
-          )}
-          {goalTime >= 60 && (
+          ) : (
             <div className={styles.goal_time}>
               <p>
                 Цель: {Math.floor(goalTime / 60)}ч {goalTime % 60}мин

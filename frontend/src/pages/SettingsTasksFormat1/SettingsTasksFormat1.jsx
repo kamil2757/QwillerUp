@@ -16,16 +16,21 @@ function SettingsTasksFormat1() {
   });
   const { tasks } = useOutletContext();
   const [taskVolume, setTaskVolume] = useState(2);
-  const [inpValues, setInpValues] = useState(tasks);
+  const [inpValues, setInpValues] = useState(
+    tasks.map((task) => ({
+      ...task,
+      hours: Math.floor(task.planned_time / 60) || 0,
+      minutes: task.planned_time % 60 || 0,
+    }))
+  );
 
   useEffect(() => {
     if (tasks) {
-      setTaskVolume(tasks.length + 1);
+      setTaskVolume(tasks.length == 0 ? tasks.length + 2 : tasks.length + 1);
     }
   }, [tasks]);
 
   function handleChange(e, index) {
-    console.log(e);
     if (taskVolume === Number(e.target.parentElement.id)) {
       setTaskVolume(taskVolume + 1);
     }
@@ -42,31 +47,31 @@ function SettingsTasksFormat1() {
       updatedItems[index] = {
         ...updatedItems[index],
         title: e.target.value,
+        hours: updatedItems[index].hours ? updatedItems[index].hours : 0,
+        minutes: updatedItems[index].minutes ? updatedItems[index].minutes : 0,
       };
       return updatedItems;
     });
   }
 
   function handleChangeNumber(e, index, format) {
-    let value = Number(e.target.value); // Преобразуем в число
-    if (isNaN(value)) value = 0; // Если NaN, то ставим 0
+    let value = Number(e.target.value);
+    if (value === "") {
+      value = 0;
+    }
 
     setInpValues((prevItems) => {
       const updatedItems = [...prevItems];
       if (!updatedItems[index])
-        updatedItems[index] = { title: "", planned_time: 0 };
+        updatedItems[index] = { title: "", hours: 0, minutes: 0 };
 
-      updatedItems[index].planned_time = format === 2 ? value : value * 60;
+      if (format === 1) {
+        updatedItems[index].hours = value;
+      } else if (format === 2) {
+        updatedItems[index].minutes = value;
+      }
+
       return updatedItems;
-    });
-    
-    let totalMinutes = updatedItems.reduce(
-      (sum, task) => sum + task.planned_time,
-      0
-    );
-    setTotalTime({
-      hours: Math.floor(totalMinutes / 60),
-      minutes: totalMinutes % 60,
     });
   }
 
@@ -98,7 +103,6 @@ function SettingsTasksFormat1() {
           return false;
         }
 
-        console.log(title + " " + planned_time);
         tasks_count += 1;
       } else {
         if (tasks_count == 0) {
@@ -112,10 +116,16 @@ function SettingsTasksFormat1() {
   }
 
   useEffect(() => {
-    let totalMinutes = inpValues.reduce(
-      (sum, task) => sum + (task.planned_time || 0),
-      0
-    );
+    let totalMinutes = inpValues.reduce((sum, task) => {
+      console.log(task.hours, task.minutes);
+      const time = task.minutes + task.hours * 60;
+      return sum + time;
+    }, 0);
+
+    if (isNaN(totalMinutes)) {
+      totalMinutes = 0;
+    }
+
     setTotalTime({
       hours: Math.floor(totalMinutes / 60),
       minutes: totalMinutes % 60,
@@ -211,8 +221,8 @@ function SettingsTasksFormat1() {
                     onChange={(e) => handleChangeNumber(e, index, 1)}
                     type="number"
                     value={
-                      inpValues[index]
-                        ? Math.floor(inpValues[index].planned_time / 60)
+                      inpValues[index] && !isNaN(inpValues[index].hours)
+                        ? String(Math.floor(inpValues[index].hours))
                         : ""
                     }
                   />
@@ -224,8 +234,8 @@ function SettingsTasksFormat1() {
                     onChange={(e) => handleChangeNumber(e, index, 2)}
                     type="number"
                     value={
-                      inpValues[index]
-                        ? Math.floor(inpValues[index].planned_time % 60)
+                      inpValues[index] && !isNaN(inpValues[index].minutes)
+                        ? String(Math.floor(inpValues[index].minutes))
                         : ""
                     }
                   />
