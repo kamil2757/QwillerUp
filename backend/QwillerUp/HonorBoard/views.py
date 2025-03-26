@@ -11,35 +11,40 @@ from HonorBoard.models import HonorBoard
 from django.utils.timezone import now
 from datetime import datetime, timedelta
 
+from HonorBoard.serializers import HonorBoardSerializer
 from Users.models import CustomUsers
 
 
 class GetHonorBoardView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         messages = HonorBoard.objects.filter(date=now().date())
+
         if messages.exists():
-            return Response({'messages': messages}, status=status.HTTP_200_OK)
-        else:
-            active_users = CustomUsers.objects.filter(
-                last_active_date__in=[
-                    (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d"),
-                    datetime.now().strftime("%Y-%m-%d")
-                ]
-            ).order_by('?')[:6]
-            entries = []
+            serializer = HonorBoardSerializer(messages, many=True)
+            return Response({'messages': serializer.data}, status=status.HTTP_200_OK)
 
-            for user in active_users:
-                message = self.generate_message_for_user(user)
-                entries.append({"user_id": user.id, "message": message})
+        active_users = CustomUsers.objects.filter(
+            last_active_date__in=[
+                (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d"),
+                datetime.now().strftime("%Y-%m-%d")
+            ]
+        ).order_by('?')[:6]
 
-            HonorBoard.objects.create(
-                date=now().date(),
-                entries=entries
-            )
+        entries = []
 
-            return Response({'messages': entries}, status=status.HTTP_200_OK)
+        for user in active_users:
+            message = self.generate_message_for_user(user)
+            entries.append({"user_id": user.id, "message": message})
+
+        honor_board_entry = HonorBoard.objects.create(
+            date=now().date(),
+            entries=entries
+        )
+
+        serializer = HonorBoardSerializer(honor_board_entry)
+        return Response({'messages': serializer.data}, status=status.HTTP_200_OK)
 
     def get_total_time(self, user):
         total_time = 0

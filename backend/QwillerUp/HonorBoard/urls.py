@@ -6,5 +6,5 @@ from rest_framework_simplejwt.views import (
 from HonorBoard.views import GetHonorBoardView
 
 urlpatterns = [
-    path('get-messages/', GetHonorBoardView.as_view(), name='register'),
+    path('get-messages/', GetHonorBoardView.as_view(), name='get-messages'),
 ]
