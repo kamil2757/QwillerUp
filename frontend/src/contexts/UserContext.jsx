@@ -8,11 +8,11 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [authorized, setAuthorized] = useState(null);
   const [loading, setLoading] = useState(true)
-  const domain = 'qwillerup-production.up.railway.app'
-  const protocol = 'https'
+  // const domain = 'qwillerup-production.up.railway.app'
+  // const protocol = 'https'
 
-  // const domain = '127.0.0.1:8000'
-  // const protocol = 'http'
+  const domain = '127.0.0.1:8000'
+  const protocol = 'http'
 
   async function GetUser() {
     setLoading(true)

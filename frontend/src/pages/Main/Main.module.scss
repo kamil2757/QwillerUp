@@ -13,7 +13,18 @@
   background-color: $dark_color;
   height: 100px;
   border-radius: 20px;
+  width: 100% - 18%;
   margin: 20px 9%;
+
+  p {
+    width: 90%;
+    text-align: center;
+    a {
+      color: $accent-color;
+      text-decoration: none;
+      margin: 0 0 0 4px;
+    }
+  }
 }
 
 .block1 {
@@ -216,5 +227,4 @@
 }
 
 @media (max-width: 340px) {
-
 }

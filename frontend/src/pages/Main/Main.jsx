@@ -113,7 +113,11 @@ function Main() {
   if ((tasks && tasks.length === 0) || tasks == false) {
     return (
       <div className={styles.message_not_tasks}>
-        У вас пока нет задач. Добавьте их в настройках, чтобы начать!
+        <p>
+
+          У вас пока нет задач. Добавьте их в
+          <Link to="/settings/tasks/format1">настройках</Link>, чтобы начать!
+        </p>
       </div>
     );
   }
