@@ -28,7 +28,6 @@ class GetHonorBoardView(APIView):
                     datetime.now().strftime("%Y-%m-%d")
                 ]
             ).order_by('?')[:6]
-            print(active_users.first().streak)
             entries = []
 
             for user in active_users:
