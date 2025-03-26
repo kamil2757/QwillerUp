@@ -15,7 +15,7 @@ from Users.models import CustomUsers
 
 
 class GetHonorBoardView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request):
         messages = HonorBoard.objects.filter(date=now().date())
@@ -40,7 +40,7 @@ class GetHonorBoardView(APIView):
                 entries=entries
             )
 
-            return Response({'messages': 'тут будет создаваться honor board'}, status=status.HTTP_200_OK)
+            return Response({'messages': entries}, status=status.HTTP_200_OK)
 
     def get_total_time(self, user):
         total_time = 0
