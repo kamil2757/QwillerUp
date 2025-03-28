@@ -10,6 +10,7 @@ from Goals.models import UserDays, GoalsTemplateActive, TasksTemplateActive
 from HonorBoard.models import HonorBoard
 from django.utils.timezone import now
 from datetime import datetime, timedelta
+import secrets
 
 from HonorBoard.serializers import HonorBoardSerializer
 from Users.models import CustomUsers
@@ -19,10 +20,10 @@ class GetHonorBoardView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        messages = HonorBoard.objects.filter(date=now().date())
+        honor_board = HonorBoard.objects.filter(date=now().date()).first()
 
-        if messages.exists():
-            serializer = HonorBoardSerializer(messages, many=True)
+        if honor_board:
+            serializer = HonorBoardSerializer(honor_board)
             return Response({'messages': serializer.data}, status=status.HTTP_200_OK)
 
         active_users = CustomUsers.objects.filter(
@@ -61,35 +62,38 @@ class GetHonorBoardView(APIView):
 
         return total_time
 
-    def generate_message_for_user(self, user, num_message=random.randint(1, 8)):
+    def generate_message_for_user(self, user, num_message=False):
         message = ''
+        if not num_message:
+            num_message = secrets.choice(range(1, 8 + 1))
+
         match num_message:
             case 1:
                 if user.streak <= 4:
-                    return self.generate_message_for_user(7)
+                    return self.generate_message_for_user(user, 7)
                 message = f'{user} держит огненный стрик в {user.streak} дней! Не останавливайся!'
             case 2:
                 if user.streak <= 9:
-                    return self.generate_message_for_user(9)
+                    return self.generate_message_for_user(user, 9)
                 message = f'{user} уже {user.streak} дней подряд не пропускает ни дня! Вот это самоотдача!'
             case 3:
                 if user.streak <= 14:
-                    return self.generate_message_for_user(8)
+                    return self.generate_message_for_user(user, 8)
                 message = f'Рекорд? {user} продолжает работать уже {user.streak} дней подряд!'
             case 4:
-                time_spent = self.get_total_time(user=user)
+                time_spent = self.get_total_time(user=user) // 60
                 if time_spent <= 9:
-                    return self.generate_message_for_user(8)
+                    return self.generate_message_for_user(user, 8)
                 message = f'{user} посвятил {time_spent} часов продуктивной работе! Уважение и респект!'
             case 5:
-                time_spent = self.get_total_time(user=user)
+                time_spent = self.get_total_time(user=user) // 60
                 if time_spent <= 5:
-                    return self.generate_message_for_user(7)
+                    return self.generate_message_for_user(user, 7)
                 message = f'{user} вложил в развитие {time_spent} часов! Время – самый ценный ресурс!'
             case 6:
-                time_spent = self.get_total_time(user=user)
+                time_spent = self.get_total_time(user=user) // 60
                 if time_spent <= 19:
-                    return self.generate_message_for_user(9)
+                    return self.generate_message_for_user(user, 9)
                 message = f'За все время {user} провёл {time_spent} часов за работой. Настоящий марафонец!'
             case 7:
                 message = f'{user} сегодня отличился в сообществе QwillerUp – продуктивность на высшем уровне!'
