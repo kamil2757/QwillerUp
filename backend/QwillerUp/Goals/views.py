@@ -183,7 +183,7 @@ class CreateGoalActiveView(APIView):
                                f"часов на полезные дела.")
                 case 6:
                     time = get_total_time('week')
-                    if time < 0:
+                    if time < 60:
                         return get_message(11)
 
                     message = f"Каждый день приближает тебя к цели, {user}! За эту неделю ты уже вложил(а) {time // 60} часов в своё развитие."

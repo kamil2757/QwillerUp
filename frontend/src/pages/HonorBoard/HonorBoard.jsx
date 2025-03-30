@@ -7,6 +7,23 @@ import ContentLoader from "react-content-loader";
 function HonorBoard() {
   const [messages, setMessages] = useState(null);
   const { domain, userData, protocol, UpdateTokens } = useContext(UserContext);
+  const [isMini, setIsMini] = useState(false);
+  const [isSuperMini, setIsSuperMini] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsMini(window.innerWidth <= 1150);
+      setIsSuperMini(window.innerWidth <= 624);
+    }
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     async function GetHonorBoard() {
@@ -55,17 +72,50 @@ function HonorBoard() {
           speed={1.5}
           width="100vw"
           height="100vh"
-          viewBox="0 0 100% 100%" 
+          viewBox="0 0 100% 100%"
           backgroundColor="#2f3864"
           foregroundColor="#6876bb"
           style={{ width: "100vw", height: "100vh" }}
         >
-          <rect x="10%" y="0%" rx="20" ry="20" width="73.8%" height="10%" />
-          <rect x="10%" y="11.5%" rx="20" ry="20" width="73.8%" height="10%" />
-          <rect x="10%" y="23%" rx="20" ry="20" width="73.8%" height="10%" />
-          <circle cx="88.2%" cy="5%" r="44" />
-          <circle cx="88.2%" cy="16.5%" r="44" />
-          <circle cx="88.2%" cy="28%" r="44" />
+          <rect
+            x="10%"
+            y="0%"
+            rx="20"
+            ry="20"
+            width={isSuperMini ? "68%" : isMini ? "71%" : "73.8%"}
+            height={isSuperMini ? "10%" : isMini ? "7%" : "10%"}
+          />
+          <rect
+            x="10%"
+            y={isSuperMini ? "11.5%" :isMini ? "8.5%" : "11.5%"}
+            rx="20"
+            ry="20"
+            width={isSuperMini ? "68%" : isMini ? "71%" : "73.8%"}
+            height={isSuperMini ? "10%" : isMini ? "7%" : "10%"}
+          />
+          <rect
+            x="10%"
+            y={isSuperMini ? "23%" : isMini ? "17%" : "23%"}
+            rx="20"
+            ry="20"
+            width={isSuperMini ? "68%" : isMini ? "71%" : "73.8%"}
+            height={isSuperMini ? "10%" : isMini ? "7%" : "10%"}
+          />
+          <circle
+            cx="88%"
+            cy={isSuperMini ? "5%" : isMini ? "3.5%" : "5%"}
+            r={isSuperMini ? "26" : isMini ? "38" : "44"}
+          />
+          <circle
+            cx="88%"
+            cy={isSuperMini ? "16.5%" : isMini ? "12%" : "16.5%"}
+            r={isSuperMini ? "26" : isMini ? "38" : "44"}
+          />
+          <circle
+            cx="88%"
+            cy={isSuperMini ? "28%" : isMini ? "20.5%" : "28%"}
+            r={isSuperMini ? "26" : isMini ? "38" : "44"}
+          />
         </ContentLoader>
       </div>
     );
