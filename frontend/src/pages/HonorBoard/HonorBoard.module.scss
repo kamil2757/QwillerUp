@@ -38,6 +38,19 @@
   }
 }
 
+.infoText {
+  @include center();
+  background-color: $dark_color;
+  height: 100px;
+  border-radius: 20px;
+  width: 86vw;
+  margin: 20px auto;
+
+  &__text {
+    margin: 20px;
+  }
+}
+
 @media (max-width: 1230px) {
   .honorBoard_block .message {
     gap: 14px;
@@ -74,7 +87,6 @@
     padding: 26px 20px;
   }
 }
-
 
 @media (max-width: 624px) {
   .honorBoard_block .message {

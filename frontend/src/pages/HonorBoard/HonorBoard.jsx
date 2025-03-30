@@ -55,6 +55,17 @@ function HonorBoard() {
   }, []);
 
   if (messages) {
+    if (messages.length == 0) {
+      return (
+        <div className={styles.infoText}>
+          <div className={styles.infoText__text}>
+            Сегодняшний день прошёл без отметок на доске почёта. Возможно,
+            завтра мы увидим здесь новые имена.
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className={styles.honorBoard_block}>
         {messages.map((message) => (
@@ -87,7 +98,7 @@ function HonorBoard() {
           />
           <rect
             x="10%"
-            y={isSuperMini ? "11.5%" :isMini ? "8.5%" : "11.5%"}
+            y={isSuperMini ? "11.5%" : isMini ? "8.5%" : "11.5%"}
             rx="20"
             ry="20"
             width={isSuperMini ? "68%" : isMini ? "71%" : "73.8%"}
