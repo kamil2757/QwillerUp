@@ -89,32 +89,16 @@ function Tracker() {
     if (!isRunning) return;
 
     const interval = setInterval(() => {
-      setSeconds((prev) => {
-        let newSec = prev + 1;
-        let newMin = minutes;
-        let newHour = hours;
+      const start = Number(localStorage.getItem("startTime"));
+      const secs = Math.floor((Date.now() - start) / 1000);
 
-        if (newSec >= 60) {
-          newSec = 0;
-          newMin += 1;
-          if (newMin >= 60) {
-            newMin = 0;
-            newHour += 1;
-          }
-        }
-
-        localStorage.setItem("seconds", newSec);
-        localStorage.setItem("minutes", newMin);
-        localStorage.setItem("hours", newHour);
-
-        setMinutes(newMin);
-        setHours(newHour);
-        return newSec;
-      });
+      setHours(Math.floor(secs / 3600));
+      setMinutes(Math.floor((secs % 3600) / 60));
+      setSeconds(secs % 60);
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, minutes, hours]);
+  }, [isRunning]);
 
   return (
     <div className={styles.tracker_block}>
