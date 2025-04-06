@@ -15,5 +15,5 @@ urlpatterns = [
     path('detailUserInfo/', GetUserDetail.as_view(), name='detail_user_info'),
     path('getUserMedals/', GetUserMedalsView.as_view(), name='get_user_medals'),
     path('updateEquippedMedals/', UpdateEquippedView.as_view(), name='update_equipped_medals'),
-    path('editUserInfo/', EditUserView.as_view(), name='edit_user_info')
+    path('editUserInfo/', EditUserView.as_view(), name='edit_user'),
 ]

@@ -6,13 +6,12 @@
   flex-direction: column;
   gap: 16px;
 
-  width: 86vw;
+  width: 82vw;
   margin: 20px auto 400px auto;
   .message {
     display: flex;
     align-items: center;
     gap: 26px;
-    width: 93%;
 
     .text {
       background-color: $dark-color;
@@ -25,7 +24,9 @@
     }
     img {
       width: 90px;
+      height: 90px;
       border-radius: 100%;
+      
     }
   }
 
@@ -58,6 +59,7 @@
 
   .honorBoard_block .message img {
     width: 70px;
+    height: 70px;
     border-radius: 100%;
   }
 
@@ -77,6 +79,7 @@
 
   .honorBoard_block .message img {
     width: 50px;
+    height: 50px;
   }
 
   .honorBoard_block .message .text {
@@ -95,5 +98,6 @@
 
   .honorBoard_block .message img {
     width: 40px;
+    height: 40px;
   }
 }

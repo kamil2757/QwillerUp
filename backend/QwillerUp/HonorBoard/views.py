@@ -37,7 +37,7 @@ class GetHonorBoardView(APIView):
 
         for user in active_users:
             message = self.generate_message_for_user(user)
-            entries.append({"user_id": user.id, "message": message})
+            entries.append({"user_id": user.id, "message": message, 'photo': user.photo.url if user.photo else None})
 
         honor_board_entry = HonorBoard.objects.create(
             date=now().date(),

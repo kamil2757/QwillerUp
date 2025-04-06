@@ -38,12 +38,12 @@ form {
   padding: 40px 0;
   border-radius: 20px;
   @include center();
-  background-color:$red-color;
+  background-color: $red-color;
   width: 100%;
   margin: 0 0 40px 0;
 }
 
-.success{
+.success {
   width: 100%;
   padding: 40px 0;
   border-radius: 20px;
@@ -92,6 +92,11 @@ form {
   display: flex;
   align-items: center;
   gap: 26px;
+
+  label,
+  p {
+    cursor: pointer;
+  }
 }
 
 .blocked {

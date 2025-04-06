@@ -219,7 +219,11 @@ class EditUserView(APIView):
 
         user.username = request.data.get('username')
         user.description = request.data.get('about')
+        photo = request.FILES.get('photo')
+        if photo:
+            user.photo = photo
 
         user.save()
 
         return Response({'message': 'Ваши данные успешно обновлены!'}, status=status.HTTP_200_OK)
+

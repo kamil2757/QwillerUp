@@ -11,17 +11,22 @@ function SettingsProfile() {
   const [nickname, setNickname] = useState(userData.username);
   const [about, setAbout] = useState(userData.description);
   const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const avatarURL = userData.photo
+    ? `${protocol}://${domain}${userData.photo}`
+    : no_avatar;
 
   function handleFileChange(event) {
-    const file = event.target.files[0];
-    if (file) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result);
+        setFile(selectedFile);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(selectedFile);
     }
   }
 
@@ -30,18 +35,20 @@ function SettingsProfile() {
 
     async function editUserInfo() {
       try {
+        const formData = new FormData();
+        formData.append("username", nickname.trim());
+        formData.append("about", about.trim());
+        if (file) {
+          formData.append("photo", file);
+        }
         const response = await fetch(
           `${protocol}://${domain}/api/users/editUserInfo/`,
           {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
-            body: JSON.stringify({
-              username: nickname.trim(),
-              about: about.trim(),
-            }),
+            body: formData,
           }
         );
 
@@ -51,11 +58,11 @@ function SettingsProfile() {
 
         if (data["message"] && !response.ok) {
           setError(data["message"]);
-          setSuccess(null)
+          setSuccess(null);
         } else if (!response.ok) {
           UpdateTokens();
         } else {
-          setError(null)
+          setError(null);
           setSuccess(data["message"]);
         }
       } catch (err) {
@@ -88,8 +95,8 @@ function SettingsProfile() {
           />
         </div>
         <div className={styles.avatar}>
-          {/* <p>Аватарка</p> */}
-          {/* <div className={styles.changeAvatar_block}>
+          <p>Аватарка</p>
+          <div className={styles.changeAvatar_block}>
             <div className={styles.content}>
               <input
                 type="file"
@@ -98,7 +105,10 @@ function SettingsProfile() {
                 id="avatarUpload_id"
                 onChange={handleFileChange}
               />
-              <img src={image ? image : no_avatar} alt="" />
+              <img
+                src={image ? image : avatarURL ? avatarURL : no_avatar}
+                alt=""
+              />
               <div className={styles.btns_avatar}>
                 <label
                   htmlFor="avatarUpload_id"
@@ -106,10 +116,21 @@ function SettingsProfile() {
                 >
                   Выбрать фото
                 </label>
-                {image ? <p onClick={() => setImage(null)}>Сбросить</p> : <p className={styles.blocked}>Сбросить</p>}
+                {image ? (
+                  <p
+                    onClick={() => {
+                      setImage(null);
+                      setFile(null);
+                    }}
+                  >
+                    Сбросить
+                  </p>
+                ) : (
+                  <p className={styles.blocked}>Сбросить</p>
+                )}
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
         <Button>Применить</Button>
       </form>

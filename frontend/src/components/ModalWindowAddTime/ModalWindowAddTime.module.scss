@@ -41,7 +41,6 @@
   }
 }
 
-
 .btns_block {
   display: flex;
   justify-content: space-between;
@@ -54,6 +53,10 @@
   padding: 40px 0;
   border-radius: 20px;
 
+  .loading {
+    margin: 120px 60px;
+  }
+
   .task {
     > div {
       display: block;
@@ -64,14 +67,14 @@
       transition: $transition;
       cursor: pointer;
       &:hover {
-      background-color: $darkShadow-color;
+        background-color: $darkShadow-color;
         // border-bottom: 2px solid $accent-color;
       }
     }
   }
 }
 
-.active{
+.active {
   background-color: $darkShadow-color;
 }
 
@@ -101,6 +104,29 @@
   }
 }
 
+@media (max-width: 699px) {
+  .conteiner h1 {
+    width: 200px;
+  }
+}
+
+@media (max-width: 984px) {
+  .tasksContent .task div {
+    padding: 16px 70px 16px 32px;
+  }
+
+  .edit_block .info {
+    gap: 8px;
+    width: 300px;
+
+    .text,
+    .time {
+      background-color: $dark-color;
+      padding: 30px;
+    }
+  }
+}
+
 @media (max-width: 674px) {
   .conteiner {
     padding: 30px 20px 20px 20px;
@@ -111,10 +137,80 @@
     top: 20px;
     width: 16px;
   }
+
+  .tasksContent .task div {
+    padding: 16px 60px 16px 32px;
+  }
+
+  .edit_block .info {
+    width: 270px;
+
+    .text,
+    .time {
+      background-color: $dark-color;
+      padding: 26px;
+    }
+  }
 }
 
-@media (max-width: 699px) {
-  .conteiner h1 {
+@media (max-width: 538px) {
+  .tasksContent .task div {
+    padding: 16px 50px 16px 22px;
+  }
+
+  .edit_block .info {
+    width: 220px;
+
+    .text,
+    .time {
+      background-color: $dark-color;
+      padding: 20px;
+    }
+  }
+}
+
+@media (max-width: 431px) {
+  .conteiner {
+    gap: 10px;
+  }
+
+  .tasksContent {
+    padding: 20px 0;
+    .task div {
+      padding: 16px 26px 16px 14px;
+    }
+  }
+
+  .edit_block .info {
     width: 200px;
+
+    .text,
+    .time {
+      background-color: $dark-color;
+      padding: 16px;
+    }
+  }
+}
+
+@media (max-width: 365px) {
+  .conteiner {
+    gap: 10px;
+  }
+
+  .tasksContent {
+    padding: 20px 0;
+    .task div {
+      padding: 14px 20px 14px 14px;
+    }
+  }
+
+  .edit_block .info {
+    width: 154px;
+
+    .text,
+    .time {
+      background-color: $dark-color;
+      padding: 12px;
+    }
   }
 }

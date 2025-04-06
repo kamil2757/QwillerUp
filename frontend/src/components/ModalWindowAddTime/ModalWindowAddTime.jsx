@@ -194,7 +194,7 @@ function ModalWindowAddTime({
                 У вас пока нет задач. Добавьте их в настройках, чтобы начать!
               </div>
             ) : (
-              <div>Загрузка...</div>
+              <div className={styles.loading}>Загрузка...</div>
             )}
           </div>
           <div className={styles.edit_block}>
