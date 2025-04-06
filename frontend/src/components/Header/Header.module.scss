@@ -57,7 +57,7 @@ header {
     }
 
     a:last-child {
-      margin: 0 0 0 30vw;
+      margin: 0 0 0 24vw;
     }
 
     .active {
@@ -159,7 +159,7 @@ header {
   }
 }
 
-@media (max-width: 676px) {
+@media (max-width: 876px) {
   header {
     .content {
       display: none;

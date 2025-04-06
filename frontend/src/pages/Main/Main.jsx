@@ -33,10 +33,6 @@ function Main() {
   const [perfectDay, setPerfectDay] = useState(false);
 
   useEffect(() => {
-    console.log(totalTime);
-  }, [totalTime]);
-
-  useEffect(() => {
     function handleResize() {
       setIsMini(window.innerWidth < 812);
       setIsSuperMini(window.innerWidth < 385);

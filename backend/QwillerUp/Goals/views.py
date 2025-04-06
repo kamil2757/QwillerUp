@@ -274,7 +274,7 @@ class GetTasksView(APIView):
         if not goal:
             return Response({'tasks': []})
 
-        tasks = TasksTemplate.objects.filter(goal=goal)
+        tasks = TasksTemplate.objects.filter(goal=goal).order_by('id')
         serializer = TasksSerializer(tasks, many=True)
 
         return Response({'tasks': serializer.data})

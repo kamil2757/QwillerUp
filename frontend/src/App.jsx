@@ -26,6 +26,7 @@ import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer/Footer.jsx";
 
 import "./styles/global.scss";
+import Tracker from "./pages/Tracker/Tracker.jsx";
 
 function App() {
   const { authorized, loading } = useContext(UserContext);
@@ -52,6 +53,7 @@ function App() {
             <Route path="/create-format1" element={<CreateFormat1 />} />
             <Route path="/create-format2" element={<CreateFormat2 />} />
             <Route path="/honor-board" element={<HonorBoard />} />
+            <Route path="/tracker" element={<Tracker />}></Route>
             <Route path="/main" element={<Main />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />}>

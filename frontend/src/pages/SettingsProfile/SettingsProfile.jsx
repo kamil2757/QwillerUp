@@ -51,9 +51,11 @@ function SettingsProfile() {
 
         if (data["message"] && !response.ok) {
           setError(data["message"]);
+          setSuccess(null)
         } else if (!response.ok) {
           UpdateTokens();
         } else {
+          setError(null)
           setSuccess(data["message"]);
         }
       } catch (err) {

@@ -82,11 +82,11 @@ function Landing() {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/goFZz45p2Ck"
-            title="YouTube video player"
+            src="https://rutube.ru/play/embed/5d23df688cab4038402f043189d2d941"
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
+            allow="clipboard-write; autoplay"
+            webkitAllowFullScreen
+            mozallowfullscreen
             allowFullScreen
             loading="lazy"
           ></iframe>

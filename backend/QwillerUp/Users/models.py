@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class Level(models.Model):
@@ -12,8 +13,19 @@ class Level(models.Model):
 
 
 class CustomUsers(AbstractUser):
+    username = models.CharField(
+        _("username"),
+        max_length=18,
+        unique=True,
+        help_text=_(
+            "Required. 18 characters or fewer. Letters, digits and @/./+/-/_ only."
+        ),
+        validators=AbstractUser.username.field.validators,
+        error_messages=AbstractUser.username.field.error_messages,
+    )
     photo = models.ImageField(upload_to='avatars/', null=True, blank=True)
-    description = models.TextField(default="У тебя пока нет описания, но ты можешь добавить его в настройках")
+    description = models.CharField(default="У тебя пока нет описания, но ты можешь добавить его в настройках",
+                                   max_length=128)
     experience = models.IntegerField(default=0)
     ice_count = models.IntegerField(default=0)
     streak = models.IntegerField(default=0)

@@ -53,6 +53,13 @@ function Header() {
             Задачи
           </Link>
           <Link
+            to="/tracker"
+            className={location == "/tracker" ? styles.active : ""}
+            onClick={() => setBMenuIsOpen(false)}
+          >
+            <p>Трекер времени</p>
+          </Link>
+          <Link
             to="/honor-board"
             className={location == "/honor-board" ? styles.active : ""}
             onClick={() => setBMenuIsOpen(false)}
@@ -110,6 +117,12 @@ function Header() {
               className={location == "/main" ? styles.active : ""}
             >
               <p>Задачи</p>
+            </Link>
+            <Link
+              to="/tracker"
+              className={location == "/tracker" ? styles.active : ""}
+            >
+              <p>Трекер времени</p>
             </Link>
             <Link
               to="/honor-board"

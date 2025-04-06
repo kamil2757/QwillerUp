@@ -204,6 +204,12 @@ class EditUserView(APIView):
         user = request.user
         has_user = CustomUsers.objects.filter(username=request.data.get('username')).exclude(id=user.id).exists()
 
+        if len(request.data.get('about')) > 128:
+            return Response({'message': 'Описание не должно превышать 128 символов.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if len(request.data.get('username')) > 18:
+            return Response({'message': 'Никнейм не должен превышать 18 символов'}, status=status.HTTP_400_BAD_REQUEST)
+
         if not (len(request.data.get('about')) > 0 and len(request.data.get('username')) > 0):
             return Response({'message': 'Некорректные поля'}, status=status.HTTP_400_BAD_REQUEST)
 

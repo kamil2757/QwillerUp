@@ -8,11 +8,11 @@ export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [authorized, setAuthorized] = useState(null);
   const [loading, setLoading] = useState(true)
-  const domain = 'qwillerup-production.up.railway.app'
-  const protocol = 'https'
+  // const domain = 'qwillerup-production.up.railway.app'
+  // const protocol = 'https'
 
-  // const domain = '127.0.0.1:8000'
-  // const protocol = 'http'
+  const domain = '127.0.0.1:8000'
+  const protocol = 'http'
 
   async function GetUser() {
     setLoading(true)
@@ -48,6 +48,7 @@ export const UserProvider = ({ children }) => {
 
   async function UpdateTokens(callbackF = null) {
     setLoading(true)
+    console.log('рефреш делаем')
     try {
       const refresh = localStorage.getItem("refresh_token");
       const response = await fetch(
@@ -63,6 +64,7 @@ export const UserProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok) {
+        console.log('рефреш удался')
 
         localStorage.setItem("access_token", data["access"]);
         if (!(callbackF == null)) {
