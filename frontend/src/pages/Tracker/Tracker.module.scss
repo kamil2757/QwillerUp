@@ -1,35 +1,62 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
 
-.tracker_block{
-    width: 48vw;
-    margin: 20px auto;
+.tracker_block {
+  width: 48vw;
+  margin: 20px auto;
+  @include center();
+  flex-direction: column;
+  .time {
+    width: 100%;
+    background-color: $dark-color;
+    border-radius: 20px;
+    margin: 0 0 12px 0;
     @include center();
-    flex-direction: column;
-    .time{
-        width: 100%;
-        background-color: $dark-color;
-        border-radius: 20px;
-        margin: 0 0 12px 0;
-        @include center();
 
-        h1{
-            padding: 60px 0;
-            font-size: $font-xlarge;
-        }
+    h1 {
+      padding: 60px 0;
+      font-size: $font-xlarge;
     }
+  }
 
-    .buttons1, .buttons2{
-        gap: 12px;
-        display: flex;
-        width: 100%;
+  .buttons1,
+  .buttons2 {
+    gap: 12px;
+    display: flex;
+    width: 100%;
 
-        >button{
-            width: calc(50% - 6px);
-        }
+    > button {
+      width: calc(50% - 6px);
     }
+  }
 
-    .buttons2{
-        display: none;
+  .buttons2 {
+    display: none;
+  }
+}
+
+@media (max-width: 1220px) {
+  .tracker_block {
+    width: 58vw;
+    .time {
     }
+  }
+}
+
+@media (max-width: 700px) {
+  .tracker_block {
+    width: 68vw;
+    .time h1 {
+      padding: 40px 0;
+    }
+  }
+}
+
+@media (max-width: 324px) {
+  .tracker_block {
+    width: 86vw;
+    .time h1 {
+      padding: 40px 0;
+    }
+  }
 }
