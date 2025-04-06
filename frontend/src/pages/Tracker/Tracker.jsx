@@ -15,10 +15,12 @@ function Tracker() {
 
   useEffect(() => {
     if (localStorage.isRunning == "true" && localStorage.startTime) {
-      const secs = Math.floor((Date.now() - localStorage.startTime) / 1000);
+      const secs = Math.floor(
+        (Date.now() - Number(localStorage.startTime)) / 1000
+      );
 
-      setHours(Math.floor(secs / 360));
-      setMinutes(Math.floor((secs % 360) / 60));
+      setHours(Math.floor(secs / 3600));
+      setMinutes(Math.floor((secs % 3600) / 60));
       setSeconds(secs % 60);
 
       setIsRunning(true);
@@ -80,7 +82,7 @@ function Tracker() {
     console.log("save");
     setIsOpenAddTime(true);
 
-    stopTime()
+    stopTime();
   }
 
   useEffect(() => {
