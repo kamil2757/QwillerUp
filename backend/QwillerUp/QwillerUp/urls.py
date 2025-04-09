@@ -24,4 +24,4 @@ urlpatterns = [
     path('api/users/', include('Users.urls')),
     path('api/goals/', include('Goals.urls')),
     path('api/honor-board/', include('HonorBoard.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

@@ -15,7 +15,7 @@ function SettingsProfile() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const avatarURL = userData.photo
-    ? `${protocol}://${domain}${userData.photo}`
+    ? userData.photo
     : no_avatar;
 
   function handleFileChange(event) {
@@ -24,6 +24,7 @@ function SettingsProfile() {
       const reader = new FileReader();
       reader.onload = () => {
         setImage(reader.result);
+        console.log(selectedFile)
         setFile(selectedFile);
       };
       reader.readAsDataURL(selectedFile);

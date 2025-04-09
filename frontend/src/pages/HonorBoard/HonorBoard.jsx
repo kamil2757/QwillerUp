@@ -71,16 +71,7 @@ function HonorBoard() {
         {messages.map((message) => (
           <div className={styles.message} key={message.user_id}>
             <div className={styles.text}>{message.message}</div>
-            <img
-              src={
-                message.photo
-                  ? `${protocol}://${domain}${decodeURIComponent(
-                      message.photo
-                    )}`
-                  : no_avatar
-              }
-              alt=""
-            />
+            <img src={message.photo ? message.photo : no_avatar} alt="" />
           </div>
         ))}
       </div>

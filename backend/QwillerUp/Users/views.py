@@ -1,10 +1,17 @@
+import base64
+import json
+import os
+import re
 from calendar import weekday
 import calendar
 
+import requests
 from django.core.serializers import serialize
 from django.shortcuts import render
+from imagekitio.models import UploadFileRequestOptions
 from pyexpat.errors import messages
 from rest_framework import status
+from rest_framework.parsers import MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +20,10 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.timezone import now
 from datetime import timedelta, date
 
+from imagekitio import ImageKit
+
 from Goals.models import UserDays, TasksTemplateActive, GoalsTemplateActive
+from QwillerUp import settings
 from Users.models import UserMedals, Medals, CustomUsers
 from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer, UserMedalsSerializer, \
     UserMedals2Serializer
@@ -199,13 +209,20 @@ class UpdateEquippedView(APIView):
 
 class EditUserView(APIView):
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser]
 
     def post(self, request):
         user = request.user
         has_user = CustomUsers.objects.filter(username=request.data.get('username')).exclude(id=user.id).exists()
+        username = request.data.get('username', '').strip()
+        about = request.data.get('about', '').strip()
+
+        if not username or not about:
+            return Response({'message': 'Некорректные поля'}, status=status.HTTP_400_BAD_REQUEST)
 
         if len(request.data.get('about')) > 128:
-            return Response({'message': 'Описание не должно превышать 128 символов.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'message': 'Описание не должно превышать 128 символов.'},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         if len(request.data.get('username')) > 18:
             return Response({'message': 'Никнейм не должен превышать 18 символов'}, status=status.HTTP_400_BAD_REQUEST)
@@ -220,10 +237,65 @@ class EditUserView(APIView):
         user.username = request.data.get('username')
         user.description = request.data.get('about')
         photo = request.FILES.get('photo')
+
         if photo:
-            user.photo = photo
+            try:
+                if user.photo:
+                    self.delete_old_uploadcare_photo(user.photo)
+
+                image_url = self.upload_to_uploadcare(photo)
+                print(image_url)
+                if image_url:
+                    user.photo = image_url
+                else:
+                    return Response({'message': 'Ошибка при загрузке изображения.'},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            except Exception as e:
+                return Response({'message': 'Ошибка при загрузке изображения.', 'error': str(e)},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         user.save()
+        return Response({
+            'message': 'Ваши данные успешно обновлены!',
+            'photo_url': user.photo
+        }, status=status.HTTP_200_OK)
 
-        return Response({'message': 'Ваши данные успешно обновлены!'}, status=status.HTTP_200_OK)
+    def upload_to_uploadcare(self, photo_file):
+        uploadcare_url = 'https://upload.uploadcare.com/base/'
 
+        files = {
+            'file': (photo_file.name, photo_file, photo_file.content_type)
+        }
+
+        data = {
+            'UPLOADCARE_PUB_KEY': settings.UPLOADCARE_PUBLIC_KEY,
+            'UPLOADCARE_STORE': '1',
+        }
+
+        response = requests.post(uploadcare_url, files=files, data=data)
+
+        if response.status_code == 200:
+            file_uuid = response.json().get('file')
+            return f'https://ucarecdn.com/{file_uuid}/'
+        else:
+            print(f"Uploadcare ошибка: {response.text}")
+            return None
+
+    def delete_old_uploadcare_photo(self, photo_url):
+        match = re.search(r'https://ucarecdn.com/([\w\-]+)/', photo_url)
+        if not match:
+            print("Не удалось извлечь UUID из ссылки:", photo_url)
+            return
+
+        file_uuid = match.group(1)
+        delete_url = f'https://api.uploadcare.com/files/{file_uuid}/'
+
+        headers = {
+            'Authorization': f'Uploadcare.Simple {settings.UPLOADCARE_PUBLIC_KEY}:{settings.UPLOADCARE_SECRET_KEY}',
+        }
+
+        response = requests.delete(delete_url, headers=headers)
+        if response.status_code == 204 or response.status_code == 200:
+            print("Старое фото успешно удалено")
+        else:
+            print(f"Ошибка при удалении фото: {response.status_code} — {response.text}")

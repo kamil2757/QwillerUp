@@ -23,7 +23,7 @@ class CustomUsers(AbstractUser):
         validators=AbstractUser.username.field.validators,
         error_messages=AbstractUser.username.field.error_messages,
     )
-    photo = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    photo = models.URLField(null=True, blank=True)
     description = models.CharField(default="У тебя пока нет описания, но ты можешь добавить его в настройках",
                                    max_length=128)
     experience = models.IntegerField(default=0)

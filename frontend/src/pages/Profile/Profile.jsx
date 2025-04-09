@@ -38,7 +38,7 @@ function Profile() {
   const { UpdateTokens, userData, domain, protocol } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
   const [newMedal, setNewMedal] = useState();
-  const avatarURL = userData.photo ? `${protocol}://${domain}${userData.photo}` : no_avatar
+  const avatarURL = userData.photo ? userData.photo : no_avatar;
   const medals = {
     "1.1.svg": medal_1_1,
     "1.2.svg": medal_1_2,
@@ -86,7 +86,7 @@ function Profile() {
     handleResize();
 
     window.addEventListener("resize", handleResize);
-    console.log(userData.photo)
+    console.log(userData.photo);
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
