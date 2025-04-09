@@ -46,7 +46,7 @@ class LoginSerializer(TokenObtainPairSerializer):
         data.update({
             'username': user.username,
             'date_joined': user.date_joined.isoformat(),
-            'photo': user.photo.url if user.photo else None,
+            'photo': user.photo if user.photo else None,
             'description': user.description,
             'experience': user.experience,
             'level': user.level,
