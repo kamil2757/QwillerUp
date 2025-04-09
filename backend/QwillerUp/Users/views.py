@@ -8,7 +8,6 @@ import calendar
 import requests
 from django.core.serializers import serialize
 from django.shortcuts import render
-from imagekitio.models import UploadFileRequestOptions
 from pyexpat.errors import messages
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
@@ -20,7 +19,6 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.timezone import now
 from datetime import timedelta, date
 
-from imagekitio import ImageKit
 
 from Goals.models import UserDays, TasksTemplateActive, GoalsTemplateActive
 from QwillerUp import settings
