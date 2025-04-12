@@ -66,13 +66,15 @@ function Header() {
           >
             Доска почёта
           </Link>
-          <Link
-            to="/profile"
-            className={location == "/profile" ? styles.active : ""}
-            onClick={() => setBMenuIsOpen(false)}
-          >
-            {userData.username}
-          </Link>
+          <div>
+            <Link
+              to="/profile"
+              className={location == "/profile" ? styles.active : ""}
+              onClick={() => setBMenuIsOpen(false)}
+            >
+              {userData.username}
+            </Link>
+          </div>
         </div>
       )}
 

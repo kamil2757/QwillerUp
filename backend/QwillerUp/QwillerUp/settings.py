@@ -178,7 +178,7 @@ REST_FRAMEWORK = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
@@ -206,7 +206,7 @@ SIMPLE_JWT = {
     "JTI_CLAIM": "jti",
 
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=15),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=30),
     "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=7),
 
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",

@@ -11,16 +11,20 @@ function Registration() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
+  // const [password2, setPassword2] = useState("");
 
   const [blockedButton, setBlockedButton] = useState(true);
   const { setUserData, setAuthorized, authorized, domain, protocol } = useContext(UserContext);
   const [error, setError] = useState();
   const navigate = useNavigate();
 
+  // useEffect(() => {
+  //   setBlockedButton(!(username && email && password && password2));
+  // }, [username, password, password2, email]);
+
   useEffect(() => {
-    setBlockedButton(!(username && email && password && password2));
-  }, [username, password, password2, email]);
+    setBlockedButton(!(username && email && password));
+  }, [username, password, email]);
 
   async function RegistrationUser(e) {
     e.preventDefault();
@@ -41,7 +45,7 @@ function Registration() {
             username: username.trim(),
             email: email.trim(),
             password: password.trim(),
-            password2: password2.trim(),
+            // password2: password2.trim(),
           }),
         }
       );
@@ -111,7 +115,7 @@ function Registration() {
           <div>
             <p>Пароль</p>
             <Input
-              placeholder="Пароль пользователя"
+              placeholder="Придумайте пароль"
               type="password"
               autoComplete="new-password"
               name="new-password"
@@ -119,7 +123,7 @@ function Registration() {
               value={password}
             />
           </div>
-          <div>
+          {/* <div>
             <p>Проверка пароля</p>
             <Input
               placeholder="Повторите свой пароль"
@@ -130,7 +134,7 @@ function Registration() {
               }}
               value={password2}
             />
-          </div>
+          </div> */}
           <div className={styles.btn_block}>
             <Button blocked={blockedButton} width="100%">
               Зарегистрироваться

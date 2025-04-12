@@ -18,7 +18,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.utils.timezone import now
 from datetime import timedelta, date
-
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 from Goals.models import UserDays, TasksTemplateActive, GoalsTemplateActive
 from QwillerUp import settings
@@ -235,22 +237,27 @@ class EditUserView(APIView):
         user.username = request.data.get('username')
         user.description = request.data.get('about')
         photo = request.FILES.get('photo')
+        delete_photo = request.data.get('deletePhoto')
 
-        if photo:
-            try:
-                if user.photo:
-                    self.delete_old_uploadcare_photo(user.photo)
+        if delete_photo == 'true':
+            self.delete_old_uploadcare_photo(user.photo)
+            user.photo = None
+        else:
+            if photo:
+                try:
+                    if user.photo:
+                        self.delete_old_uploadcare_photo(user.photo)
 
-                image_url = self.upload_to_uploadcare(photo)
-                print(image_url)
-                if image_url:
-                    user.photo = image_url
-                else:
-                    return Response({'message': 'Ошибка при загрузке изображения.'},
+                    image_url = self.upload_to_uploadcare(photo)
+                    print(image_url)
+                    if image_url:
+                        user.photo = image_url
+                    else:
+                        return Response({'message': 'Ошибка при загрузке изображения.'},
+                                        status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                except Exception as e:
+                    return Response({'message': 'Ошибка при загрузке изображения.', 'error': str(e)},
                                     status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            except Exception as e:
-                return Response({'message': 'Ошибка при загрузке изображения.', 'error': str(e)},
-                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         user.save()
         return Response({
@@ -260,6 +267,10 @@ class EditUserView(APIView):
 
     def upload_to_uploadcare(self, photo_file):
         uploadcare_url = 'https://upload.uploadcare.com/base/'
+
+        if photo_file.content_type == 'image/png':
+            photo_file = self.convert_png_to_jpg(photo_file)
+            photo_file.content_type = 'image/jpeg'
 
         files = {
             'file': (photo_file.name, photo_file, photo_file.content_type)
@@ -297,3 +308,16 @@ class EditUserView(APIView):
             print("Старое фото успешно удалено")
         else:
             print(f"Ошибка при удалении фото: {response.status_code} — {response.text}")
+
+    def convert_png_to_jpg(self, uploaded_file):
+        image = Image.open(uploaded_file)
+
+        if image.mode in ('RGBA', 'P'):
+            image = image.convert('RGB')
+
+
+        buffer = BytesIO()
+        image.save(buffer, format='JPEG', quality=85)
+        file_name = uploaded_file.name.replace(".png", ".jpg")
+
+        return ContentFile(buffer.getvalue(), name=file_name)

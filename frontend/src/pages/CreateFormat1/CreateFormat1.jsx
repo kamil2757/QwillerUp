@@ -41,6 +41,11 @@ function CreateFormat1() {
           return false;
         }
 
+        if (title.length > 20){
+          setError("Максимальная длина задачи 20 символов");
+          return false;
+        }
+
         if (planned_time <= 0) {
           setError("Время для одного из дел слишком мало");
           return false;

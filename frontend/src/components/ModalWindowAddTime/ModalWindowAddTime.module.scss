@@ -104,6 +104,22 @@
   }
 }
 
+.instruction {
+  height: 200px;
+  padding: 0 26px;
+  width: 20vw;
+  text-align: center;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p a {
+    color: $accent-color;
+    text-decoration: none;
+  }
+}
+
 @media (max-width: 699px) {
   .conteiner h1 {
     width: 200px;
@@ -124,6 +140,11 @@
       background-color: $dark-color;
       padding: 30px;
     }
+  }
+
+  .instruction {
+    height: 110px;
+    padding: 0 20px;
   }
 }
 
@@ -167,6 +188,11 @@
       padding: 20px;
     }
   }
+
+  .instruction {
+    height: 90px;
+    padding: 0 12px;
+  }
 }
 
 @media (max-width: 431px) {
@@ -189,6 +215,11 @@
       background-color: $dark-color;
       padding: 16px;
     }
+  }
+
+  .instruction {
+    height: 110px;
+    padding: 0 16px;
   }
 }
 

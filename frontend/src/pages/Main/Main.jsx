@@ -110,7 +110,6 @@ function Main() {
     return (
       <div className={styles.message_not_tasks}>
         <p>
-
           У вас пока нет задач. Добавьте их в
           <Link to="/settings/tasks/format1">настройках</Link>, чтобы начать!
         </p>

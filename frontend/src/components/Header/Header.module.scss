@@ -16,7 +16,7 @@ header {
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 3vw;
+    padding: 0 2.5vw;
   }
 
   h1 {
@@ -51,13 +51,15 @@ header {
     height: 100%;
     display: flex;
 
-    a {
+    >a {
       transition: border-bottom $transition;
       border-bottom: 2px solid $dark-color;
     }
 
-    a:last-child {
-      margin: 0 0 0 24vw;
+    div:last-child {
+      width: 32vw;
+      display: flex;
+      justify-content: flex-end;
     }
 
     .active {
@@ -123,12 +125,11 @@ header {
     width: 100vw;
     top: 50px;
     right: -20px;
-    height: 270px;
     z-index: 10;
 
     opacity: 0;
     transition: opacity $transition, visibility $transition,
-      transform $transition;
+    transform $transition;
     visibility: hidden;
     transform: translateY(-10px);
 
@@ -142,7 +143,7 @@ header {
     }
 
     a {
-      padding: 0;
+      padding: 26px 0;
       width: 100%;
       border-bottom: 2px solid $dark-color;
       display: flex;

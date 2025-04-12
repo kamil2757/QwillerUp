@@ -27,6 +27,13 @@ class CreateGoalTemplateView(APIView):
             goal_template = GoalsTemplate.objects.create(user=user, day_of_week=day_of_week)
 
             for task in tasks:
+                if len(task['title']) > 20:
+                    return Response({'message': 'Максимальная длина задачи 20 символов'}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    print(len(task['title']), task['title'])
+
+
+            for task in tasks:
                 TasksTemplate.objects.create(
                     goal=goal_template,
                     title=task['title'].capitalize(),

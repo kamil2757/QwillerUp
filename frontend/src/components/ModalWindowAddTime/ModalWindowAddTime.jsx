@@ -17,8 +17,8 @@ function ModalWindowAddTime({
   deleteTime,
 }) {
   const [isVisible, setIsVisible] = useState(isOpen);
-  const [isMini, setIsMini] = useState(false);
-  const { domain, protocol, UpdateTokens } = useContext(UserContext);
+  const { domain, protocol, UpdateTokens, authorized } =
+    useContext(UserContext);
   const [tasks, setTasks] = useState(null);
   const [currentTask, setCurrentTask] = useState(null);
   const navigate = useNavigate();
@@ -30,47 +30,42 @@ function ModalWindowAddTime({
 
   const modalBack = useRef(null);
 
-  useEffect(() => {
-    function handleResize() {
-      setIsMini(window.innerWidth <= 995);
-    }
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    async function getTasks() {
-      if (isOpen) {
-        try {
-          const response = await fetch(
-            `${protocol}://${domain}/api/goals/get-active-goal/`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-              },
-            }
-          );
-
-          if (response.ok) {
-            const data = await response.json();
-            setTasks(data.data.tasks);
-          } else if (response.status === 404) {
-            setTasks(false);
-          } else {
-            UpdateTokens();
+  async function getTasks() {
+    if (isOpen) {
+      try {
+        const response = await fetch(
+          `${protocol}://${domain}/api/goals/get-active-goal/`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
           }
-        } catch (err) {
-          console.log(err);
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setTasks(data.data.tasks);
+        } else if (response.status === 404) {
+          setTasks(false);
+        } else {
+          UpdateTokens();
         }
+      } catch (err) {
+        console.log(err);
       }
     }
+  }
 
-    getTasks();
+  useEffect(()=>{
+    setIsVisible(isOpen)
+  }, [isOpen])
+
+  useEffect(() => {
+    console.log("isOpen: " + isOpen);
+    console.log("isVisible: " + isVisible)
+    if (isOpen) {
+      getTasks();
+    }
   }, [isOpen]);
 
   function handleClickTask(event) {
@@ -92,7 +87,7 @@ function ModalWindowAddTime({
   async function UpdateTime(time, task) {
     if (time.hours * 60 + time.minutes == 0) {
       console.log("Можно ничо не делать у него 0 минут");
-      deleteTime()
+      deleteTime();
       return;
     }
 
@@ -144,7 +139,7 @@ function ModalWindowAddTime({
 
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
-      setIsVisible(true);
+      setIsVisible(isOpen);
       document.body.style.overflow = "hidden";
       document.body.style.paddingRight = "17px";
 
@@ -160,7 +155,7 @@ function ModalWindowAddTime({
         modalBack.current.style.opacity = "0";
       }
       setTimeout(() => {
-        setIsVisible(false);
+        setIsVisible(isOpen);
       }, 200);
     }
 
@@ -190,8 +185,12 @@ function ModalWindowAddTime({
                 ))}
               </>
             ) : tasks === false ? (
-              <div>
-                У вас пока нет задач. Добавьте их в настройках, чтобы начать!
+              <div className={styles.instruction}>
+                <p>
+                  У вас пока нет задач. Добавьте их в{" "}
+                  <Link to="/settings/tasks/format1">настройках</Link>, чтобы
+                  начать!
+                </p>
               </div>
             ) : (
               <div className={styles.loading}>Загрузка...</div>

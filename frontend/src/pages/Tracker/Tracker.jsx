@@ -11,7 +11,9 @@ function Tracker() {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-  const [isOpenAddTime, setIsOpenAddTime] = useState(false);
+  const [isOpenAddTime, setIsOpenAddTime] = useState(
+    localStorage.isOpenAddTime == 'true' ? true : null
+  );
 
   useEffect(() => {
     if (localStorage.isRunning == "true" && localStorage.startTime) {
@@ -36,10 +38,8 @@ function Tracker() {
   }, []);
 
   function startTime() {
-    console.log("start");
     btns1Ref.current.style.display = "none";
     btns2Ref.current.style.display = "flex";
-    console.log(localStorage.startTime);
 
     if (!localStorage.startTime) {
       const pausedTime = Number(localStorage.getItem("pausedTime")) || 0;
@@ -51,7 +51,6 @@ function Tracker() {
   }
 
   function deleteTime() {
-    console.log("delete");
     setSeconds(0);
     setMinutes(0);
     setHours(0);
@@ -66,7 +65,6 @@ function Tracker() {
   }
 
   function stopTime() {
-    console.log("stop");
     btns2Ref.current.style.display = "none";
     btns1Ref.current.style.display = "flex";
     setIsRunning(false);
@@ -79,11 +77,19 @@ function Tracker() {
   }
 
   function saveTime() {
-    console.log("save");
+    localStorage.setItem("isOpenAddTime", "true");
     setIsOpenAddTime(true);
 
     stopTime();
   }
+
+  useEffect(() => {
+    console.log(localStorage.isOpenAddTime);
+    if (localStorage.isOpenAddTime == "true") {
+      localStorage.setItem("isOpenAddTime", "false");
+      setIsOpenAddTime(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!isRunning) return;
@@ -126,6 +132,7 @@ function Tracker() {
         isOpen={isOpenAddTime}
         time={{ hours: hours, minutes: minutes }}
         onClose={() => {
+          localStorage.setItem("isOpenAddTime", "false");
           setIsOpenAddTime(false);
         }}
         setHours={setHours}

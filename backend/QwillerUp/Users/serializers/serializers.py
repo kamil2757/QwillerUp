@@ -9,24 +9,38 @@ from Users.models import UserMedals, Medals
 User = get_user_model()
 
 
-class RegisterSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(write_only=True)
+# Регистрация с повтором пароля
+# class RegisterSerializer(serializers.ModelSerializer):
+#     password2 = serializers.CharField(write_only=True)
+#
+#     class Meta:
+#         model = User
+#         fields = ['username', 'email', 'password', 'password2', 'experience', 'level', 'description', 'photo',
+#                   'ice_count', 'streak', 'schedule_type']
+#         extra_kwargs = {'password': {'write_only': True}}
+#
+#     def validate(self, data):
+#         if data['password'] != data['password2']:
+#             raise serializers.ValidationError('Пароли не совпадают')
+#         return data
+#
+#     def create(self, validated_data):
+#         validated_data.pop('password2')
+#         user = User.objects.create_user(**validated_data)
+#
+#         return user
 
+
+# Регистрация без повтора пароля
+class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'password2', 'experience', 'level', 'description', 'photo',
+        fields = ['username', 'email', 'password', 'experience', 'level', 'description', 'photo',
                   'ice_count', 'streak', 'schedule_type']
         extra_kwargs = {'password': {'write_only': True}}
 
-    def validate(self, data):
-        if data['password'] != data['password2']:
-            raise serializers.ValidationError('Пароли не совпадают')
-        return data
-
     def create(self, validated_data):
-        validated_data.pop('password2')
         user = User.objects.create_user(**validated_data)
-
         return user
 
 
