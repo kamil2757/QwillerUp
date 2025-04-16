@@ -6,22 +6,17 @@ import Button from "../Button/Button";
 import UserContext from "../../contexts/UserContext";
 import ProgressBar from "../ProgressBar/ProgressBar";
 import { Link, Outlet, useNavigate } from "react-router-dom";
+import Input from "../Input/Input";
 
-function ModalWindowAddTime({
-  isOpen,
-  onClose,
-  time,
-  setHours,
-  setMinutes,
-  setSeconds,
-  deleteTime,
-}) {
+function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
   const [isVisible, setIsVisible] = useState(isOpen);
   const { domain, protocol, UpdateTokens, authorized } =
     useContext(UserContext);
   const [tasks, setTasks] = useState(null);
   const [currentTask, setCurrentTask] = useState(null);
   const navigate = useNavigate();
+  const [hours, setHours] = useState(time.hours);
+  const [minutes, setMinutes] = useState(time.minutes);
 
   function onCloseUpd() {
     setCurrentTask(null);
@@ -56,13 +51,13 @@ function ModalWindowAddTime({
     }
   }
 
-  useEffect(()=>{
-    setIsVisible(isOpen)
-  }, [isOpen])
+  useEffect(() => {
+    setIsVisible(isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
     console.log("isOpen: " + isOpen);
-    console.log("isVisible: " + isVisible)
+    console.log("isVisible: " + isVisible);
     if (isOpen) {
       getTasks();
     }
@@ -85,6 +80,7 @@ function ModalWindowAddTime({
   }
 
   async function UpdateTime(time, task) {
+    console.log(time)
     if (time.hours * 60 + time.minutes == 0) {
       console.log("Можно ничо не делать у него 0 минут");
       deleteTime();
@@ -100,7 +96,7 @@ function ModalWindowAddTime({
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify({
-          time_spent: time.hours * 60 + time.minutes + task.spent_time,
+          time_spent: time + task.spent_time,
           title: task.title,
         }),
       }
@@ -112,7 +108,7 @@ function ModalWindowAddTime({
     } else {
       UpdateTokens(() =>
         UpdateTime(
-          time + currentTask.hours * 60 + currentTask.minutes,
+          time,
           currentTask
         )
       );
@@ -207,9 +203,26 @@ function ModalWindowAddTime({
                   ""
                 )}
               </div>
-              <div
-                className={styles.time}
-              >{`${time.hours}ч ${time.minutes}мин`}</div>
+              <div className={styles.time}>
+                <div className={styles.time_hours}>
+                  <Input
+                    value={hours}
+                    format={2}
+                    onChange={(e) => setHours(Number(e.target.value))}
+                    type="number"
+                  ></Input>
+                  час
+                </div>
+                <div className={styles.time_minutes}>
+                  <Input
+                    value={minutes}
+                    format={2}
+                    onChange={(e) => setMinutes(Number(e.target.value))}
+                    type="number"
+                  ></Input>
+                  мин
+                </div>
+              </div>
               {!currentTask ? (
                 <div className={styles.text}>
                   Выбери дело, которым занимался, и добавь время. Можно
@@ -223,7 +236,7 @@ function ModalWindowAddTime({
                   <>
                     <Button
                       onClick={() => {
-                        UpdateTime(time, currentTask);
+                        UpdateTime(hours * 60 + minutes, currentTask);
                         onCloseUpd();
                       }}
                     >

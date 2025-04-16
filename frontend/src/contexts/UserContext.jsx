@@ -10,6 +10,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [fileProfileSettings, setFileProfileSettings] = useState(null);
   const [imageProfileSettings, setImageProfileSettings] = useState(null);
+  const [tasksSettings, setTasksSettings] = useState(null)
   const domain = 'qwillerup-production.up.railway.app'
   const protocol = 'https'
 
@@ -110,6 +111,8 @@ export const UserProvider = ({ children }) => {
         setFileProfileSettings,
         imageProfileSettings,
         setImageProfileSettings,
+        tasksSettings,
+        setTasksSettings
       }}
     >
       {children}

@@ -2,10 +2,11 @@
 @import "../../styles/mixins";
 
 .main_block {
-  margin: 20px 0 240px 0;
+  margin: 20px auto ;
   display: flex;
   gap: 2vw;
   justify-content: center;
+  width: 86vw;
 }
 
 .message_not_tasks {
@@ -146,7 +147,7 @@
 
   .block1,
   .block2 {
-    width: 90vw;
+    width: 86vw;
   }
 
   .block1 {
@@ -206,6 +207,13 @@
   .task .bl2 img {
     width: 13px;
     cursor: pointer;
+  }
+}
+
+@media (max-width: 479px) {
+  .block1,
+  .block2 {
+    width: 92vw;
   }
 }
 

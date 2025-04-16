@@ -90,6 +90,15 @@
       padding: 40px;
       border-radius: 20px;
       text-align: center;
+      justify-content: center;
+      display: flex;
+      gap: 10px;
+
+      div{
+        display: flex;
+        align-items: end;
+        gap: 6px;
+      }
     }
 
     .btns {
@@ -214,6 +223,7 @@
     .time {
       background-color: $dark-color;
       padding: 16px;
+
     }
   }
 

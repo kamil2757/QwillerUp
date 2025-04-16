@@ -9,20 +9,70 @@ function SettingsTasksFormat1() {
   const tasksRef = useRef(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const { UpdateTokens, domain, protocol } = useContext(UserContext);
+  const {
+    UpdateTokens,
+    domain,
+    protocol,
+    authorized,
+    setTasksSettings,
+    tasksSettings,
+  } = useContext(UserContext);
   const [TotalTime, setTotalTime] = useState({
     hours: 0,
     minutes: 0,
   });
-  const { tasks } = useOutletContext();
+  const [tasks, setTasks] = useState(tasksSettings);
   const [taskVolume, setTaskVolume] = useState(2);
-  const [inpValues, setInpValues] = useState(
-    tasks.map((task) => ({
-      ...task,
-      hours: Math.floor(task.planned_time / 60) || 0,
-      minutes: task.planned_time % 60 || 0,
-    }))
-  );
+  const [inpValues, setInpValues] = useState(null);
+
+  useEffect(() => {
+    async function getTasks() {
+      const response = await fetch(
+        `${protocol}://${domain}/api/goals/get-tasks/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setTasks(data.tasks);
+        console.log(data);
+
+        if (localStorage.setSuccess == 'true'){
+          setSuccess("Шаблон был успешно изменен!");
+          localStorage.setSuccess = 'false'
+        }
+
+      } else {
+        UpdateTokens();
+      }
+    }
+
+    if (localStorage.schedule_type == "1" && !tasks) {
+      getTasks();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tasks) {
+      console.log(tasks);
+      setInpValues(() =>
+        tasks.map((task) => ({
+          title: task.title,
+          hours: Math.floor(task.planned_time / 60) || 0,
+          minutes: task.planned_time % 60 || 0,
+        }))
+      );
+    }
+
+    if (tasksSettings) {
+      sendTasks();
+      setTasksSettings(null);
+    }
+  }, [tasks]);
 
   useEffect(() => {
     if (tasks) {
@@ -98,7 +148,7 @@ function SettingsTasksFormat1() {
           return false;
         }
 
-        if (title.length > 20){
+        if (title.length > 20) {
           setError("Максимальная длина задачи 20 символов");
           return false;
         }
@@ -121,24 +171,54 @@ function SettingsTasksFormat1() {
   }
 
   useEffect(() => {
-    let totalMinutes = inpValues.reduce((sum, task) => {
-      console.log(task.hours, task.minutes);
-      const time = task.minutes + task.hours * 60;
-      return sum + time;
-    }, 0);
+    if (inpValues) {
+      let totalMinutes = inpValues.reduce((sum, task) => {
+        const time = task.minutes + task.hours * 60;
+        return sum + time;
+      }, 0);
 
-    if (isNaN(totalMinutes)) {
-      totalMinutes = 0;
+      if (isNaN(totalMinutes)) {
+        totalMinutes = 0;
+      }
+
+      setTotalTime({
+        hours: Math.floor(totalMinutes / 60),
+        minutes: totalMinutes % 60,
+      });
     }
+  }, [inpValues, tasks]);
 
-    setTotalTime({
-      hours: Math.floor(totalMinutes / 60),
-      minutes: totalMinutes % 60,
-    });
-  }, [inpValues]);
+  async function sendTaskData(newGoal) {
+    console.log("Оправляем newGoal");
+    const response = await fetch(
+      `${protocol}://${domain}/api/goals/create-goal-template/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+        body: JSON.stringify(newGoal),
+      }
+    );
+
+    const data = await response.json();
+
+    if (data?.code === "token_not_valid") {
+      await UpdateTokens();
+      await sendTaskData(newGoal);
+      localStorage.setSuccess = 'true'
+    } else {
+      setError(false);
+      localStorage.schedule_type = "1";
+      setSuccess("Шаблон был успешно изменен!");
+    }
+  }
 
   async function sendTasks(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     if (!checkFields()) {
       setSuccess(false);
@@ -166,102 +246,69 @@ function SettingsTasksFormat1() {
     }
 
     console.log(newGoal);
-
-    try {
-      console.log(JSON.stringify(newGoal));
-      async function sendTaskData() {
-        const response = await fetch(
-          `${protocol}://${domain}/api/goals/create-goal-template/`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-            body: JSON.stringify(newGoal),
-          }
-        );
-
-        const data = await response.json();
-        console.log(data);
-        if (data?.code == "token_not_valid") {
-          UpdateTokens(sendTaskData);
-        } else {
-          setError(false);
-          setSuccess("Шаблон был успешно изменен!");
-        }
-      }
-
-      sendTaskData();
-    } catch (err) {
-      console.log(err);
-    }
+    sendTaskData(newGoal);
   }
 
-  if (inpValues) {
-    return (
-      <div className={styles.block_settingsTasksFormat1}>
-        <form
-          className={styles.block_inputs}
-          onSubmit={sendTasks}
-          ref={tasksRef}
-        >
-          {error && <div className={styles.error}>{error}</div>}
-          {success && <div className={styles.success}>{success}</div>}
+  if (!inpValues) return <div>loading...</div>;
 
-          {Array.from({ length: taskVolume }, (_, index) => (
-            <div className={styles.field} key={index}>
-              <div className={styles.input_task} id={index + 1}>
+  return (
+    <div className={styles.block_settingsTasksFormat1}>
+      <form className={styles.block_inputs} onSubmit={sendTasks} ref={tasksRef}>
+        {error && <div className={styles.error}>{error}</div>}
+        {success && <div className={styles.success}>{success}</div>}
+
+        {Array.from({ length: taskVolume }, (_, index) => (
+          <div className={styles.field} key={index}>
+            <div className={styles.input_task} id={index + 1}>
+              <Input
+                placeholder="Введите занятие"
+                onChange={(e) => handleChange(e, index)}
+                value={inpValues[index] ? inpValues[index].title : ""}
+              />
+            </div>
+
+            <div className={styles.time_inputes}>
+              <div className={styles.hours}>
                 <Input
-                  placeholder="Введите занятие"
-                  onChange={(e) => handleChange(e, index)}
-                  value={inpValues[index] ? inpValues[index].title : ""}
+                  placeholder="0"
+                  onChange={(e) => handleChangeNumber(e, index, 1)}
+                  type="number"
+                  value={
+                    inpValues[index] && !isNaN(inpValues[index].hours)
+                      ? String(Math.floor(inpValues[index].hours))
+                      : ""
+                  }
                 />
+                <p>ч</p>
               </div>
-
-              <div className={styles.time_inputes}>
-                <div className={styles.hours}>
-                  <Input
-                    placeholder="0"
-                    onChange={(e) => handleChangeNumber(e, index, 1)}
-                    type="number"
-                    value={
-                      inpValues[index] && !isNaN(inpValues[index].hours)
-                        ? String(Math.floor(inpValues[index].hours))
-                        : ""
-                    }
-                  />
-                  <p>ч</p>
-                </div>
-                <div className={styles.minutes}>
-                  <Input
-                    placeholder="0"
-                    onChange={(e) => handleChangeNumber(e, index, 2)}
-                    type="number"
-                    value={
-                      inpValues[index] && !isNaN(inpValues[index].minutes)
-                        ? String(Math.floor(inpValues[index].minutes))
-                        : ""
-                    }
-                  />
-                  <p>мин</p>
-                </div>
+              <div className={styles.minutes}>
+                <Input
+                  placeholder="0"
+                  onChange={(e) => handleChangeNumber(e, index, 2)}
+                  type="number"
+                  value={
+                    inpValues[index] && !isNaN(inpValues[index].minutes)
+                      ? String(Math.floor(inpValues[index].minutes))
+                      : ""
+                  }
+                />
+                <p>мин</p>
               </div>
             </div>
-          ))}
-
-          <div className={styles.total_time}>
-            <p>
-              Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
-              {TotalTime.minutes}мин
-            </p>
           </div>
+        ))}
 
-          <Button width="100%">Создать новый план</Button>
-        </form>
-      </div>
-    );
-  }
+        <div className={styles.total_time}>
+          <p>
+            Cуммарное время цели на каждый день: {TotalTime.hours}ч{" "}
+            {TotalTime.minutes}мин
+          </p>
+        </div>
+
+        <Button width="100%">Создать новый план</Button>
+      </form>
+    </div>
+  );
 }
 
 export default SettingsTasksFormat1;

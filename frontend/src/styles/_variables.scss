@@ -12,6 +12,12 @@ $font-miniLarge: clamp(16px, 1.4vw, 38px);
 $font-large: clamp(24px, 2.2vw, 64px);
 $font-xlarge:  clamp(29px, 3.4vw, 86px);
 
+$font-small: clamp(10px, 0.75vw, 14px);         // для второстепенного текста, подписей
+$font-medium: clamp(13px, 1vw, 18px);           // обычный текст, кнопки
+$font-miniLarge: clamp(16px, 1.4vw, 28px);      // заголовки 3-го уровня, важные кнопки
+$font-large: clamp(22px, 2vw, 42px);            // заголовки 2-го уровня
+$font-xlarge: clamp(28px, 3vw, 60px);
+
 $font-weight: 300;
 $transition: 0.2s;
 

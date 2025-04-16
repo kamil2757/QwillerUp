@@ -18,6 +18,7 @@ import SettingsTasksFormat2 from "./pages/SettingsTasksFormat2/SettingsTasksForm
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute.jsx";
 import PublicRoute from "./components/PublicRoute/PublicRoute.jsx";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 
 import SettingsProgress from "./pages/SettingsProgress/SettingsProgress.jsx";
 import UserContext, { UserProvider } from "./contexts/UserContext.jsx";
@@ -33,6 +34,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Header />
       <div
         style={{

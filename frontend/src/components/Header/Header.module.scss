@@ -84,10 +84,10 @@ header {
   display: none;
 
   .burger {
-    width: 30px;
+    width: 24px;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 6px;
 
     div {
       width: 100%;
@@ -100,13 +100,13 @@ header {
 
   .burger_open {
     div:nth-child(1) {
-      transform: translateY(9px) rotate(45deg);
+      transform: translateY(8px) rotate(45deg);
     }
     div:nth-child(2) {
       opacity: 0;
     }
     div:nth-child(3) {
-      transform: translateY(-9px) rotate(-45deg);
+      transform: translateY(-8px) rotate(-45deg);
     }
   }
 

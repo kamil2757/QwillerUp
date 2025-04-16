@@ -12,6 +12,8 @@
     display: flex;
     align-items: center;
     gap: 26px;
+    width: 86vw;
+    justify-content: center;
 
     .text {
       background-color: $dark-color;
@@ -20,7 +22,10 @@
 
       display: flex;
       align-items: center;
-      padding: 38px 60px;
+      p{
+        padding: 38px 60px;
+      }
+
     }
     img {
       width: 90px;
@@ -63,7 +68,7 @@
     border-radius: 100%;
   }
 
-  .honorBoard_block .message .text {
+  .honorBoard_block .message .text p {
     padding: 32px 22px;
   }
 
@@ -77,12 +82,7 @@
     gap: 12px;
   }
 
-  .honorBoard_block .message img {
-    width: 50px;
-    height: 50px;
-  }
-
-  .honorBoard_block .message .text {
+  .honorBoard_block .message .text p {
     padding: 28px 22px;
   }
 
@@ -97,7 +97,13 @@
   }
 
   .honorBoard_block .message img {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
+  }
+}
+
+@media (max-width: 479px) {
+  .honorBoard_block .message {
+    width: 92vw;
   }
 }

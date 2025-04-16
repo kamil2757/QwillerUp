@@ -24,18 +24,13 @@ function Input({
   } else {
     return (
       <input
-        className={styles.input}
+        className={ format == 2 ? `${styles.input_mini} ${styles.input}` : styles.input}
         type={type}
         placeholder={placeholder}
         name={name}
         onChange={onChange}
         value={value}
         autoComplete={autoComplete}
-        style={
-          format == 2
-            ? { width: `${60}px`, padding: "0px", textAlign: "center" }
-            : {}
-        }
       />
     );
   }

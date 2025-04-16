@@ -7,7 +7,7 @@
 }
 
 .block1_info {
-  height: 380px;
+  height: 360px;
   position: relative;
   background-color: $dark-color;
   border-radius: 60px;
@@ -42,7 +42,6 @@
 
     .aboutUser {
       width: 90%;
-      min-height: 60px;
 
       margin: 18px 0 26px 0;
     }
@@ -121,7 +120,7 @@
     display: flex;
     align-items: center;
     .chart_wrapper {
-      padding: 0 0 0 90px;
+      padding: 0 0 0 70px;
       width: 80%;
       height: 90%;
       display: flex;
@@ -179,13 +178,13 @@
 
 @media (max-width: 1417px) {
   .block1_info {
-    height: 340px;
+    height: 320px;
 
     .avatar {
       margin: 0 60px;
       img {
-        width: 260px;
-        height: 260px;
+        width: 250px;
+        height: 250px;
       }
     }
 
@@ -204,7 +203,7 @@
   }
 
   .block2_info .chart .chart_wrapper {
-    padding: 0 0 0 30px;
+    padding: 0 0 0 0;
     width: 100%;
     height: 90%;
     display: flex;
@@ -213,7 +212,7 @@
 }
 @media (max-width: 1180px) {
   .block1_info {
-    height: 300px;
+    height: 280px;
 
     .avatar {
       margin: 0 40px;
@@ -247,6 +246,7 @@
 
 @media (max-width: 1035px) {
   .block1_info {
+    height: 270px;
     .avatar {
       img {
         width: 200px;
@@ -312,7 +312,7 @@
 
 @media (max-width: 862px) {
   .block2_info .chart .chart_wrapper {
-    padding: 20px 0 0 30px;
+    padding: 20px 0 0 0px;
     width: 90%;
   }
 }
@@ -362,14 +362,13 @@
 @media (max-width: 654px) {
   .block2_info .chart .chart_wrapper {
     width: 100%;
-    height: 190px;
   }
 }
 
 @media (max-width: 600px) {
   .block1_info {
     flex-direction: column;
-    height: 280px;
+    height: max-content;
     .avatar {
       img {
         margin: 18px 0;
@@ -382,7 +381,7 @@
     .block1_info__info {
       width: 90%;
       .aboutUser {
-        margin: 10px 0;
+        margin: 10px 0 20px 0;
       }
     }
 
@@ -396,7 +395,7 @@
   }
 
   .block2_info .fireStreak_info {
-    height: 110px;
+    height: 100px;
     .text {
       margin: 0 20px 0 0;
     }
@@ -415,6 +414,11 @@
 }
 
 @media (max-width: 479px) {
+  .block_profile {
+    width: 92vw;
+    margin: 20px auto;
+  }
+
   .block1_info {
     .avatar {
       margin: 0 20px;
@@ -422,7 +426,6 @@
 
     .block1_info__info {
       .aboutUser {
-        margin: 10px 0;
         width: 99%;
       }
 
@@ -442,7 +445,7 @@
   }
 
   .block2_info .chart .chart_wrapper {
-    padding: 20px 0 0 0;
+    padding: 20px 14px 0 0;
   }
 
   .medals .content {
@@ -460,7 +463,6 @@
 
 @media (max-width: 339px){
   .block1_info {
-    height: 300px;
 
     .fireStreak_info {
       height: 180px;

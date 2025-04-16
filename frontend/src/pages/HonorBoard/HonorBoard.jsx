@@ -70,7 +70,7 @@ function HonorBoard() {
       <div className={styles.honorBoard_block}>
         {messages.map((message) => (
           <div className={styles.message} key={message.user_id}>
-            <div className={styles.text}>{message.message}</div>
+            <div className={styles.text}><p>{message.message}</p></div>
             <img src={message.photo ? message.photo : no_avatar} alt="" />
           </div>
         ))}
