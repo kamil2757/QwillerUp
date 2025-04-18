@@ -52,6 +52,17 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
   }
 
   useEffect(() => {
+    console.log(time)
+    if (time.hours){
+      setHours(time.hours)
+    }
+    if (time.minutes){
+      setMinutes(time.minutes)
+    }
+  
+  }, [time])
+
+  useEffect(() => {
     setIsVisible(isOpen);
   }, [isOpen]);
 
@@ -126,6 +137,10 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
     // }
   }
 
+  window.addEventListener('resize', () => {
+    console.log('Вертикальный скроллбар:', hasVerticalScrollbar());
+  });
+
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key == "Escape") {
@@ -136,7 +151,6 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
       setIsVisible(isOpen);
-      document.body.style.overflow = "hidden";
       document.body.style.paddingRight = "17px";
 
       setTimeout(() => {

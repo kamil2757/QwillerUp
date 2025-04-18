@@ -166,14 +166,19 @@ class GetUserDetail(APIView):
                 print('ch3')
                 return ch3
 
-        if (user.last_active_date == (date.today() - timedelta(days=1))) or (user.last_active_date == date.today()):
+        days_inactive = (date.today() - user.last_active_date).days
+
+        if days_inactive == 0:
+            # Сегодня активен — всё ок
             pass
+        elif user.ice_count >= days_inactive:
+            # Пропущено N дней, но есть достаточно льда
+            user.ice_count -= days_inactive
         else:
-            if user.ice_count > 0:
-                user.ice_count -= 1
-            else:
-                user.streak = 0
-            user.save()
+            # Льда не хватает — сбрасываем стрик
+            user.streak = 0
+
+        user.save()
 
         streak_active = user.last_active_date == date.today()
 
@@ -314,7 +319,6 @@ class EditUserView(APIView):
 
         if image.mode in ('RGBA', 'P'):
             image = image.convert('RGB')
-
 
         buffer = BytesIO()
         image.save(buffer, format='JPEG', quality=85)
