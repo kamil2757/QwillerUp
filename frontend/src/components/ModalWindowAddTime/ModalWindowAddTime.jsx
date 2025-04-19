@@ -17,7 +17,9 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
   const navigate = useNavigate();
   const [hours, setHours] = useState(time.hours);
   const [minutes, setMinutes] = useState(time.minutes);
-  const [isSuperMini, setIsSuperMini] = useState(false);
+  const [isSuperMini, setIsSuperMini] = useState(() =>
+    window.matchMedia("(max-width: 552px)").matches
+  );
 
   function onCloseUpd() {
     setCurrentTask(null);
