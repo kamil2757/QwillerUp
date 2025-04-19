@@ -121,8 +121,8 @@ function SettingsTasksFormat2() {
 
           Goal_time += task_time;
 
-          if (title.length > 20){
-            setError("Максимальная длина задачи 20 символов");
+          if (title.length > 16){
+            setError("Максимальная длина задачи 16 символов");
             return false;
           }
 

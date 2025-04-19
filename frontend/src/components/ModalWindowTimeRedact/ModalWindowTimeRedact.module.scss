@@ -104,6 +104,7 @@
   @include center();
   background-color:$red-color;
   width: 100%;
+  text-align: center;
 }
 
 
@@ -210,4 +211,10 @@
   
       width: 16px;
     }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  body {
+    padding-right: 0 !important;
+  }
 }

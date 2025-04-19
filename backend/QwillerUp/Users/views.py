@@ -168,7 +168,7 @@ class GetUserDetail(APIView):
 
         days_inactive = (date.today() - user.last_active_date).days
 
-        if days_inactive == 0:
+        if days_inactive == 1:
             # Сегодня активен — всё ок
             pass
         elif user.ice_count >= days_inactive:

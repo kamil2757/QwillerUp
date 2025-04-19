@@ -303,3 +303,9 @@
     height: 120px;
   }
 }
+
+@media (hover: none) and (pointer: coarse) {
+  body {
+    padding-right: 0 !important;
+  }
+}

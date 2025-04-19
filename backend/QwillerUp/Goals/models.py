@@ -13,7 +13,7 @@ class GoalsTemplate(models.Model):
 
 class TasksTemplate(models.Model):
     goal = models.ForeignKey(GoalsTemplate, on_delete=models.CASCADE)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=16)
     planned_time = models.IntegerField()
 
     def __str__(self):
@@ -27,7 +27,7 @@ class GoalsTemplateActive(models.Model):
 
 class TasksTemplateActive(models.Model):
     goal = models.ForeignKey(GoalsTemplateActive, on_delete=models.CASCADE)
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=16)
     spent_time = models.IntegerField(default=0)
     planned_time = models.IntegerField()
 

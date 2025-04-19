@@ -17,11 +17,25 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
   const navigate = useNavigate();
   const [hours, setHours] = useState(time.hours);
   const [minutes, setMinutes] = useState(time.minutes);
+  const [isSuperMini, setIsSuperMini] = useState()
 
   function onCloseUpd() {
     setCurrentTask(null);
     onClose();
   }
+
+  useEffect(() => {
+    function handleResize(){
+      setIsSuperMini(window.innerWidth <= 552)
+    }
+
+    handleResize()
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  },[])
 
   const modalBack = useRef(null);
 
@@ -78,11 +92,11 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
     const tasksHTML = document.querySelectorAll(`.${styles.task}`);
 
     for (let i = 0; i < tasks.length; i++) {
-      if (tasks[i].title == event.target.textContent) {
+      if (tasks[i].title.includes(event.target.textContent.replace('.',''))) {
         setCurrentTask(tasks[i]);
       }
 
-      if (tasksHTML[i].textContent == event.target.textContent) {
+      if (tasksHTML[i].textContent.includes(event.target.textContent.replace('.',''))) {
         tasksHTML[i].classList.add(styles.active);
       } else {
         tasksHTML[i].classList.remove(styles.active);
@@ -190,7 +204,7 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
               <>
                 {tasks.map((task) => (
                   <div className={styles.task} key={task.id}>
-                    <div onClick={handleClickTask}>{task.title}</div>
+                    <div onClick={handleClickTask}>{isSuperMini && task.title.length > 10 ? task.title.slice(0,10) + '.' : task.title}</div>
                   </div>
                 ))}
               </>
@@ -211,7 +225,7 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
               <div>
                 {currentTask ? (
                   <div className={styles.taskInfo}>
-                    <h1>{currentTask.title}</h1>
+                    <h1>{isSuperMini && currentTask.title.length > 10 ? currentTask.title.slice(0,10) + '.' : currentTask.title}</h1>
                   </div>
                 ) : (
                   ""

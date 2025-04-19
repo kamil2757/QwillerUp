@@ -154,5 +154,9 @@
   }
 }
 
-@media (max-width: 473px) {
+
+@media (hover: none) and (pointer: coarse) {
+  body {
+    padding-right: 0 !important;
+  }
 }
