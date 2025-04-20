@@ -201,19 +201,40 @@
   }
 }
 
+@media (max-height: 863px) {
+  .medals {
+    height: 260px;
+  }
+}
+
+@media (max-height: 729px) {
+  .conteiner h1 {
+    height: 70px;
+  }
+  .medals {
+    height: 210px;
+  }
+}
+
+@media (max-height: 533px) {
+  .conteiner h1 {
+    height: 60px;
+  }
+  .medals {
+    height: 180px;
+  }
+}
+
 @media (max-width: 512px) {
   .medal {
     width: 100px;
     padding: 10px 4px;
 
-    img {
-      width: 40px;
-    }
   }
 
   .medals {
     width: 390px;
-    height: 140px;
+    height: 220px;
   }
 
   .conteiner {
@@ -239,9 +260,6 @@
   .medal {
     width: 96px;
     padding: 8px 4px;
-    img {
-      width: 38px;
-    }
   }
 
   .medals {
@@ -257,50 +275,30 @@
 
 @media (max-width: 370px) {
   .medal {
-    width: 90px;
+    width: 100px;
     padding: 8px 4px;
     img {
-      width: 34px;
+      width: 50px;
     }
 
     p {
-      width: 80px;
+      width: 98px;
     }
   }
 
   .medals {
-    width: 286px;
+    width: 310px;
   }
 
   .conteiner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     .info_block,
     .description {
-      width: 286px;
+      border-radius: 14px;
+      width: 310px;
     }
-  }
-}
-
-@media (max-height: 863px) {
-  .medals {
-    height: 260px;
-  }
-}
-
-@media (max-height: 729px) {
-  .conteiner h1 {
-    height: 70px;
-  }
-  .medals {
-    height: 210px;
-  }
-}
-
-@media (max-height: 533px) {
-  .conteiner h1 {
-    height: 60px;
-  }
-  .medals {
-    height: 120px;
   }
 }
 

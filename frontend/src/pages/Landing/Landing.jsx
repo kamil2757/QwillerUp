@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 
 function Landing() {
   return (
-    <>
+    <div className={styles.landing_block}>
       <div className={styles.welcome_block}>
         <div className={styles.text}>
           <h1>Планируй и отслеживай свои цели!</h1>
@@ -97,7 +97,7 @@ function Landing() {
           </Link>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
