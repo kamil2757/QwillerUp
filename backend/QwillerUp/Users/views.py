@@ -166,17 +166,20 @@ class GetUserDetail(APIView):
                 print('ch3')
                 return ch3
 
-        days_inactive = (date.today() - user.last_active_date).days
+        last_active_day = user.last_active_date
 
-        if days_inactive == 1:
-            # Сегодня активен — всё ок
-            pass
-        elif user.ice_count >= days_inactive:
-            # Пропущено N дней, но есть достаточно льда
-            user.ice_count -= days_inactive
-        else:
-            # Льда не хватает — сбрасываем стрик
-            user.streak = 0
+        if last_active_day:
+            days_inactive = (date.today() - last_active_day).days
+
+            if days_inactive == 1:
+                # Сегодня активен — всё ок
+                pass
+            elif user.ice_count >= days_inactive:
+                # Пропущено N дней, но есть достаточно льда
+                user.ice_count -= days_inactive
+            else:
+                # Льда не хватает — сбрасываем стрик
+                user.streak = 0
 
         user.save()
 

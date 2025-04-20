@@ -150,10 +150,6 @@ function ModalWindowAddTime({ isOpen, onClose, time, deleteTime }) {
     // }
   }
 
-  window.addEventListener("resize", () => {
-    console.log("Вертикальный скроллбар:", hasVerticalScrollbar());
-  });
-
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.key == "Escape") {

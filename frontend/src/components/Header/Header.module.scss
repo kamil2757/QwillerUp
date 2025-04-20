@@ -78,7 +78,7 @@ header {
   }
 }
 
-.burder_menu_block {
+.burder_menu_block, .burder_menu_block_auth {
   margin: 0 20px 0 0;
   position: relative;
   display: none;
@@ -139,13 +139,12 @@ header {
     flex-direction: column;
 
     .active{
-      border-bottom: 2px solid $accent-color;
+      background-color: $darkShadow-color;
     }
 
     a {
       padding: 26px 0;
       width: 100%;
-      border-bottom: 2px solid $dark-color;
       display: flex;
       justify-content: center;
 
@@ -172,6 +171,19 @@ header {
 
 
   .burder_menu_block {
+    display: flex;
+  }
+}
+
+@media (max-width: 562px) {
+  header {
+    .authentication{
+      display: none;
+    }
+
+  }
+
+  .burder_menu_block_auth {
     display: flex;
   }
 }

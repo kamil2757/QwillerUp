@@ -23,7 +23,7 @@ function SettingsTasksFormat1() {
   });
   const [tasks, setTasks] = useState(tasksSettings);
   const [taskVolume, setTaskVolume] = useState(2);
-  const [inpValues, setInpValues] = useState(null);
+  const [inpValues, setInpValues] = useState([]);
 
   useEffect(() => {
     async function getTasks() {
@@ -249,13 +249,13 @@ function SettingsTasksFormat1() {
     sendTaskData(newGoal);
   }
 
-  if (!inpValues) return <div>loading...</div>;
 
   return (
     <div className={styles.block_settingsTasksFormat1}>
       <form className={styles.block_inputs} onSubmit={sendTasks} ref={tasksRef}>
         {error && <div className={styles.error}>{error}</div>}
         {success && <div className={styles.success}>{success}</div>}
+
 
         {Array.from({ length: taskVolume }, (_, index) => (
           <div className={styles.field} key={index}>

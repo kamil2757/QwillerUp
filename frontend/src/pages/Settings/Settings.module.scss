@@ -18,10 +18,10 @@
       text-decoration: none;
       padding: 30px;
       transition: border-bottom $transition;
-      border-bottom: 2px solid $dark-color;
 
       &:hover {
-        border-bottom: 2px solid $accent-color;
+        border-radius: 20px;
+        background-color: $darkShadow-color;
       }
     }
 
@@ -34,7 +34,8 @@
     }
 
     .active {
-      border-bottom: 2px solid $accent-color;
+      border-radius: 20px;
+      background-color: $darkShadow-color;
     }
   }
 

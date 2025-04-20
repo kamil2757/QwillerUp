@@ -41,6 +41,59 @@ function Header() {
       <h1>
         <Link to="/">QwillerUp</Link>
       </h1>
+
+      {!authorized && (
+        <div className={styles.authentication}>
+          <Link
+            to="/login"
+            className={location == "/login" ? styles.active : ""}
+          >
+            Войти
+          </Link>
+          <Link
+            to="/registration"
+            className={location == "/registration" ? styles.active : ""}
+          >
+            Зарегистрироваться
+          </Link>
+        </div>
+      )}
+
+      {!authorized && (
+          <div className={styles.burder_menu_block_auth}>
+            <div
+              className={`${styles.burger} ${
+                bMenuIsOpen && authorized ? styles.burger_open : ""
+              }`}
+              onClick={() => setBMenuIsOpen(!bMenuIsOpen)}
+            >
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+
+            <div
+              className={`${styles.burger_content} ${
+                bMenuIsOpen ? styles.burger_content_open : ""
+              }`}
+              onClick={() => setBMenuIsOpen(false)}
+            >
+              <Link
+                to="/login"
+                className={location == "/login" ? styles.active : ""}
+              >
+                Войти
+              </Link>
+              <Link
+                to="/registration"
+                className={location == "/registration" ? styles.active : ""}
+              >
+                Зарегистрироваться
+              </Link>
+            </div>
+          </div>
+      )}
+
       {authorized && (
         <div className={styles.content}>
           <Link
@@ -75,23 +128,6 @@ function Header() {
               {userData.username}
             </Link>
           </div>
-        </div>
-      )}
-
-      {!authorized && (
-        <div className={styles.authentication}>
-          <Link
-            to="/login"
-            className={location == "/login" ? styles.active : ""}
-          >
-            Войти
-          </Link>
-          <Link
-            to="/registration"
-            className={location == "/registration" ? styles.active : ""}
-          >
-            Зарегистрироваться
-          </Link>
         </div>
       )}
 
