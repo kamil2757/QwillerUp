@@ -106,7 +106,7 @@
     .image {
       width: 400px;
 
-      right: -80px;
+      right: -120px;
     }
   }
 
@@ -119,9 +119,8 @@
 
   @media (max-width: 428px) {
     .image {
-      width: 500px;
-      top: 60px;
-      right: -180px;
+      top: 66px;
+      right: -190px;
 
       opacity: 0.1;
     }
@@ -446,7 +445,7 @@
 
 .video_block {
   h1 {
-    margin: 200px 90px 100px 140px;
+    margin: 200px 90px 90px 140px;
     font-size: $font-xlarge;
   }
 
@@ -460,7 +459,7 @@
   }
 
   .btn_block {
-    margin: 60px 0 100px 140px;
+    margin: 60px 0 90px 140px;
     a {
       color: white;
       text-decoration: none;
@@ -479,7 +478,7 @@
 
   @media (max-width: 1362px) {
     h1 {
-      margin: 100px 90px 100px 140px;
+      margin: 110px 90px 60px 140px;
     }
     .video {
       iframe {
@@ -490,7 +489,7 @@
 
   @media (max-width: 1145px) {
     h1 {
-      margin: 0px 90px 100px 140px;
+      margin: 100px 90px 60px 140px;
     }
     .video {
       iframe {
@@ -504,9 +503,15 @@
     }
   }
 
+  @media (max-width: 1120px) {
+    h1 {
+      margin: 0px 90px 60px 140px;
+    }
+  }
+
   @media (max-width: 793px) {
     h1 {
-      margin: 0 0 46px 50px;
+      margin: 0 0 40px 50px;
     }
     .video {
       iframe {
@@ -522,6 +527,9 @@
   }
 
   @media (max-width: 600px) {
+    h1 {
+      margin: 0 0 32px 40px;
+    }
     .video {
       iframe {
         width: calc(100vw - 100px);
@@ -531,6 +539,9 @@
   }
 
   @media (max-width: 475px) {
+    h1 {
+      margin: 0 0 20px 40px;
+    }
     .video {
       iframe {
         border-radius: 14px;
