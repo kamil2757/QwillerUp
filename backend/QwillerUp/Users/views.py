@@ -28,7 +28,6 @@ from Users.models import UserMedals, Medals, CustomUsers
 from Users.serializers.serializers import LoginSerializer, RegisterSerializer, GetUserSerializer, UserMedalsSerializer, \
     UserMedals2Serializer
 
-
 class RegisterUser(APIView):
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -44,6 +43,40 @@ class RegisterUser(APIView):
             }, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# class RegisterUser(APIView):
+#     def post(self, request):
+#         serializer = RegisterSerializer(data=request.data)
+#
+#         if serializer.is_valid():
+#             user = serializer.save()
+#             refresh = RefreshToken.for_user(user)
+#
+#             response = Response({
+#                 'data': RegisterSerializer(user).data,
+#             }, status=status.HTTP_201_CREATED)
+#
+#             response.set_cookie(
+#                 key='access_token',
+#                 value=str(refresh.access_token),
+#                 httponly=True,
+#                 secure=not settings.DEBUG,
+#                 samesite='None',
+#                 max_age=15 * 60,
+#             )
+#
+#             response.set_cookie(
+#                 key='refresh_token',
+#                 value=str(refresh),
+#                 httponly=True,
+#                 secure=not settings.DEBUG,
+#                 samesite='None',
+#                 max_age=14 * 24 * 3600,
+#             )
+#
+#             return response
+#
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginUser(TokenObtainPairView):
@@ -252,6 +285,10 @@ class EditUserView(APIView):
             user.photo = None
         else:
             if photo:
+                if round(photo.size/(1024*1024)) > 5:
+                    return Response({'message': 'Файл много весит, больше 5MB.'},
+                                    status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
                 try:
                     if user.photo:
                         self.delete_old_uploadcare_photo(user.photo)

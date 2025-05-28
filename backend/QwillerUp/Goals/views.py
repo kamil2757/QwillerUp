@@ -285,3 +285,28 @@ class GetTasksView(APIView):
         serializer = TasksSerializer(tasks, many=True)
 
         return Response({'tasks': serializer.data})
+
+
+class CreateGoalsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+
+        if not (user.schedule_type == 2):
+            return Response({'message': 'schedule_type 1 у пользователя'}, status=status.HTTP_400_BAD_REQUEST)
+
+        goals = GoalsTemplate.objects.filter(day_of_week__gte=1, user=user).order_by('day_of_week')
+
+        if len(goals) != 7:
+            return Response({'message': 'У пользователя должно быть ровно 7 целей (1–7)'}, status=status.HTTP_400_BAD_REQUEST)
+
+        goals_dict = {}
+
+        for i in range(0, 6 + 1):
+            tasks = TasksTemplate.objects.filter(goal=goals[i])
+            serializer = TasksSerializer(tasks, many=True)
+            goals_dict[i] = serializer.data
+
+        return Response({'goals': goals_dict}, status=status.HTTP_200_OK)
+

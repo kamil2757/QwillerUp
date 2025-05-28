@@ -5,6 +5,7 @@ import Button from "../../components/Button/Button";
 import { useContext, useEffect, useState } from "react";
 import no_avatar from "../../assets/no_avatar.png";
 import UserContext from "../../contexts/UserContext";
+import imageCompression from "browser-image-compression";
 
 function SettingsProfile() {
   const {
@@ -17,6 +18,7 @@ function SettingsProfile() {
     fileProfileSettings,
     imageProfileSettings,
     setImageProfileSettings,
+    setUserData,
   } = useContext(UserContext);
   const [nickname, setNickname] = useState(
     localStorage.inpUsername ? localStorage.inpUsername : userData.username
@@ -33,7 +35,31 @@ function SettingsProfile() {
     userData.photo ? userData.photo : no_avatar
   );
 
-  function handleFileChange(event) {
+    async function getInfoAgain() {
+    try {
+      const response = await fetch(
+        `${protocol}://${domain}/api/users/userInfo/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserData(data);
+      } else {
+        UpdateTokens(GetUser);
+      }
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+    }
+  }
+
+  async function handleFileChange(event) {
     setDeletePhoto(false);
     const selectedFile = event.target.files[0];
 
@@ -46,22 +72,33 @@ function SettingsProfile() {
     if (!correct_photoTypes.includes(selectedFile.type)) {
       setError("Недопустимый формат фото. Разрешены JPG, PNG и WebP");
       return;
-    } else if (selectedFile.size > 5 * 1024 * 1024) {
-      console.log(selectedFile.size);
-      setError("Файл слишком большой. Максимум 5MB");
-    } else {
-      setError(null);
     }
+    // } else if (selectedFile.size > 5 * 1024 * 1024) {
+    //   console.log(selectedFile.size);
+    //   setError("Файл слишком большой. Максимум 5MB");
+    // }
 
-    console.log(selectedFile);
+    try {
+      setError(null);
 
-    if (selectedFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setImage(reader.result);
-        setFile(selectedFile);
-      };
-      reader.readAsDataURL(selectedFile);
+      const compressedFile = await imageCompression(selectedFile, {
+        maxSizeMB: 0.9,
+        maxWidthOrHeight: 1500,
+        useWebWorker: true,
+        initialQuality: 0.9,
+      });
+
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setImage(reader.result);
+          setFile(compressedFile);
+        };
+        reader.readAsDataURL(compressedFile);
+      }
+    } catch (error) {
+      console.log("Ошибка при сжатии:", error);
+      setError("Ошибка при обработке изображения");
     }
   }
 
@@ -109,6 +146,7 @@ function SettingsProfile() {
       } else {
         setError(null);
         setSuccess(data["message"]);
+        getInfoAgain()
       }
     } catch (err) {
       console.log(err);
@@ -126,7 +164,7 @@ function SettingsProfile() {
       localStorage.removeItem("inpUsername");
       localStorage.removeItem("inpAbout");
       setFileProfileSettings(null);
-      setImageProfileSettings(null)
+      setImageProfileSettings(null);
       editUserInfo();
     }
   }, []);

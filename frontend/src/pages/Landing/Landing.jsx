@@ -85,8 +85,8 @@ function Landing() {
             src="https://rutube.ru/play/embed/5d23df688cab4038402f043189d2d941"
             frameBorder="0"
             allow="clipboard-write; autoplay"
-            webkitAllowFullScreen
-            mozallowfullscreen
+            webkitallowfullscreen="true"
+            mozallowfullscreen='true'
             allowFullScreen
             loading="lazy"
           ></iframe>

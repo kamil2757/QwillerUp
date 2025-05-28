@@ -2,13 +2,14 @@ import styles from "./Header.module.scss";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState, useRef, useContext } from "react";
 import UserContext from "../../contexts/UserContext";
+import no_avatar from "../../assets/no_avatar.png";
 
 function Header() {
   const location = useLocation().pathname;
   const [bMenuIsOpen, setBMenuIsOpen] = useState(false);
   const menuRef = useRef(null);
-  const { authorized } = useContext(UserContext);
-  const { userData } = useContext(UserContext);
+  const { userData, imageProfileSettings, authorized, loading, setLoading, protocol, domain, UpdateTokens, GetUser  } = useContext(UserContext);
+  const avatarURL = userData?.photo ? userData.photo : no_avatar;
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -20,6 +21,40 @@ function Header() {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  async function getInfoAgain() {
+    try {
+      const response = await fetch(
+        `${protocol}://${domain}/api/users/userInfo/`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserData(data);
+        setLoading(false);
+        localStorage.getNewUserData = "false";
+      } else {
+        UpdateTokens(GetUser);
+      }
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+    }
+  }
+
+  // useEffect(() => {
+  //   console.log('1')
+  //   if (localStorage.getNewUserData == "true") {
+  //     console.log('2 обновляем')
+  //     getInfoAgain();
+  //   }
+  // }, [imageProfileSettings]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -60,38 +95,38 @@ function Header() {
       )}
 
       {!authorized && (
-          <div className={styles.burder_menu_block_auth}>
-            <div
-              className={`${styles.burger} ${
-                bMenuIsOpen && authorized ? styles.burger_open : ""
-              }`}
-              onClick={() => setBMenuIsOpen(!bMenuIsOpen)}
-            >
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-
-            <div
-              className={`${styles.burger_content} ${
-                bMenuIsOpen ? styles.burger_content_open : ""
-              }`}
-              onClick={() => setBMenuIsOpen(false)}
-            >
-              <Link
-                to="/login"
-                className={location == "/login" ? styles.active : ""}
-              >
-                Войти
-              </Link>
-              <Link
-                to="/registration"
-                className={location == "/registration" ? styles.active : ""}
-              >
-                Зарегистрироваться
-              </Link>
-            </div>
+        <div className={styles.burder_menu_block_auth}>
+          <div
+            className={`${styles.burger} ${
+              bMenuIsOpen && authorized ? styles.burger_open : ""
+            }`}
+            onClick={() => setBMenuIsOpen(!bMenuIsOpen)}
+          >
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
+
+          <div
+            className={`${styles.burger_content} ${
+              bMenuIsOpen ? styles.burger_content_open : ""
+            }`}
+            onClick={() => setBMenuIsOpen(false)}
+          >
+            <Link
+              to="/login"
+              className={location == "/login" ? styles.active : ""}
+            >
+              Войти
+            </Link>
+            <Link
+              to="/registration"
+              className={location == "/registration" ? styles.active : ""}
+            >
+              Зарегистрироваться
+            </Link>
+          </div>
+        </div>
       )}
 
       {authorized && (
@@ -126,6 +161,7 @@ function Header() {
               onClick={() => setBMenuIsOpen(false)}
             >
               {userData.username}
+              <img src={avatarURL} alt="" />
             </Link>
           </div>
         </div>

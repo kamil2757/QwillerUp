@@ -51,7 +51,7 @@ header {
     height: 100%;
     display: flex;
 
-    >a {
+    a {
       transition: border-bottom $transition;
       border-bottom: 2px solid $dark-color;
     }
@@ -60,6 +60,17 @@ header {
       width: 32vw;
       display: flex;
       justify-content: flex-end;
+
+      img{
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        // border: 6px solid $darkShadow-color;
+      }
+
+      a{
+        gap: 22px;
+      }
     }
 
     .active {

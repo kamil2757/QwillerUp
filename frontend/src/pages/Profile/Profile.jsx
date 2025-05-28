@@ -35,10 +35,19 @@ function Profile() {
   const [modalMedalsIsOpen, setModalMedalsIsOpen] = useState(false);
   const [modalNewMedalIsOpen, setModalNewMedalIsOpen] = useState(false);
   const [adaptive, setAdaptive] = useState(false);
-  const { UpdateTokens, userData, domain, protocol, authorized } = useContext(UserContext);
+  const {
+    UpdateTokens,
+    userData,
+    setUserData,
+    domain,
+    protocol,
+    authorized,
+    GetUser,
+    setLoading
+  } = useContext(UserContext);
   const [userDetailData, setUserDetailData] = useState(null);
   const [newMedal, setNewMedal] = useState();
-  const avatarURL = userData.photo ? userData.photo : no_avatar;
+  const avatarURL =  userData.photo ? userData.photo : no_avatar;
   const medals = {
     "1.1.svg": medal_1_1,
     "1.2.svg": medal_1_2,
@@ -71,12 +80,13 @@ function Profile() {
       setModalNewMedalIsOpen(Boolean(data.new_medal));
       setNewMedal(data.new_medal);
     } else {
-      UpdateTokens();
+      await UpdateTokens();
     }
   }
+
   useEffect(() => {
     if (authorized == true) {
-      GetDetailInfoUser();
+       GetDetailInfoUser();
     }
   }, []);
 

@@ -11,11 +11,11 @@ export const UserProvider = ({ children }) => {
   const [fileProfileSettings, setFileProfileSettings] = useState(null);
   const [imageProfileSettings, setImageProfileSettings] = useState(null);
   const [tasksSettings, setTasksSettings] = useState(null)
-  const domain = 'qwillerup-production.up.railway.app'
-  const protocol = 'https'
+  // const domain = 'qwillerup-production.up.railway.app'
+  // const protocol = 'https'
 
-  // const domain = "127.0.0.1:8000";
-  // const protocol = "http";
+  const domain = "127.0.0.1:8000";
+  const protocol = "http";
 
   async function GetUser() {
     setLoading(true);
@@ -105,6 +105,7 @@ export const UserProvider = ({ children }) => {
         UpdateTokens,
         GetUser,
         loading,
+        setLoading,
         domain,
         protocol,
         fileProfileSettings,

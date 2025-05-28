@@ -29,7 +29,7 @@ function Registration() {
   async function RegistrationUser(e) {
     e.preventDefault();
 
-    if (!(username || password || password2 || email)) {
+    if (!(username || password || email)) {
       setError("Все поля обязательны для заполнения");
       return;
     }
@@ -71,8 +71,6 @@ function Registration() {
             ? data.username?.[0]
             : data.password?.[0]
             ? data.password?.[0]
-            : data.password2?.[0]
-            ? data.password2?.[0]
             : data.detail || data.non_field_errors?.[0] || "Ошибка авторизации"
         );
       }
