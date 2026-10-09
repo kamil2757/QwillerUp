@@ -44,8 +44,6 @@
 | **Профиль и Статистика** | **Глобальная доска почёта** |
 | ![Profile](./frontend/src/assets/docs/profile.png) | ![Honor Board](./frontend/src/assets/docs/honor.png) |
 
-*(Внимание: для корректного отображения картинок, создай папку `docs` внутри `frontend/src/assets/` и положи туда скриншоты под этими именами, либо перетащи картинки прямо в GitHub)*
-
 ---
 
 ## 🛠 Технологический стек (Full-Stack Monorepo)
