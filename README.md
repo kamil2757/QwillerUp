@@ -40,9 +40,9 @@
 
 | Обычный прогресс | Состояние «Идеальный день» |
 |:---:|:---:|
-| ![Normal Day](./frontend/src/assets/docs/normal.jpg) | ![Perfect Day](./frontend/src/assets/docs/gold.jpg) |
+| ![Normal Day](./frontend/src/assets/docs/normal.png) | ![Perfect Day](./frontend/src/assets/docs/gold.png) |
 | **Профиль и Статистика** | **Глобальная доска почёта** |
-| ![Profile](./frontend/src/assets/docs/profile.jpg) | ![Honor Board](./frontend/src/assets/docs/honor.jpg) |
+| ![Profile](./frontend/src/assets/docs/profile.png) | ![Honor Board](./frontend/src/assets/docs/honor.png) |
 
 *(Внимание: для корректного отображения картинок, создай папку `docs` внутри `frontend/src/assets/` и положи туда скриншоты под этими именами, либо перетащи картинки прямо в GitHub)*
 
